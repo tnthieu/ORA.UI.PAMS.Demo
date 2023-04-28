@@ -1,0 +1,43 @@
+@using ORA_UI_PAMS_Demo.Models
+
+<h2>Home</h2>
+
+@(Html.DevExtreme().DataGrid<SampleOrder>()
+    .ShowBorders(true)
+    .DataSource(d => d.Mvc().Controller("SampleData").LoadAction("Get").Key("Id"))
+    .Columns(columns => {
+        columns.Add().Caption("").CellTemplate("img").Width(50);
+
+        columns.AddFor(m => m.CreatedDate).Caption("Created Date");
+        columns.AddFor(m => m.ModifiedDate).Caption("Latest Updated Date");
+
+        columns.AddFor(m => m.UserName).Caption("User Name");
+        columns.AddFor(m => m.Category).Caption("Category");
+
+        columns.AddFor(m => m.Comment).Caption("Comment");
+        columns.AddFor(m => m.Fund).Caption("Fund");
+        columns.AddFor(m => m.AttachmentName).Caption("Attachments");
+
+        columns.AddFor(m => m.EditComment).Caption("History");
+    })
+    .Paging(paging => paging.PageSize(25))
+    .Pager(pager =>
+    {
+        pager.ShowPageSizeSelector(true);
+        pager.AllowedPageSizes(new[] { 25, 50, 100 });
+        pager.ShowInfo(true);
+    })
+    .FilterRow(f => f.Visible(true))
+    .HeaderFilter(f => f.Visible(true))
+    .GroupPanel(p => p.Visible(true))
+    .Grouping(g => g.AutoExpandAll(false))
+    .RemoteOperations(true)
+    .Summary(s => s
+        .TotalItems(totalItems => {
+            totalItems.AddFor(m => m.Id).SummaryType(SummaryType.Count);
+        })
+        .GroupItems(groupItems => {
+            groupItems.Add().SummaryType(SummaryType.Count);
+        })
+    )
+)
