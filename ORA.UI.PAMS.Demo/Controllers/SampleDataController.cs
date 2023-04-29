@@ -36,6 +36,7 @@ namespace ORA_UI_PAMS_Demo.Controllers
                     AttachmentName = "Test",
 
                     EditComment = "Test",
+                    AttachmentCount = new Random().Next(0, 9).ToString(),
                 });
             }
 

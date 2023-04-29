@@ -25,7 +25,9 @@ Html.DevExtreme().DataGrid<SampleOrder>()
 
         columns.AddFor(m => m.Comment).Caption("Comment");
         columns.AddFor(m => m.Fund).Caption("Fund");
-        columns.AddFor(m => m.AttachmentName).Caption("Attachments");
+        columns.AddFor(m => m.AttachmentName).Caption("Attachments").CellTemplate(@<text>
+            <a href="#" onclick="alert('popup...')">Attachments: <%- data.AttachmentCount %></a>            
+        </text>);
 
         columns.AddFor(m => m.EditComment).Caption("History");
     })
