@@ -13,6 +13,7 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         .DeleteAction("Delete")
         .Key("Id")
     )
+    .Sorting(sorting => sorting.Mode(GridSortingMode.Multiple))
     .Editing(editing =>
     {
         editing.Mode(GridEditMode.Row);
@@ -24,7 +25,7 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         columns.AddFor(m => m.IsImportant).Caption("").Width(50)
         .CellTemplate(@<text>
             <% if(data.IsImportant) { %>
-            <span style="font-size: 16pt; color:yellow;">&bigstar;</span>
+            <img src="~/img/star.gif" style="width: 30px">
             <% } else { %>
             <div></div>
             <% } %>
