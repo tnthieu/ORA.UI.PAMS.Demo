@@ -10,7 +10,11 @@ Html.DevExtreme().DataGrid<SampleOrder>()
     {
         columns.AddFor(m => m.IsImportant).Caption("").Width(50)
         .CellTemplate(@<text>
-            <div><% value %></div>
+            <% if(data.IsImportant) { %>
+            <span style="font-size: 16pt; color:yellow;">&bigstar;</span>
+            <% } else { %>
+            <div></div>
+            <% } %>
         </text>);
 
         columns.AddFor(m => m.CreatedDate).Caption("Created Date").Format("MM/dd/yy hh:mm");

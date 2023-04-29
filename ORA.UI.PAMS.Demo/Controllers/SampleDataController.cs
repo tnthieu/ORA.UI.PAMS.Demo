@@ -8,18 +8,23 @@ using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ORA_UI_PAMS_Demo.Controllers {
+namespace ORA_UI_PAMS_Demo.Controllers
+{
 
     [Route("api/[controller]")]
-    public class SampleDataController : Controller {
+    public class SampleDataController : Controller
+    {
 
         [HttpGet]
-        public object Get(DataSourceLoadOptions loadOptions) {
+        public object Get(DataSourceLoadOptions loadOptions)
+        {
 
-            for(var i = 0; i < 100;i++)
+            for (var i = 0; i < 100; i++)
             {
                 SampleData.Orders.Add(new SampleOrder
                 {
+                    IsImportant = i % 2 == 0,
+
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
 
@@ -30,7 +35,7 @@ namespace ORA_UI_PAMS_Demo.Controllers {
                     Fund = new Random().Next(1000, 9999).ToString(),
                     AttachmentName = "Test",
 
-                    EditComment = "Test",                    
+                    EditComment = "Test",
                 });
             }
 
