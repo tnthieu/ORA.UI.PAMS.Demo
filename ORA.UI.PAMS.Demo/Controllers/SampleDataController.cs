@@ -7,12 +7,14 @@ using ORA_UI_PAMS_Demo.Models;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
+using ORA.UI.PAMS.Demo.Models;
+using System.Security.Cryptography.Xml;
 
 namespace ORA_UI_PAMS_Demo.Controllers
 {
 
     [Route("api/[controller]")]
-    public class SampleDataController : Controller
+    public partial class SampleDataController : Controller
     {
         [HttpGet]
         public object Get(DataSourceLoadOptions loadOptions)
@@ -30,7 +32,7 @@ namespace ORA_UI_PAMS_Demo.Controllers
                         ModifiedDate = DateTime.Now,
 
                         UserName = "Test",
-                        Category = "Test",
+                        Category = "Category " + new Random().Next(1, 5).ToString(),
 
                         Comment = "Test",
                         Fund = new Random().Next(1000, 9999).ToString(),
@@ -47,7 +49,7 @@ namespace ORA_UI_PAMS_Demo.Controllers
         [HttpDelete]
         public void Delete(int key)
         {
-            SampleData.Orders.RemoveAll(o => o.Id == key);   
+            SampleData.Orders.RemoveAll(o => o.Id == key);
         }
     }
 }

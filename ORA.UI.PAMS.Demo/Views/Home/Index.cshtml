@@ -30,19 +30,25 @@ Html.DevExtreme().DataGrid<SampleOrder>()
             <% } %>
         </text>);
 
-        columns.AddFor(m => m.CreatedDate).Caption("Created Date").Format("MM/dd/yy hh:mm");
-        columns.AddFor(m => m.ModifiedDate).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
+        columns.AddFor(m => m.CreatedDate).AllowEditing(false).Caption("Created Date").Format("MM/dd/yy hh:mm");
+        columns.AddFor(m => m.ModifiedDate).AllowEditing(false).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
 
-        columns.AddFor(m => m.UserName).Caption("User Name");
-        columns.AddFor(m => m.Category).Caption("Category");
+        columns.AddFor(m => m.UserName).AllowEditing(false).Caption("User Name");
+        columns.AddFor(m => m.Category).Caption("Category")
+            .Lookup(lookup => lookup
+                .DataSource(d => d.Mvc().Controller("Category").LoadAction("Get").Key("Id"))
+                .DisplayExpr("Name")
+                .ValueExpr("Name")
+            );
 
         columns.AddFor(m => m.Comment).Caption("Comment");
         columns.AddFor(m => m.Fund).Caption("Fund");
-        columns.AddFor(m => m.AttachmentName).Caption("Attachments").CellTemplate(@<text>
+
+        columns.AddFor(m => m.AttachmentName).AllowEditing(false).Caption("Attachments").CellTemplate(@<text>
             <a href="#" onclick="alert('popup...')">Attachments: <%- data.AttachmentCount %></a>            
         </text>);
 
-        columns.AddFor(m => m.EditComment).Caption("History");
+        columns.AddFor(m => m.EditComment).AllowEditing(false).Caption("History");
     })
     .Paging(paging => paging.PageSize(10))
     .Pager(pager =>
