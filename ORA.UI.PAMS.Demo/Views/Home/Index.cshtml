@@ -41,11 +41,14 @@ Html.DevExtreme().DataGrid<SampleOrder>()
                 .ValueExpr("Name")
             );
 
-        columns.AddFor(m => m.Comment).Caption("Comment");
+        columns.AddFor(m => m.Comment).Caption("Comment").Width(150).EditCellTemplate(@<text>
+            <textarea rows="2" keypress="return tbxOnKeyDown(e);"><%- data.Comment %></textarea>
+        </text>);
+
         columns.AddFor(m => m.Fund).Caption("Fund");
 
         columns.AddFor(m => m.AttachmentName).AllowEditing(false).Caption("Attachments").CellTemplate(@<text>
-            <a href="#" onclick="alert('popup...')">Attachments: <%- data.AttachmentCount %></a>            
+            <a href="#" onclick="alert('popup...')">Attachments: <%- data.AttachmentCount %></a>
         </text>);
 
         columns.AddFor(m => m.EditComment).AllowEditing(false).Caption("History");
@@ -73,3 +76,9 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         })
     )
 )
+
+<script>
+    function tbxOnKeyDown(e) {
+        alert('enter...');
+    }
+</script>
