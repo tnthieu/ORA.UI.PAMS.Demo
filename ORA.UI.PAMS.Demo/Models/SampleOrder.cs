@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ORA_UI_PAMS_Demo.Models {
     public class SampleOrder
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; set; }
         public string InstitutionAttachmentKey { get; set; }
         public bool IsActive { get; set; }
         public bool IsImportant { get; set; }

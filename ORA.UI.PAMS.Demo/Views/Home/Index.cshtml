@@ -5,7 +5,20 @@
 @(
 Html.DevExtreme().DataGrid<SampleOrder>()
     .ShowBorders(true)
-    .DataSource(d => d.Mvc().Controller("SampleData").LoadAction("Get").Key("Id"))
+    .DataSource(d => d.Mvc()
+        .Controller("SampleData")
+        .LoadAction("Get")
+        .UpdateAction("Update")
+        .InsertAction("Insert")
+        .DeleteAction("Delete")
+        .Key("Id")
+    )
+    .Editing(editing =>
+    {
+        editing.Mode(GridEditMode.Row);
+        editing.AllowDeleting(true);
+        editing.AllowUpdating(true);
+    })
     .Columns(columns =>
     {
         columns.AddFor(m => m.IsImportant).Caption("").Width(50)
