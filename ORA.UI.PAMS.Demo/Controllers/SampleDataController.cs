@@ -9,6 +9,8 @@ using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using ORA.UI.PAMS.Demo.Models;
 using System.Security.Cryptography.Xml;
+using Newtonsoft.Json;
+using System.Xml.Linq;
 
 namespace ORA_UI_PAMS_Demo.Controllers
 {
@@ -50,6 +52,15 @@ namespace ORA_UI_PAMS_Demo.Controllers
         public void Delete(int key)
         {
             SampleData.Orders.RemoveAll(o => o.Id == key);
+        }
+
+        [HttpPut]
+        public IActionResult Update(int key, string values)
+        {
+            var employee = SampleData.Orders.FirstOrDefault(a => a.Id == key);
+            JsonConvert.PopulateObject(values, employee);
+
+            return Ok();
         }
     }
 }

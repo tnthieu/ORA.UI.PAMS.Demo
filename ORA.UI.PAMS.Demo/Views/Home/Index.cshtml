@@ -78,6 +78,12 @@ Html.DevExtreme().DataGrid<SampleOrder>()
 )
 
 <script>
+    function Funds(options) {
+        return {
+            filter: options.data ? ["Name", "=", options.data.Fund] : null
+        };
+    }
+
     function tbxOnKeyDown(e) {
         alert('enter...');
     }
