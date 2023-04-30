@@ -24,10 +24,10 @@ Html.DevExtreme().DataGrid<SampleOrder>()
     .Selection(x => { x.Mode(SelectionMode.Multiple); x.ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.None); })
     .Columns(columns =>
     {
-        columns.AddFor(m => m.IsImportant).Width(30).CssClass("middle").Caption("")
+        columns.AddFor(m => m.IsImportant).Width(30).CssClass("middle").Caption("").AllowFiltering(false)
         .CellTemplate(@<text>
             <% if(data.IsImportant) { %>
-            <span style="color:yellow">&bigstar;</span>
+            <span style="color:#FFD700; font-size: 14pt">&star;</span>
             <% } else { %>
             <span></span>
             <% } %>
@@ -102,6 +102,27 @@ Html.DevExtreme().DataGrid<SampleOrder>()
 <style>
     .dx-widget {
         font-size: 9pt;
+    }
+
+    /* Customize position of DevExtreme paging icon */
+    .dx-pager .dx-page-sizes {
+        float: right;
+    }
+
+    .dx-pager .dx-pages {
+        float: left;
+    }
+
+    .col.px-4.py-3.hub-content {
+        width: 80% !important;
+    }
+
+    .dx-datagrid-content .dx-datagrid-table .dx-row > td, .dx-datagrid-content .dx-datagrid-table .dx-row > tr > td {
+        background: white;
+    }
+
+    .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > tr > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > tr > td {
+        background-color: rgb(255, 255, 153);
     }
 
     .container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm {
