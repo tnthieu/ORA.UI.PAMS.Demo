@@ -31,26 +31,28 @@ namespace ORA_UI_PAMS_Demo.Controllers
                 using (ExcelPackage package = new ExcelPackage(fileInfo))
                 {
                     ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-                    for (int row = 8; row <= 15; row++)
-                    {
-                        SampleData.Orders.Add(new SampleOrder
+
+                    for (var i = 1; i <= 10; i++)
+                        for (int row = 8; row <= 15; row++)
                         {
-                            Id = row,
-                            IsImportant = row % 2 == 0,
+                            SampleData.Orders.Add(new SampleOrder
+                            {
+                                Id = i * row,
+                                IsImportant = row % 2 == 0,
 
-                            CreatedDate = worksheet.Cells[row, 2].Value?.ToString().Trim().Replace("202","2"),
-                            ModifiedDate = worksheet.Cells[row, 3].Value?.ToString().Trim().Replace("202", "2"),
+                                CreatedDate = worksheet.Cells[row, 2].Value?.ToString().Trim().Replace("202", "2"),
+                                ModifiedDate = worksheet.Cells[row, 3].Value?.ToString().Trim().Replace("202", "2"),
 
-                            UserName = worksheet.Cells[row, 4].Value?.ToString().Trim(),
-                            Category = worksheet.Cells[row, 5].Value?.ToString().Trim(),
+                                UserName = worksheet.Cells[row, 4].Value?.ToString().Trim(),
+                                Category = worksheet.Cells[row, 5].Value?.ToString().Trim(),
 
-                            Comment = worksheet.Cells[row, 8].Value?.ToString().Trim(),
-                            Fund = worksheet.Cells[row, 7].Value?.ToString().Trim(),
+                                Comment = worksheet.Cells[row, 8].Value?.ToString().Trim(),
+                                Fund = worksheet.Cells[row, 7].Value?.ToString().Trim(),
 
-                            EditComment = "Test",
-                            AttachmentCount = new Random().Next(0, 9).ToString(),
-                        });
-                    }
+                                EditComment = "Test",
+                                AttachmentCount = new Random().Next(0, 9).ToString(),
+                            });
+                        }
                 }
 
                 //for (var i = 0; i < 100; i++)

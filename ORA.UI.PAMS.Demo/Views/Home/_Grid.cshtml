@@ -24,34 +24,33 @@ Html.DevExtreme().DataGrid<SampleOrder>()
     .Selection(x => { x.Mode(SelectionMode.Multiple); x.ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.None); })
     .Columns(columns =>
     {
-        columns.AddFor(m => m.IsImportant).Caption("").Width(50)
-        .CellTemplate(
-@<text>
-    <% if(data.IsImportant) { %>
-    <span style="color:yellow">&bigstar;</span>
-    <% } else { %>
-    <span></span>
-    <% } %>
-</text>);
+        columns.AddFor(m => m.IsImportant).Width(30).CssClass("middle").Caption("")
+        .CellTemplate(@<text>
+            <% if(data.IsImportant) { %>
+            <span style="color:yellow">&bigstar;</span>
+            <% } else { %>
+            <span></span>
+            <% } %>
+        </text>);
 
-        columns.AddFor(m => m.CreatedDate).Width(130).AllowEditing(false).Alignment(HorizontalAlignment.Center).Caption("Created Date").Format("MM/dd/yy hh:mm");
-        columns.AddFor(m => m.ModifiedDate).Width(145).AllowEditing(false).Alignment(HorizontalAlignment.Center).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
+        columns.AddFor(m => m.CreatedDate).Width(130).CssClass("middle").AllowEditing(false).Caption("Created Date").Format("MM/dd/yy hh:mm");
+        columns.AddFor(m => m.ModifiedDate).Width(145).CssClass("middle").AllowEditing(false).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
 
-        columns.AddFor(m => m.UserName).Width(130).AllowEditing(false).Caption("User Name");
-        columns.AddFor(m => m.Category).Width(130).Caption("Category")
+        columns.AddFor(m => m.UserName).Width(130).CssClass("middle").AllowEditing(false).Caption("User Name");
+        columns.AddFor(m => m.Category).Width(130).CssClass("middle").Caption("Category")
             .Lookup(lookup => lookup
                 .DataSource(d => d.Mvc().Controller("Category").LoadAction("Get").Key("Id"))
                 .DisplayExpr("Name")
                 .ValueExpr("Name")
             );
 
-        columns.AddFor(m => m.Comment).Width(150).Caption("Comment").EditCellTemplate(@<text>
+        columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment").EditCellTemplate(@<text>
             <textarea rows="2" cols="30" style="width: 145px;min-width: 145px;" keypress="return tbxOnKeyDown(e);"><%- data.Comment %></textarea>
         </text>);
 
-        columns.AddFor(m => m.Fund).Width(70).Alignment(HorizontalAlignment.Center).Caption("Fund");
+        columns.AddFor(m => m.Fund).Width(70).CssClass("middle-center").Caption("Fund");
 
-        columns.AddFor(m => m.AttachmentName).Width(120).Alignment(HorizontalAlignment.Center).Caption("Attachments")
+        columns.AddFor(m => m.AttachmentName).CssClass("middle-center").Width(120).Caption("Attachments")
         .CellTemplate(@<text>
             <a href="https://www.google.com" target="_blank">Attachments: <%- data.AttachmentCount %></a>
         </text>)
@@ -59,7 +58,7 @@ Html.DevExtreme().DataGrid<SampleOrder>()
             <img src="~/img/AwardSynopsis.gif">
         </text>);
 
-        columns.AddFor(m => m.EditComment).Width(80).Alignment(HorizontalAlignment.Center).AllowEditing(false).Caption("History")
+        columns.AddFor(m => m.EditComment).Width(80).CssClass("middle-center").AllowEditing(false).Caption("History")
         .CellTemplate(@<text>
             <img src="~/img/CommentGrid.gif">
         </text>);
@@ -110,7 +109,12 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         padding-left: 0px !important;
     }
 
-    tbody .row-center {
+    tbody .middle {
+        vertical-align: middle !important;
+    }
+
+    tbody .middle-center {
         text-align: center !important;
+        vertical-align: middle !important;
     }
 </style>
