@@ -40,17 +40,24 @@ Html.DevExtreme().DataGrid<SampleOrder>()
                 .ValueExpr("Name")
             );
 
-        columns.AddFor(m => m.Comment).Caption("Comment").Width(150).EditCellTemplate(@<text>
-            <textarea rows="2" keypress="return tbxOnKeyDown(e);"><%- data.Comment %></textarea>
+        columns.AddFor(m => m.Comment).Caption("Comment").Width(300).EditCellTemplate(@<text>
+            <textarea rows="2" cols="30" style="width: 295px;min-width: 295px;" keypress="return tbxOnKeyDown(e);"><%- data.Comment %></textarea>
         </text>);
 
         columns.AddFor(m => m.Fund).Caption("Fund");
 
-        columns.AddFor(m => m.AttachmentName).AllowEditing(false).Caption("Attachments").CellTemplate(@<text>
+        columns.AddFor(m => m.AttachmentName).Caption("Attachments")
+        .CellTemplate(@<text>
             <a href="#" onclick="alert('popup...')">Attachments: <%- data.AttachmentCount %></a>
+        </text>)
+        .EditCellTemplate(@<text>
+            <img src="~/img/AwardSynopsis.gif">
         </text>);
 
-        columns.AddFor(m => m.EditComment).AllowEditing(false).Caption("History");
+        columns.AddFor(m => m.EditComment).AllowEditing(false).Caption("History")
+        .CellTemplate(@<text>
+            <img src="~/img/CommentGrid.gif">
+        </text>);
     })
     .Paging(paging => paging.PageSize(10))
     .Pager(pager =>
