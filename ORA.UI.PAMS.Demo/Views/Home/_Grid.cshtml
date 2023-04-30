@@ -23,9 +23,9 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         columns.AddFor(m => m.IsImportant).Caption("").Width(50)
         .CellTemplate(@<text>
             <% if(data.IsImportant) { %>
-            <img src="~/img/star.gif" style="width: 30px">
+            <span style="color:yellow">&bigstar;</span>
             <% } else { %>
-            <div></div>
+            <span></span>
             <% } %>
         </text>);
 
