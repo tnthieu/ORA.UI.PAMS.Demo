@@ -3,6 +3,9 @@
 @(
 Html.DevExtreme().DataGrid<SampleOrder>()
     .ShowBorders(true)
+    .ShowColumnLines(true)
+    .ShowRowLines(true)
+    .WordWrapEnabled(true)
     .DataSource(d => d.Mvc()
         .Controller("SampleData")
         .LoadAction("Get")
@@ -24,31 +27,31 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         columns.AddFor(m => m.IsImportant).Caption("").Width(50)
         .CellTemplate(
 @<text>
-            <% if(data.IsImportant) { %>
-            <span style="color:yellow">&bigstar;</span>
-            <% } else { %>
-            <span></span>
-            <% } %>
-        </text>);
+    <% if(data.IsImportant) { %>
+    <span style="color:yellow">&bigstar;</span>
+    <% } else { %>
+    <span></span>
+    <% } %>
+</text>);
 
-        columns.AddFor(m => m.CreatedDate).AllowEditing(false).Caption("Created Date").Format("MM/dd/yy hh:mm");
-        columns.AddFor(m => m.ModifiedDate).AllowEditing(false).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
+        columns.AddFor(m => m.CreatedDate).Width(130).AllowEditing(false).Alignment(HorizontalAlignment.Center).Caption("Created Date").Format("MM/dd/yy hh:mm");
+        columns.AddFor(m => m.ModifiedDate).Width(145).AllowEditing(false).Alignment(HorizontalAlignment.Center).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
 
-        columns.AddFor(m => m.UserName).AllowEditing(false).Caption("User Name");
-        columns.AddFor(m => m.Category).Caption("Category")
+        columns.AddFor(m => m.UserName).Width(130).AllowEditing(false).Caption("User Name");
+        columns.AddFor(m => m.Category).Width(130).Caption("Category")
             .Lookup(lookup => lookup
                 .DataSource(d => d.Mvc().Controller("Category").LoadAction("Get").Key("Id"))
                 .DisplayExpr("Name")
                 .ValueExpr("Name")
             );
 
-        columns.AddFor(m => m.Comment).Caption("Comment").Width(200).EditCellTemplate(@<text>
-            <textarea rows="2" cols="30" style="width: 195px;min-width: 195px;" keypress="return tbxOnKeyDown(e);"><%- data.Comment %></textarea>
+        columns.AddFor(m => m.Comment).Width(150).Caption("Comment").EditCellTemplate(@<text>
+            <textarea rows="2" cols="30" style="width: 145px;min-width: 145px;" keypress="return tbxOnKeyDown(e);"><%- data.Comment %></textarea>
         </text>);
 
-        columns.AddFor(m => m.Fund).Caption("Fund");
+        columns.AddFor(m => m.Fund).Width(70).Alignment(HorizontalAlignment.Center).Caption("Fund");
 
-        columns.AddFor(m => m.AttachmentName).Caption("Attachments")
+        columns.AddFor(m => m.AttachmentName).Width(120).Alignment(HorizontalAlignment.Center).Caption("Attachments")
         .CellTemplate(@<text>
             <a href="https://www.google.com" target="_blank">Attachments: <%- data.AttachmentCount %></a>
         </text>)
@@ -56,7 +59,7 @@ Html.DevExtreme().DataGrid<SampleOrder>()
             <img src="~/img/AwardSynopsis.gif">
         </text>);
 
-        columns.AddFor(m => m.EditComment).AllowEditing(false).Caption("History")
+        columns.AddFor(m => m.EditComment).Width(80).Alignment(HorizontalAlignment.Center).AllowEditing(false).Caption("History")
         .CellTemplate(@<text>
             <img src="~/img/CommentGrid.gif">
         </text>);
@@ -96,3 +99,18 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         alert('enter...');
     }
 </script>
+
+<style>
+    .dx-widget {
+        font-size: 9pt;
+    }
+
+    .container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm {
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    tbody .row-center {
+        text-align: center !important;
+    }
+</style>
