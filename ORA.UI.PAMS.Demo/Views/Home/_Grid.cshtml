@@ -2,6 +2,14 @@
 
 @(
 Html.DevExtreme().DataGrid<SampleOrder>()
+    .Paging(paging => paging.PageSize(10))
+    .Pager(pager =>
+    {
+        pager.ShowPageSizeSelector(true);
+        pager.AllowedPageSizes(new[] { 5, 10, 15, 20 });
+        pager.ShowInfo(true);
+    })
+
     .ShowBorders(true)
     .ShowColumnLines(true)
     .ShowRowLines(true)
@@ -22,6 +30,8 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         editing.AllowUpdating(true);
     })
     .Selection(x => { x.Mode(SelectionMode.Multiple); x.ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.None); })
+
+    @*Columns*@
     .Columns(columns =>
     {
         columns.AddFor(m => m.IsImportant).Width(30).CssClass("middle").Caption("").AllowFiltering(false)
@@ -45,7 +55,7 @@ Html.DevExtreme().DataGrid<SampleOrder>()
             );
 
         columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment").EditCellTemplate(@<text>
-            <textarea rows="2" cols="30" style="width: 145px;min-width: 145px;" keypress="return tbxOnKeyDown(e);"><%- data.Comment %></textarea>
+            <textarea rows="2" cols="30" style="width: 145px;min-width: 145px;"><%- data.Comment %></textarea>
         </text>);
 
         columns.AddFor(m => m.Fund).Width(70).CssClass("middle-center").Caption("Fund");
@@ -63,16 +73,11 @@ Html.DevExtreme().DataGrid<SampleOrder>()
             <img src="~/img/CommentGrid.gif">
         </text>);
     })
-    .Paging(paging => paging.PageSize(10))
-    .Pager(pager =>
-    {
-        pager.ShowPageSizeSelector(true);
-        pager.AllowedPageSizes(new[] { 5, 10, 15, 20 });
-        pager.ShowInfo(true);
-    })
+    
+    @*default*@
     .FilterRow(f => f.Visible(true))
     .HeaderFilter(f => f.Visible(true))
-    .GroupPanel(p => p.Visible(true))
+    .GroupPanel(p => p.Visible(false))
     .Grouping(g => g.AutoExpandAll(false))
     .RemoteOperations(true)
     .Summary(s => s
@@ -138,4 +143,10 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         text-align: center !important;
         vertical-align: middle !important;
     }
+
+    .dx-datagrid.dx-datagrid-borders > .dx-datagrid-pager {
+        order: -1;
+        border-top: 0px;
+    }
+
 </style>

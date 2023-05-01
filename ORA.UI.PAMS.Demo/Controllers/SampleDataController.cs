@@ -54,28 +54,6 @@ namespace ORA_UI_PAMS_Demo.Controllers
                             });
                         }
                 }
-
-                //for (var i = 0; i < 100; i++)
-                //{
-                //    SampleData.Orders.Add(new SampleOrder
-                //    {
-                //        Id = i,
-                //        IsImportant = i % 2 == 0,
-
-                //        CreatedDate = DateTime.Now,
-                //        ModifiedDate = DateTime.Now,
-
-                //        UserName = "Test",
-                //        Category = "Category " + new Random().Next(1, 5).ToString(),
-
-                //        Comment = "Test",
-                //        Fund = new Random().Next(1000, 9999).ToString(),
-                //        AttachmentName = "Test",
-
-                //        EditComment = "Test",
-                //        AttachmentCount = new Random().Next(0, 9).ToString(),
-                //    });
-                //}
             }
             return DataSourceLoader.Load(SampleData.Orders, loadOptions);
         }
