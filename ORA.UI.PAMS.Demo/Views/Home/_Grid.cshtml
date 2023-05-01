@@ -63,12 +63,12 @@ Html.DevExtreme().DataGrid<SampleOrder>()
                 .ValueExpr("Name")
             );
 
-        @*columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment");*@
+        columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment");
 
-        columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment")
+        @*columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment")
         .EditCellTemplate(@<text>
             <textarea rows="2" cols="30" style="width: 145px;min-width: 145px;"><%- data.Comment %></textarea>
-        </text>);
+        </text>);*@
 
         columns.AddFor(m => m.Fund).Width(70).CssClass("middle-center").Caption("Fund");
 
@@ -86,7 +86,7 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         </text>);
     })
 
-    @*default*@    
+    @*default*@
     .GroupPanel(p => p.Visible(false))
     .Grouping(g => g.AutoExpandAll(false))
     .RemoteOperations(true)
@@ -104,8 +104,8 @@ Html.DevExtreme().DataGrid<SampleOrder>()
 
 <script>
     function onEditorPreparing(e) {
-        //if (e.dataField === "Comment")
-        //    e.editorName = "dxTextArea";
+        if (e.dataField === "Comment")
+            e.editorName = "dxTextArea";
     }
 </script>
 
@@ -152,5 +152,9 @@ Html.DevExtreme().DataGrid<SampleOrder>()
     .dx-datagrid.dx-datagrid-borders > .dx-datagrid-pager {
         order: -1;
         border-top: 0px;
+    }
+
+    textarea {
+        resize: vertical !important;
     }
 </style>
