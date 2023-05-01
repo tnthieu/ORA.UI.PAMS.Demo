@@ -52,7 +52,7 @@ Html.DevExtreme().DataGrid<SampleOrder>()
             <% } %>
         </text>);
 
-        columns.AddFor(m => m.CreatedDate).Width(130).CssClass("middle").Caption("Created Date").Format("MM/dd/yy hh:mm")
+        @*columns.AddFor(m => m.CreatedDate).Width(130).CssClass("middle").Caption("Created Date").Format("MM/dd/yy hh:mm")
         .EditCellTemplate(@<text>
             <input type="text" value="<%- data.CreatedDate %>" disabled>
         </text>);
@@ -65,7 +65,11 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         columns.AddFor(m => m.UserName).Width(130).CssClass("middle").Caption("User Name")
         .EditCellTemplate(@<text>
             <input type="text" value="<%- data.UserName %>" disabled>
-        </text>);
+        </text>);*@
+        columns.AddFor(m => m.CreatedDate).Width(130).CssClass("middle").AllowEditing(false).Caption("Created Date").Format("MM/dd/yy hh:mm");
+        columns.AddFor(m => m.ModifiedDate).Width(145).CssClass("middle").AllowEditing(false).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
+
+        columns.AddFor(m => m.UserName).Width(130).CssClass("middle").AllowEditing(false).Caption("User Name");
 
         columns.AddFor(m => m.Category).Width(130).CssClass("middle").Caption("Category")
             .Lookup(lookup => lookup
@@ -166,10 +170,10 @@ Html.DevExtreme().DataGrid<SampleOrder>()
 
     textarea:not([aria-label="Filter cell"]) {
         resize: vertical !important;
-        border: 1px solid gray !important;
+        /*border: 1px solid gray !important;*/
     }
 
-    .dx-texteditor-input-container input[type="text"]:not([aria-label="Filter cell"]) {
+    /*.dx-texteditor-input-container input[type="text"]:not([aria-label="Filter cell"]) {
         border: 1px solid gray !important;
-    }
+    }*/
 </style>

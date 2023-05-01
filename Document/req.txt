@@ -24,8 +24,15 @@ ok: 9 Hidden columns that can be accessed by other visible columns
 
 ok: 10. Date Time - filter from, to, yesterday,....
 ok: 11. textbox, combobox luc edit co Border
-ok: 12. text ko edit duoc thi show duoi dang disabled textbox
-ko dep bang hien tai: 15. change style to Carmine
+ok: 12. text non-editable disabled textbox
 
+17. Validation Comment, max lenght la 20 character
+18. Create invisible column for AttachmentCount
+15. Fund should be a combobox
 13. Click history icon thi open dialog chua 1 data grid co du lieu
+
+
 14. selection ma ko can ctrl
+16. format date time with AM, PM
+
+
