@@ -160,7 +160,16 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         border-top: 0px;
     }
 
-    textarea {
+    textarea[aria-label="Filter cell"] {
+        resize: none !important;
+    }
+
+    textarea:not([aria-label="Filter cell"]) {
         resize: vertical !important;
+        border: 1px solid gray !important;
+    }
+
+    .dx-texteditor-input-container input[type="text"]:not([aria-label="Filter cell"]) {
+        border: 1px solid gray !important;
     }
 </style>
