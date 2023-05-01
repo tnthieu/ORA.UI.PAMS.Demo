@@ -35,13 +35,10 @@ namespace ORA_UI_PAMS_Demo.Controllers
                     for (var i = 1; i <= 10; i++)
                         for (int row = 8; row <= 15; row++)
                         {
-                            SampleData.Orders.Add(new SampleOrder
+                            var data = new SampleOrder
                             {
                                 Id = i * row,
                                 IsImportant = row % 2 == 0,
-
-                                CreatedDate = worksheet.Cells[row, 2].Value?.ToString().Trim().Replace("202", "2"),
-                                ModifiedDate = worksheet.Cells[row, 3].Value?.ToString().Trim().Replace("202", "2"),
 
                                 UserName = worksheet.Cells[row, 4].Value?.ToString().Trim(),
                                 Category = worksheet.Cells[row, 5].Value?.ToString().Trim(),
@@ -51,7 +48,15 @@ namespace ORA_UI_PAMS_Demo.Controllers
 
                                 EditComment = "Test",
                                 AttachmentCount = new Random().Next(0, 9).ToString(),
-                            });
+                            };
+                            SampleData.Orders.Add(data);
+
+                            data.CreatedDate = new DateTime(2020, 1, 1);
+                            data.CreatedDate = data.CreatedDate.AddDays(new Random().Next(1, 365 * 2));
+                            data.CreatedDate = data.CreatedDate.AddHours(new Random().Next(1, 23)).AddMinutes(new Random().Next(1, 59));
+
+                            data.ModifiedDate = data.CreatedDate.AddDays(new Random().Next(1, 365));
+                            data.ModifiedDate = data.ModifiedDate.AddHours(new Random().Next(1, 23)).AddMinutes(new Random().Next(1, 59));
                         }
                 }
             }

@@ -1,0 +1,10 @@
+Phase 1: to fix
+ok: 1. cai star no to qua em lam cai row height bi thay doi
+not need: 2. textbox disable ngay thang, cua em hien thoi chi la label
+ok: 5. history la 1 icon
+
+
+phase 2:
+ok: 4. select multiple row
+ok: 6. attchment khi edit chuyen thanh icon
+ok: 3. textbox cua comment co the thay doi chieu cao va rong

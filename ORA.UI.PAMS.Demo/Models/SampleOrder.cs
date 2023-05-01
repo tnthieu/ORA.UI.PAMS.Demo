@@ -11,8 +11,8 @@ namespace ORA_UI_PAMS_Demo.Models {
         public string InstitutionAttachmentKey { get; set; }
         public bool IsActive { get; set; }
         public bool IsImportant { get; set; }
-        public string CreatedDate { get; set; }
-        public string ModifiedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public string UserName { get; set; }
         public string UID { get; set; }

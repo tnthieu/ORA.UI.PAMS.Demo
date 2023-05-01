@@ -52,10 +52,21 @@ Html.DevExtreme().DataGrid<SampleOrder>()
             <% } %>
         </text>);
 
-        columns.AddFor(m => m.CreatedDate).Width(130).CssClass("middle").AllowEditing(false).Caption("Created Date").Format("MM/dd/yy hh:mm");
-        columns.AddFor(m => m.ModifiedDate).Width(145).CssClass("middle").AllowEditing(false).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
+        columns.AddFor(m => m.CreatedDate).Width(130).CssClass("middle").Caption("Created Date").Format("MM/dd/yy hh:mm")
+        .EditCellTemplate(@<text>
+            <input type="text" value="<%- data.CreatedDate %>" disabled>
+        </text>);
 
-        columns.AddFor(m => m.UserName).Width(130).CssClass("middle").AllowEditing(false).Caption("User Name");
+        columns.AddFor(m => m.ModifiedDate).Width(145).CssClass("middle").Caption("Latest Updated Date").Format("MM/dd/yy hh:mm")
+        .EditCellTemplate(@<text>
+            <input type="text" value="<%- data.ModifiedDate %>" disabled>
+        </text>);
+
+        columns.AddFor(m => m.UserName).Width(130).CssClass("middle").Caption("User Name")
+        .EditCellTemplate(@<text>
+            <input type="text" value="<%- data.UserName %>" disabled>
+        </text>);
+
         columns.AddFor(m => m.Category).Width(130).CssClass("middle").Caption("Category")
             .Lookup(lookup => lookup
                 .DataSource(d => d.Mvc().Controller("Category").LoadAction("Get").Key("Id"))
@@ -64,11 +75,6 @@ Html.DevExtreme().DataGrid<SampleOrder>()
             );
 
         columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment");
-
-        @*columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment")
-        .EditCellTemplate(@<text>
-            <textarea rows="2" cols="30" style="width: 145px;min-width: 145px;"><%- data.Comment %></textarea>
-        </text>);*@
 
         columns.AddFor(m => m.Fund).Width(70).CssClass("middle-center").Caption("Fund");
 
@@ -87,7 +93,7 @@ Html.DevExtreme().DataGrid<SampleOrder>()
     })
 
     @*default*@
-    .GroupPanel(p => p.Visible(false))
+    .GroupPanel(p => p.Visible(true))
     .Grouping(g => g.AutoExpandAll(false))
     .RemoteOperations(true)
     .Summary(s => s
