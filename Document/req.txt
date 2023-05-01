@@ -25,7 +25,7 @@ ok: 9 Hidden columns that can be accessed by other visible columns
 ok: 10. Date Time - filter from, to, yesterday,....
 ok: 11. textbox, combobox luc edit co Border
 ok: 12. text ko edit duoc thi show duoi dang disabled textbox
-15. chang style to Carmine
+ko dep bang hien tai: 15. change style to Carmine
 
-14. selection ma ko can ctrl
 13. Click history icon thi open dialog chua 1 data grid co du lieu
+14. selection ma ko can ctrl
