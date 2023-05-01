@@ -13,7 +13,10 @@ Html.DevExtreme().DataGrid<SampleOrder>()
     .ShowBorders(true)
     .ShowColumnLines(true)
     .ShowRowLines(true)
+
     .WordWrapEnabled(true)
+    .AllowColumnResizing(true)
+
     .DataSource(d => d.Mvc()
         .Controller("SampleData")
         .LoadAction("Get")
@@ -22,14 +25,20 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         .DeleteAction("Delete")
         .Key("Id")
     )
+
     .Sorting(sorting => sorting.Mode(GridSortingMode.Multiple))
+    .Selection(x => { x.Mode(SelectionMode.Multiple); x.ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.None); })
+
+    .FilterRow(f => f.Visible(true))
+    .HeaderFilter(f => f.Visible(true))
+
     .Editing(editing =>
     {
         editing.Mode(GridEditMode.Row);
         editing.AllowDeleting(true);
         editing.AllowUpdating(true);
     })
-    .Selection(x => { x.Mode(SelectionMode.Multiple); x.ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.None); })
+    .OnEditorPreparing("onEditorPreparing")
 
     @*Columns*@
     .Columns(columns =>
@@ -54,7 +63,10 @@ Html.DevExtreme().DataGrid<SampleOrder>()
                 .ValueExpr("Name")
             );
 
-        columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment").EditCellTemplate(@<text>
+        @*columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment");*@
+
+        columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment")
+        .EditCellTemplate(@<text>
             <textarea rows="2" cols="30" style="width: 145px;min-width: 145px;"><%- data.Comment %></textarea>
         </text>);
 
@@ -73,10 +85,8 @@ Html.DevExtreme().DataGrid<SampleOrder>()
             <img src="~/img/CommentGrid.gif">
         </text>);
     })
-    
-    @*default*@
-    .FilterRow(f => f.Visible(true))
-    .HeaderFilter(f => f.Visible(true))
+
+    @*default*@    
     .GroupPanel(p => p.Visible(false))
     .Grouping(g => g.AutoExpandAll(false))
     .RemoteOperations(true)
@@ -93,14 +103,9 @@ Html.DevExtreme().DataGrid<SampleOrder>()
 )
 
 <script>
-    function Funds(options) {
-        return {
-            filter: options.data ? ["Name", "=", options.data.Fund] : null
-        };
-    }
-
-    function tbxOnKeyDown(e) {
-        alert('enter...');
+    function onEditorPreparing(e) {
+        //if (e.dataField === "Comment")
+        //    e.editorName = "dxTextArea";
     }
 </script>
 
@@ -148,5 +153,4 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         order: -1;
         border-top: 0px;
     }
-
 </style>
