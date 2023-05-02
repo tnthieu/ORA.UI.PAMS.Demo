@@ -30,18 +30,21 @@ namespace ORA_UI_PAMS_Demo.Controllers
                 {
                     Histories.Add(new History
                     {
+                        Id = 1000 + i + new Random().Next(999,9999),
                         ModifiedDate = new DateTime(2021, 1, 1).AddDays(new Random().Next(1, 365)).AddHours(new Random().Next(1, 23)).AddMinutes(new Random().Next(1, 59)),
                         UserName = "Yunchong Lee",
                         Comment = "Modified Fund from \"57087\" to \"None\"",
                     });
                     Histories.Add(new History
                     {
+                        Id = 1000 + i + new Random().Next(999, 9999),
                         ModifiedDate = new DateTime(2021, 1, 1).AddDays(new Random().Next(1, 365)).AddHours(new Random().Next(1, 23)).AddMinutes(new Random().Next(1, 59)),
                         UserName = "Yunchong Lee",
                         Comment = "Uploaded: Attachment Name: test.txt",
                     });
                     Histories.Add(new History
                     {
+                        Id = 1000 + i + new Random().Next(999, 9999),
                         ModifiedDate = new DateTime(2021, 1, 1).AddDays(new Random().Next(1, 365)).AddHours(new Random().Next(1, 23)).AddMinutes(new Random().Next(1, 59)),
                         UserName = "Yunchong Lee",
                         Comment = "Category: Budget, Important: False, Fund: 57087",
