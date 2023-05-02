@@ -9,13 +9,10 @@ ok: 0. net 6, devextreme 22.2.5
 ok: 1 Embed grid on a razor partial view
 
 ok: 2 Sorting
-
 ok: 3 Column Filtering
-
 ok: 4 Paging
 
 ok: 6 Adding hyperlinks to a column
-
 ok: 7 Adding images to a column
 
 ok: 8 Edit, Cancel and Delete a row on the grid
@@ -28,10 +25,8 @@ ok: 12. text non-editable disabled textbox
 
 ok: 17. Validation Comment, max lenght la 50 character
 ok: 18. Create invisible column for AttachmentCount
+ok: 15. Fund should be a combobox
 ok: 13. Click history icon thi open dialog chua 1 data grid co du lieu
 
-no: 15. Fund should be a combobox
 14. selection ma ko can ctrl
 16. format date time with AM, PM
-
-
