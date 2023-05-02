@@ -82,7 +82,7 @@ Html.DevExtreme().DataGrid<SampleOrder>()
 
         columns.AddFor(m => m.Fund).Width(70).CssClass("middle-center").Caption("Fund");
 
-        columns.AddFor(m => m.AttachmentCount);
+        columns.AddFor(m => m.AttachmentCount).Width(150).Visible(false);
         columns.AddFor(m => m.AttachmentName).CssClass("middle-center").Width(120).Caption("Attachments")
         .CellTemplate(@<text>
             <a href="https://www.google.com" target="_blank">Attachments: <%- data.AttachmentCount %></a>
