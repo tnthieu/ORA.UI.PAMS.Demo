@@ -31,14 +31,6 @@ Html.DevExtreme().DataGrid<SampleOrder>()
     .FilterRow(f => f.Visible(true))
     .HeaderFilter(f => f.Visible(true))
 
-    .Editing(editing =>
-    {
-        editing.Mode(GridEditMode.Row);
-        editing.AllowDeleting(true);
-        editing.AllowUpdating(true);
-    })
-    .OnEditorPreparing("onEditorPreparing")
-
     @*Columns*@
     .Columns(columns =>
     {
@@ -117,42 +109,7 @@ Html.DevExtreme().DataGrid<SampleOrder>()
         })
     )
 )
-
-@(Html.DevExtreme().Popup()
-        .ID("popup-history")
-        .Width("90%")
-        .Height("60%")
-        .Container("body")
-        .ShowTitle(true)
-        .Title("History")
-        .DragEnabled(false)
-        .HideOnOutsideClick(false)
-        .ShowCloseButton(true)
-        .Position(positionConfig => positionConfig
-            .At(HorizontalAlignment.Center, VerticalAlignment.Center)
-            .My(HorizontalAlignment.Center, VerticalAlignment.Center)
-            .Collision(PositionResolveCollision.Fit, PositionResolveCollision.Fit)
-        )
-    )
-
-@using (Html.DevExtreme().NamedTemplate("popup-template"))
-{
-    <partial name="~/Views/Home/_Grid-History.cshtml" />
-}
-
 <script>
-    function onEditorPreparing(e) {
-        if (e.dataField === "Comment")
-            e.editorName = "dxTextArea";
-    }
-
-    function showPopupHistory() {
-        var popup = $("#popup-history").dxPopup("instance");
-        popup.option({
-            contentTemplate: $("#popup-template"),
-        });
-        popup.show();
-    }
 </script>
 
 <style>
@@ -210,6 +167,6 @@ Html.DevExtreme().DataGrid<SampleOrder>()
     }
 
     /*.dx-texteditor-input-container input[type="text"]:not([aria-label="Filter cell"]) {
-            border: 1px solid gray !important;
-        }*/
+                border: 1px solid gray !important;
+            }*/
 </style>
