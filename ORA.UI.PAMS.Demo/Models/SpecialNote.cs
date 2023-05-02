@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ORA_UI_PAMS_Demo.Models {
-    public class SampleOrder
+    public class SpecialNote
     {
         public int Id { get; set; }
         public string InstitutionAttachmentKey { get; set; }

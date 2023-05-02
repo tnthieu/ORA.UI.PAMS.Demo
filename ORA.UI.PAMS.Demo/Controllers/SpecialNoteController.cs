@@ -17,12 +17,14 @@ namespace ORA_UI_PAMS_Demo.Controllers
 {
 
     [Route("api/[controller]")]
-    public partial class SampleDataController : Controller
+    public partial class SpecialNoteController : Controller
     {
+        static List<SpecialNote> Notes = new List<SpecialNote>();
+
         [HttpGet]
         public object Get(DataSourceLoadOptions loadOptions)
         {
-            if (SampleData.Orders.Count == 0)
+            if (Notes.Count == 0)
             {
                 var filePath = @"C:\ORISWebApps\ORA.UI.PAMS.Demo\ORA.UI.PAMS.Demo\ORA.UI.PAMS.Demo\XLSX\Attachments.xlsx";
                 FileInfo fileInfo = new FileInfo(filePath);
@@ -35,7 +37,7 @@ namespace ORA_UI_PAMS_Demo.Controllers
                     for (var i = 1; i <= 10; i++)
                         for (int row = 8; row <= 15; row++)
                         {
-                            var data = new SampleOrder
+                            var data = new SpecialNote
                             {
                                 Id = i * row,
                                 IsImportant = row % 2 == 0,
@@ -49,7 +51,7 @@ namespace ORA_UI_PAMS_Demo.Controllers
                                 EditComment = "Test",
                                 AttachmentCount = new Random().Next(0, 9).ToString(),
                             };
-                            SampleData.Orders.Add(data);
+                            Notes.Add(data);
 
                             data.CreatedDate = new DateTime(2020, 1, 1);
                             data.CreatedDate = data.CreatedDate.AddDays(new Random().Next(1, 365 * 2));
@@ -60,19 +62,19 @@ namespace ORA_UI_PAMS_Demo.Controllers
                         }
                 }
             }
-            return DataSourceLoader.Load(SampleData.Orders, loadOptions);
+            return DataSourceLoader.Load(Notes, loadOptions);
         }
 
         [HttpDelete]
         public void Delete(int key)
         {
-            SampleData.Orders.RemoveAll(o => o.Id == key);
+            Notes.RemoveAll(o => o.Id == key);
         }
 
         [HttpPut]
         public IActionResult Update(int key, string values)
         {
-            var employee = SampleData.Orders.FirstOrDefault(a => a.Id == key);
+            var employee = Notes.FirstOrDefault(a => a.Id == key);
             JsonConvert.PopulateObject(values, employee);
 
             return Ok();

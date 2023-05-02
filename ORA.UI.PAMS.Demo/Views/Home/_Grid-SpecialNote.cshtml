@@ -1,7 +1,7 @@
 @using ORA_UI_PAMS_Demo.Models
 
 @(
-Html.DevExtreme().DataGrid<SampleOrder>()
+Html.DevExtreme().DataGrid<SpecialNote>()
     .Paging(paging => paging.PageSize(10))
     .Pager(pager =>
     {
@@ -17,7 +17,7 @@ Html.DevExtreme().DataGrid<SampleOrder>()
     .WordWrapEnabled(true)
 
     .DataSource(d => d.Mvc()
-        .Controller("SampleData")
+        .Controller("SpecialNote")
         .LoadAction("Get")
         .UpdateAction("Update")
         .InsertAction("Insert")
