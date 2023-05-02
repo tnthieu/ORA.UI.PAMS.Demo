@@ -78,7 +78,13 @@ Html.DevExtreme().DataGrid<SampleOrder>()
                 .ValueExpr("Name")
             );
 
-        columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment");
+        columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment")
+        .ValidationRules(vr =>
+        {
+            vr.AddStringLength()
+                .Message("Max Comment is 50 charaters.")
+                .Max(50);
+        }); ;
 
         columns.AddFor(m => m.Fund).Width(70).CssClass("middle-center").Caption("Fund");
 

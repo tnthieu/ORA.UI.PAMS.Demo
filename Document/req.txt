@@ -26,8 +26,8 @@ ok: 10. Date Time - filter from, to, yesterday,....
 ok: 11. textbox, combobox luc edit co Border
 ok: 12. text non-editable disabled textbox
 
-17. Validation Comment, max lenght la 20 character
-18. Create invisible column for AttachmentCount
+ok: 17. Validation Comment, max lenght la 50 character
+ok: 18. Create invisible column for AttachmentCount
 13. Click history icon thi open dialog chua 1 data grid co du lieu
 15. Fund should be a combobox
 
