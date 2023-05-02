@@ -28,10 +28,9 @@ ok: 12. text non-editable disabled textbox
 
 ok: 17. Validation Comment, max lenght la 50 character
 ok: 18. Create invisible column for AttachmentCount
-13. Click history icon thi open dialog chua 1 data grid co du lieu
-15. Fund should be a combobox
+ok: 13. Click history icon thi open dialog chua 1 data grid co du lieu
 
-
+no: 15. Fund should be a combobox
 14. selection ma ko can ctrl
 16. format date time with AM, PM
 

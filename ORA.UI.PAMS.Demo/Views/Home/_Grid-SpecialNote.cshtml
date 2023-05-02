@@ -1,4 +1,6 @@
+@using ORA.UI.PAMS.Demo.Models;
 @using ORA_UI_PAMS_Demo.Models
+@using System.Dynamic;
 
 @(
 Html.DevExtreme().DataGrid<SpecialNote>()
@@ -85,7 +87,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
                 .Max(50);
         }); ;
 
-        columns.AddFor(m => m.Fund).Width(70).CssClass("middle-center").Caption("Fund");
+        columns.AddFor(m => m.Fund).Width(100).CssClass("middle-center").Caption("Fund");
 
         columns.AddFor(m => m.AttachmentCount).Width(150).Visible(false);
         columns.AddFor(m => m.AttachmentName).CssClass("middle-center").Width(120).Caption("Attachments")
@@ -144,6 +146,19 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     function onEditorPreparing(e) {
         if (e.dataField === "Comment")
             e.editorName = "dxTextArea";
+    }
+
+    function Funds(options) {
+        if (options.data != null && options.data.Fund != null) {
+            return {
+                store: [{ Name: options.data.Fund, Value: options.data.Fund }]
+            };
+        }
+        else {
+            return {
+                store: []
+            };
+        }
     }
 
     function showPopupHistory() {
@@ -210,6 +225,6 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     }
 
     /*.dx-texteditor-input-container input[type="text"]:not([aria-label="Filter cell"]) {
-            border: 1px solid gray !important;
-        }*/
+                        border: 1px solid gray !important;
+                    }*/
 </style>
