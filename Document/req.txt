@@ -28,8 +28,8 @@ ok: 12. text non-editable disabled textbox
 
 17. Validation Comment, max lenght la 20 character
 18. Create invisible column for AttachmentCount
-15. Fund should be a combobox
 13. Click history icon thi open dialog chua 1 data grid co du lieu
+15. Fund should be a combobox
 
 
 14. selection ma ko can ctrl
