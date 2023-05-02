@@ -1,7 +1,7 @@
 @using ORA_UI_PAMS_Demo.Models
 
 @(
-Html.DevExtreme().DataGrid<SpecialNote>()
+Html.DevExtreme().DataGrid<History>()
     .Paging(paging => paging.PageSize(10))
     .Pager(pager =>
     {
@@ -17,11 +17,8 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     .WordWrapEnabled(true)
 
     .DataSource(d => d.Mvc()
-        .Controller("SpecialNote")
+        .Controller("History")
         .LoadAction("Get")
-        .UpdateAction("Update")
-        .InsertAction("Insert")
-        .DeleteAction("Delete")
         .Key("Id")
     )
 
@@ -34,68 +31,13 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     @*Columns*@
     .Columns(columns =>
     {
-        columns.AddFor(m => m.IsImportant).Width(30).CssClass("middle").Caption("").AllowFiltering(false)
-        .CellTemplate(@<text>
-            <% if(data.IsImportant) { %>
-            <span style="color:#FFD700; font-size: 14pt">&star;</span>
-            <% } else { %>
-            <span></span>
-            <% } %>
-        </text>);
-
-        @*columns.AddFor(m => m.CreatedDate).Width(130).CssClass("middle").Caption("Created Date").Format("MM/dd/yy hh:mm")
-        .EditCellTemplate(@<text>
-            <input type="text" value="<%- data.CreatedDate %>" disabled>
-        </text>);
-
-        columns.AddFor(m => m.ModifiedDate).Width(145).CssClass("middle").Caption("Latest Updated Date").Format("MM/dd/yy hh:mm")
-        .EditCellTemplate(@<text>
-            <input type="text" value="<%- data.ModifiedDate %>" disabled>
-        </text>);
-
-        columns.AddFor(m => m.UserName).Width(130).CssClass("middle").Caption("User Name")
-        .EditCellTemplate(@<text>
-            <input type="text" value="<%- data.UserName %>" disabled>
-        </text>);*@
-        columns.AddFor(m => m.CreatedDate).Width(130).CssClass("middle").AllowEditing(false).Caption("Created Date").Format("MM/dd/yy hh:mm");
-        columns.AddFor(m => m.ModifiedDate).Width(145).CssClass("middle").AllowEditing(false).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
-
-        columns.AddFor(m => m.UserName).Width(130).CssClass("middle").AllowEditing(false).Caption("User Name");
-
-        columns.AddFor(m => m.Category).Width(130).CssClass("middle").Caption("Category")
-            .Lookup(lookup => lookup
-                .DataSource(d => d.Mvc().Controller("Category").LoadAction("Get").Key("Id"))
-                .DisplayExpr("Name")
-                .ValueExpr("Name")
-            );
-
-        columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment")
-        .ValidationRules(vr =>
-        {
-            vr.AddStringLength()
-                .Message("Max Comment is 50 charaters.")
-                .Max(50);
-        }); ;
-
-        columns.AddFor(m => m.Fund).Width(70).CssClass("middle-center").Caption("Fund");
-
-        columns.AddFor(m => m.AttachmentCount).Width(150).Visible(false);
-        columns.AddFor(m => m.AttachmentName).CssClass("middle-center").Width(120).Caption("Attachments")
-        .CellTemplate(@<text>
-            <a href="https://www.google.com" target="_blank">Attachments: <%- data.AttachmentCount %></a>
-        </text>)
-        .EditCellTemplate(@<text>
-            <img src="~/img/AwardSynopsis.gif">
-        </text>);
-
-        columns.AddFor(m => m.EditComment).Width(80).CssClass("middle-center").AllowEditing(false).Caption("History")
-        .CellTemplate(@<text>
-            <img onclick="showPopupHistory(); return false;" src="~/img/CommentGrid.gif">
-        </text>);
+        columns.AddFor(m => m.ModifiedDate).Width(150).CssClass("middle").AllowEditing(false).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
+        columns.AddFor(m => m.UserName).Width(200).CssClass("middle").AllowEditing(false).Caption("User Name");
+        columns.AddFor(m => m.Comment).Width(500).CssClass("middle").AllowEditing(false).Caption("Comment");
     })
 
     @*default*@
-    .GroupPanel(p => p.Visible(true))
+    .GroupPanel(p => p.Visible(false))
     .Grouping(g => g.AutoExpandAll(false))
     .RemoteOperations(true)
     .Summary(s => s
