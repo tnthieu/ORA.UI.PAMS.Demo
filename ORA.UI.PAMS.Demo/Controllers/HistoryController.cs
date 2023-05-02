@@ -26,7 +26,7 @@ namespace ORA_UI_PAMS_Demo.Controllers
         {
             if (Histories.Count == 0)
             {
-                for (var i = 0; i < 10; i++)
+                for (var i = 0; i < 2; i++)
                 {
                     Histories.Add(new History
                     {
