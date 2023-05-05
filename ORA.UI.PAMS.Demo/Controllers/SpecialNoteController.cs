@@ -93,6 +93,9 @@ namespace ORA_UI_PAMS_Demo.Controllers
             var employee = Notes.FirstOrDefault(a => a.Id == key);
             JsonConvert.PopulateObject(values, employee);
 
+            if (!TryValidateModel(employee))
+                return BadRequest(ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList());
+
             return Ok();
         }
     }

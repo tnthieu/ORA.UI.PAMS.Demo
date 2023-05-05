@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace ORA_UI_PAMS_Demo.Models {
         public string AttachmentName { get; set; }
         public string FullAttachmentName { get; set; }
         public string Category { get; set; }
+        [Required]
+        [StringLength(50, MinimumLength = 10, ErrorMessage = "Comment must have min length of 10 and max Length of 50")]
         public string Comment { get; set; }
         public string EditComment { get; set; }
         public bool InitialCreate { get; set; } = false;

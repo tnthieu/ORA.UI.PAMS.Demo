@@ -4,7 +4,7 @@ ok: 11)Allow user to choose Date in Edit Mode via Calendar
 
 ok: 13)If grid has many columns, can we rely on browser scroll bars instead of devextreme scroll bars
 
-12)Validation during edit mode.  If there is an error, how can we communicate the error to the grid.
+ok: 12)Validation during edit mode.  If there is an error, how can we communicate the error to the grid.
 
 ok: 14)In Edit mode, can we add tool tips
 
@@ -17,12 +17,6 @@ ok: 15)In Edit mode, can we add images, links
 18)When user clicks on Cancel, can we show a bootstrap popup, before actually canceling
 
 -------------------------------------------------------------------------- Explaination
-
-12)Validation during edit mode.  If there is an error, how can we communicate the error to the grid.
-
-MR => I’d like the business rules to be validated on the server via a web api call.
-
-For example, when the user clicks on Save, can Save pass the contents of the row to the Web API call and can the grid display the error message returned by the Web Api call ?
 
 16)Option to select rows on the grid and extract data associated to the grid.
 
