@@ -17,5 +17,10 @@ namespace ORA_UI_PAMS_Demo.Controllers
         public IActionResult Error() {
             return View();
         }
+
+        public IActionResult Grid()
+        {
+            return PartialView("~/Views/Home/_Grid-SpecialNote-Big.cshtml");
+        }
     }
 }

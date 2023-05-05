@@ -50,6 +50,22 @@ namespace ORA_UI_PAMS_Demo.Controllers
 
                                 EditComment = "Test",
                                 AttachmentCount = new Random().Next(0, 9).ToString(),
+
+                                Extra1 = "Extra1",
+                                Extra2 = "Extra2",
+                                Extra3 = "Extra3",
+                                Extra4 = "Extra4",
+                                Extra5 = "Extra5",
+                                Extra6 = "Extra6",
+                                Extra7 = "Extra7",
+                                Extra8 = "Extra8",
+                                Extra9 = "Extra9",
+                                Extra10 = "Extra10",
+                                Extra11 = "Extra11",
+                                Extra12 = "Extra12",
+                                Extra13 = "Extra13",
+                                Extra14 = "Extra14",
+                                Extra15 = "Extra15",
                             };
                             Notes.Add(data);
 

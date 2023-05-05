@@ -1,11 +1,14 @@
 @using ORA.UI.PAMS.Demo.Models;
 
-<h2>PAMS</h2>
+<center>
+    <h2>PAMS</h2>
+</center>
 
 @(Html.DevExtreme().TabPanel()
                 .ID("tabpanel-container")
                 .Height("100%")
-                .DataSource(new NameValue[2] { new NameValue("Tab1", "1"), new NameValue("Tab2", "2") })
+                .Width("100%")
+                .DataSource(new NameValue[2] { new NameValue("Tab1: Partial View", "1"), new NameValue("Tab2: Ajax load", "2") })
                 .SelectedIndex(0)
                 .Loop(false)
                 .AnimationEnabled(true)
@@ -16,12 +19,23 @@
                 .ItemTemplate(@<text>
                     <div class="tabpanel-item">
                         <% if(Value == '1') { %>
+                        <center>
                             <partial name="~/Views/Home/_Grid-SpecialNote.cshtml" />
+                        </center>
                         <% } else { %>
-                        <span>2</span>
-                        <% } %>
-                    </div>
-                </text>)
+                        <center>
+                                    @(Html.DevExtreme().Button()
+                                .Icon("check")
+                                .Text("Load Grid from Ajax")
+                                .Type(ButtonType.Success)
+                                .OnClick("LoadGrid")
+                                )
+                                <div id="grid-container">
+                                </div>
+                            </center>
+                            <% } %>
+                        </div>
+                    </text>)
 )
 
 <script>
@@ -29,4 +43,48 @@
         if (e.dataField === "Comment")
             e.editorName = "dxTextArea";
     }
+    function LoadGrid() {
+        let postBackURL = "/Home/Grid";
+
+        $.ajax({
+            url: postBackURL,
+            method: 'GET'
+        })
+            .done(function (data) {
+                $("#grid-container").html(data);
+                return false;
+            })
+            .fail(function () {
+                alert('Postback failed.');
+            })
+    }
+    function ResizeTabPanel(width) {
+        $("#tabpanel-container").width(width);
+    }
 </script>
+
+<style>
+    @@media (min-width: 576px) {
+        .container-sm, .container {
+            max-width: 1920px !important;
+        }
+    }
+
+    @@media (min-width: 768px) {
+        .container-md, .container-sm, .container {
+            max-width: 1920px !important;
+        }
+    }
+
+    @@media (min-width: 992px) {
+        .container-lg, .container-md, .container-sm, .container {
+            max-width: 1920px !important;
+        }
+    }
+
+    @@media (min-width: 1400px) {
+        .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+            max-width: 1920px !important;
+        }
+    }
+</style>
