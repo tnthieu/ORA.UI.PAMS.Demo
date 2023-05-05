@@ -91,7 +91,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
             vr.AddStringLength()
                 .Message("Max Comment is 50 charaters.")
                 .Max(50);
-        }); ;
+        });
 
         columns.AddFor(m => m.Fund).Width(100).CssClass("middle-center").Caption("Fund")
         .Lookup(lookup => lookup
@@ -106,7 +106,9 @@ Html.DevExtreme().DataGrid<SpecialNote>()
             <a href="#" onclick="showPopupAttachment(); return false;" style="cursor: pointer;">Attachments: <%- data.AttachmentCount %></a>
         </text>)
         .EditCellTemplate(@<text>
-            <img src="~/img/AwardSynopsis.gif">
+            <img src="~/img/AwardSynopsis.gif" title="Attachments count: <%- data.AttachmentCount %>">
+            <br/>
+            <a href="https://www.google.com" target="_blank" title="Total Attachments: <%- data.AttachmentCount %>">Link</a>
         </text>);
 
         columns.AddFor(m => m.EditComment).Width(80).CssClass("middle-center").AllowEditing(false).Caption("History")
@@ -172,11 +174,6 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     )
 
 <script>
-    function onEditorPreparing(e) {
-        if (e.dataField === "Comment")
-            e.editorName = "dxTextArea";
-    }
-
     function Funds(options) {
         if (options.data != null && options.data.Fund != null) {
             return {

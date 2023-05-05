@@ -42,10 +42,16 @@
 )
 
 <script>
+    $(function () {
+        $(document).tooltip();
+    });
+
     function onEditorPreparing(e) {
-        if (e.dataField === "Comment")
+        if (e.dataField === "Comment") {
             e.editorName = "dxTextArea";
+        }
     }
+
     function LoadGrid() {
         let postBackURL = "/Home/Grid";
 

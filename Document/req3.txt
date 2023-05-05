@@ -6,23 +6,28 @@ ok: 13)If grid has many columns, can we rely on browser scroll bars instead of d
 
 12)Validation during edit mode.  If there is an error, how can we communicate the error to the grid.
 
-14)In Edit mode, can we add tool tips
+ok: 14)In Edit mode, can we add tool tips
 
-15)In Edit mode, can we add images, links
+ok: 15)In Edit mode, can we add images, links
 
 16)Option to select rows on the grid and extract data associated to the grid.
 
+17)When user clicks on Save, can we show a bootstrap popup, before actually saving and performing validation
+
+18)When user clicks on Cancel, can we show a bootstrap popup, before actually canceling
+
+-------------------------------------------------------------------------- Explaination
 
 12)Validation during edit mode.  If there is an error, how can we communicate the error to the grid.
-- I see there is client validation from devextreme. But I think you mean here the validation on server side and commnunicate this error to the grid. Please confirm. 
 
-14)In Edit mode, can we add tool tips
-Can you give an example to be sure I understand this one correctly?
-Maybe user clicks Edit, then mouse over an editable text, and we will show a tooltip?
+MR => I’d like the business rules to be validated on the server via a web api call.
 
-15)In Edit mode, can we add images, links
-For the links, can you explain more? 
+For example, when the user clicks on Save, can Save pass the contents of the row to the Web API call and can the grid display the error message returned by the Web Api call ?
 
 16)Option to select rows on the grid and extract data associated to the grid.
-Can you explain more for this?
-Now in the demo, user can press Ctrl and select multiple rows. What do you mean for "extract data associated to the grid"? Can you give me an example?
+
+MR => I’m glad user can press Ctrl and select multiple rows.  Can this option (check box) to select multiple rows always show up ?
+
+Does the user have to press Ctrl ?  and if the check boxes always show up, can we hide it or unhide it ?
+
+As far as "extract data associated to the grid", on the Advanced Deliverables grid, we were able to disable some rows based on the status of the deliverable.  Is this possible with dev extreme ?
