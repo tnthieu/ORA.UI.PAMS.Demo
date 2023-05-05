@@ -12,6 +12,9 @@ ok: 15)In Edit mode, can we add images, links
 
 16)Option to select rows on the grid and extract data associated to the grid.
 
+ok: select multi by checkbox
+ok: disable some row checkbox
+
 17)When user clicks on Save, can we show a bootstrap popup, before actually saving and performing validation
 
 18)When user clicks on Cancel, can we show a bootstrap popup, before actually canceling
@@ -19,9 +22,5 @@ ok: 15)In Edit mode, can we add images, links
 -------------------------------------------------------------------------- Explaination
 
 16)Option to select rows on the grid and extract data associated to the grid.
-
-MR => I’m glad user can press Ctrl and select multiple rows.  Can this option (check box) to select multiple rows always show up ?
-
-Does the user have to press Ctrl ?  and if the check boxes always show up, can we hide it or unhide it ?
 
 As far as "extract data associated to the grid", on the Advanced Deliverables grid, we were able to disable some rows based on the status of the deliverable.  Is this possible with dev extreme ?
