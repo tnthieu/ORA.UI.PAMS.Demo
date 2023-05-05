@@ -40,6 +40,7 @@ namespace ORA_UI_PAMS_Demo.Controllers
                             var data = new SpecialNote
                             {
                                 Id = i * row,
+                                IsActive = new Random().Next(0, 9) % 2 == 0,
                                 IsImportant = row % 2 == 0,
 
                                 UserName = worksheet.Cells[row, 4].Value?.ToString().Trim(),

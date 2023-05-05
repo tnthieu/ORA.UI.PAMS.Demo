@@ -46,6 +46,23 @@
         if (e.dataField === "Comment") {
             e.editorName = "dxTextArea";
         }
+
+        if (e.command === "select") {
+            if (e.parentType === "dataRow" && e.row) {
+                e.editorOptions.disabled = !e.row.data.IsActive;
+            }
+        }
+    }
+    function onSelectionChanged(e) {
+        var deselectRowKeys = [];
+        e.selectedRowsData.forEach((item) => {
+            if (!item.IsActive)
+                deselectRowKeys.push(e.component.keyOf(item));
+        });
+
+        if (deselectRowKeys.length) {
+            e.component.deselectRows(deselectRowKeys);
+        }
     }
 
     function LoadGrid() {
