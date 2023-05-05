@@ -1,0 +1,28 @@
+10)Inject partail view  that contains the grid inside a container like  a DIV
+
+ok: 11)Allow user to choose Date in Edit Mode via Calendar
+
+12)Validation during edit mode.  If there is an error, how can we communicate the error to the grid.
+
+13)If grid has many columns, can we rely on browser scroll bars instead of devextreme scroll bars
+
+14)In Edit mode, can we add tool tips
+
+15)In Edit mode, can we add images, links
+
+16)Option to select rows on the grid and extract data associated to the grid.
+
+
+12)Validation during edit mode.  If there is an error, how can we communicate the error to the grid.
+- I see there is client validation from devextreme. But I think you mean here the validation on server side and commnunicate this error to the grid. Please confirm. 
+
+14)In Edit mode, can we add tool tips
+Can you give an example to be sure I understand this one correctly?
+Maybe user clicks Edit, then mouse over an editable text, and we will show a tooltip?
+
+15)In Edit mode, can we add images, links
+For the links, can you explain more? 
+
+16)Option to select rows on the grid and extract data associated to the grid.
+Can you explain more for this?
+Now in the demo, user can press Ctrl and select multiple rows. What do you mean for "extract data associated to the grid"? Can you give me an example?

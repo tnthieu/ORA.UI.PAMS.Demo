@@ -68,7 +68,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
             <input type="text" value="<%- data.UserName %>" disabled>
         </text>);*@
         columns.AddFor(m => m.CreatedDate).Width(130).CssClass("middle").AllowEditing(false).Caption("Created Date").Format("MM/dd/yy hh:mm");
-        columns.AddFor(m => m.ModifiedDate).Width(145).CssClass("middle").AllowEditing(false).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
+        columns.AddFor(m => m.ModifiedDate).Width(145).CssClass("middle").AllowEditing(true).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
 
         columns.AddFor(m => m.UserName).Width(130).CssClass("middle").AllowEditing(false).Caption("User Name");
 
@@ -97,7 +97,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
         columns.AddFor(m => m.AttachmentCount).Width(150).Visible(false);
         columns.AddFor(m => m.AttachmentName).CssClass("middle-center").Width(120).Caption("Attachments")
         .CellTemplate(@<text>
-            <a href="https://www.google.com" target="_blank">Attachments: <%- data.AttachmentCount %></a>
+            <a href="#" onclick="showPopupAttachment(); return false;" style="cursor: pointer;">Attachments: <%- data.AttachmentCount %></a>
         </text>)
         .EditCellTemplate(@<text>
             <img src="~/img/AwardSynopsis.gif">
@@ -140,12 +140,30 @@ Html.DevExtreme().DataGrid<SpecialNote>()
             .My(HorizontalAlignment.Center, VerticalAlignment.Center)
             .Collision(PositionResolveCollision.Fit, PositionResolveCollision.Fit)
         )
+        @*.ContentTemplate(@<text>
+            <partial name="~/Views/Home/_Grid-History.cshtml" />
+        </text>)*@
     )
 
-@using (Html.DevExtreme().NamedTemplate("popup-template"))
-{
-    <partial name="~/Views/Home/_Grid-History.cshtml" />
-}
+@(Html.DevExtreme().Popup()
+        .ID("popup-attachment")
+        .Width(900)
+        .Height("60%")
+        .Container("body")
+        .ShowTitle(true)
+        .Title("Attachment")
+        .DragEnabled(false)
+        .HideOnOutsideClick(false)
+        .ShowCloseButton(true)
+        .Position(positionConfig => positionConfig
+            .At(HorizontalAlignment.Center, VerticalAlignment.Center)
+            .My(HorizontalAlignment.Center, VerticalAlignment.Center)
+            .Collision(PositionResolveCollision.Fit, PositionResolveCollision.Fit)
+        )
+        @*.ContentTemplate(@<text>
+            <partial name="~/Views/Home/_List-Attachment.cshtml" />
+        </text>)*@
+    )
 
 <script>
     function onEditorPreparing(e) {
@@ -168,9 +186,11 @@ Html.DevExtreme().DataGrid<SpecialNote>()
 
     function showPopupHistory() {
         var popup = $("#popup-history").dxPopup("instance");
-        popup.option({
-            contentTemplate: $("#popup-template"),
-        });
+        popup.show();
+    }
+
+    function showPopupAttachment() {
+        var popup = $("#popup-attachment").dxPopup("instance");
         popup.show();
     }
 </script>
@@ -230,6 +250,6 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     }
 
     /*.dx-texteditor-input-container input[type="text"]:not([aria-label="Filter cell"]) {
-                        border: 1px solid gray !important;
-                    }*/
+                            border: 1px solid gray !important;
+                        }*/
 </style>

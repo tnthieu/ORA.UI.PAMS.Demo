@@ -1,0 +1,36 @@
+@using ORA.UI.PAMS.Demo.Models;
+
+@(Html.DevExtreme().List()
+            .ID("Attachment-List")
+            .Height(400)
+            .DataSource(d => d.Mvc()
+                .Controller("Attachment")
+                .LoadAction("Get")
+                .Key("Id")
+            )
+            .AllowItemDeleting(false)
+            .ItemTemplate(@<text>
+                <a href="~/Attachment/Note.pdf" target="_blank" style="text-decoration: none;">
+                <table>
+                    <tr>
+                        <td rowspan="2">
+                            <img src="~/img/pdf.png" style="height: 50px">
+                        </td>
+                        <td>
+                            <%- Name %>
+                        </td>                        
+                    </tr>
+                    <tr>
+                        <td>
+                            Modified <%- ModifiedDate %> by <%- UserName %> * <%- Bytes %> byte
+                        </td>
+                    </tr>
+                </table>
+                </a>
+                </text>)
+        )
+<script>
+</script>
+
+<style>
+</style>
