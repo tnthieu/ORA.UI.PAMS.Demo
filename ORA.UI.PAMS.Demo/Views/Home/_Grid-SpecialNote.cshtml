@@ -4,6 +4,7 @@
 
 @(
 Html.DevExtreme().DataGrid<SpecialNote>()
+    .ID("grid1")
     .Paging(paging => paging.PageSize(10))
     .Pager(pager =>
     {
@@ -28,7 +29,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     )
 
     .Sorting(sorting => sorting.Mode(GridSortingMode.Multiple))
-    .Selection(x => { x.Mode(SelectionMode.Multiple); x.ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.None); })
+    .Selection(s => { s.Mode(SelectionMode.Multiple); s.AllowSelectAll(true); s.SelectAllMode(SelectAllMode.Page); })
 
     .FilterRow(f => f.Visible(true))
     .HeaderFilter(f => f.Visible(true))
@@ -120,7 +121,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     @*default*@
     .GroupPanel(p => p.Visible(true))
     .Grouping(g => g.AutoExpandAll(false))
-    .RemoteOperations(true)
+    .RemoteOperations(false)
     .Summary(s => s
         .TotalItems(totalItems =>
         {
