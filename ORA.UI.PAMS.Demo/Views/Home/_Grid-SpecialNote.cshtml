@@ -40,6 +40,12 @@ Html.DevExtreme().DataGrid<SpecialNote>()
         editing.AllowUpdating(true);
     })
     .OnEditorPreparing("onEditorPreparing")
+    .OnContentReady(@<text>
+        function(e) {
+            ResizeTabPanel(1);
+        }
+    </text>)
+    .Scrolling(x => x.ShowScrollbar(ShowScrollbarMode.Never))
 
     @*Columns*@
     .Columns(columns =>

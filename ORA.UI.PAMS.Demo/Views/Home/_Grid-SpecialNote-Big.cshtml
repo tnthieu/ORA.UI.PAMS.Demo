@@ -44,7 +44,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     .OnEditorPreparing("onEditorPreparing")
     .OnContentReady(@<text>
         function(e) {
-            ResizeTabPanel($("#grid-container .dx-datagrid-table").width());
+            ResizeTabPanel(2);
         }
     </text>)
     .Scrolling(x => x.ShowScrollbar(ShowScrollbarMode.Never))

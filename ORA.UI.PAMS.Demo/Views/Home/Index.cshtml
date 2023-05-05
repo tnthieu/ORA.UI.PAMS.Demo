@@ -20,7 +20,9 @@
                     <div class="tabpanel-item">
                         <% if(Value == '1') { %>
                         <center>
-                            <partial name="~/Views/Home/_Grid-SpecialNote.cshtml" />
+                            <div id="grid-container1">
+                                <partial name="~/Views/Home/_Grid-SpecialNote.cshtml" />
+                            </div>
                         </center>
                         <% } else { %>
                         <center>
@@ -30,12 +32,13 @@
                                 .Type(ButtonType.Success)
                                 .OnClick("LoadGrid")
                                 )
-                                <div id="grid-container">
+                                <div id="grid-container2">
                                 </div>
                             </center>
                             <% } %>
                         </div>
                     </text>)
+                    .OnSelectionChanged("onTabChanged")
 )
 
 <script>
@@ -51,15 +54,23 @@
             method: 'GET'
         })
             .done(function (data) {
-                $("#grid-container").html(data);
+                $("#grid-container2").html(data);
                 return false;
             })
             .fail(function () {
                 alert('Postback failed.');
             })
     }
-    function ResizeTabPanel(width) {
+    function ResizeTabPanel(tab) {
+        var width = $("#grid-container" + tab + " .dx-datagrid-table").width();
+        if (width < $(window).width())
+            width = $(window).width();
+
         $("#tabpanel-container").width(width);
+    }
+    function onTabChanged(e) {
+        var tab = e.component.option("selectedIndex") + 1;
+        ResizeTabPanel(tab);
     }
 </script>
 
