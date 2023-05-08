@@ -20,7 +20,7 @@ namespace ORA_UI_PAMS_Demo.Controllers
 
         public IActionResult Grid()
         {
-            return PartialView("~/Views/Home/_Grid-SpecialNote-Big.cshtml");
+            return PartialView("~/Views/Home/_SpecialNoteLargeGRID.cshtml");
         }
     }
 }

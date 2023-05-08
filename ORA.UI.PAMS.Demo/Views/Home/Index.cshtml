@@ -21,7 +21,7 @@
                         <% if(Value == '1') { %>
                         <center>
                             <div id="grid-container1">
-                                <partial name="~/Views/Home/_Grid-SpecialNote.cshtml" />
+                                <partial name="~/Views/Home/_SpecialNoteGRID.cshtml" />
                             </div>
                         </center>
                         <% } else { %>
@@ -90,6 +90,48 @@
     function onTabChanged(e) {
         var tab = e.component.option("selectedIndex") + 1;
         ResizeTabPanel(tab);
+    }
+
+
+    //handle event when click save or cancel on gridview
+    function onCommandColumnEvent(e) {
+        if (e.rowType == "data" && e.column.command == "edit") {
+            var cellElement = e.cellElement;
+
+            var btnCancel = cellElement.find(".dx-link-cancel");
+            btnCancel.off("click");
+            btnCancel.on("click", (arg) => {
+                const deferred = $.Deferred();
+                const confirmBox = DevExpress.ui.dialog.confirm("Are you sure you want to cancel?", "Confirm Cancellation");
+                confirmBox.done((confirmResult) => {
+                    if (confirmResult) {
+                        e.component.cancelEditData();
+                    }
+                });
+            });
+
+            //var btnSave = cellElement.find(".dx-link-save");
+            //btnSave.off("click");
+            //btnSave.on("click", (arg) => {
+            //    const deferred = $.Deferred();
+            //    const confirmBox = DevExpress.ui.dialog.confirm("Are you sure you want to save changes?", "Confirm Saving");
+            //    confirmBox.done((confirmResult) => {
+            //        if (confirmResult) {
+            //            e.component.saveEditData();
+            //        }
+            //    });
+            //});
+        }
+    }
+
+    function onRowUpdating(e) {
+        e.cancel = new Promise(resolve => {
+            const confirmBox = DevExpress.ui.dialog.confirm("Are you sure you want to save changes?", "Confirm Saving");
+            confirmBox.done(function (dialogResult) {
+                var shouldCancelUpdate = !dialogResult;
+                resolve(shouldCancelUpdate);
+            })
+        });
     }
 </script>
 

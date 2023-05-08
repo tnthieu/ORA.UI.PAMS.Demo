@@ -40,10 +40,13 @@ Html.DevExtreme().DataGrid<SpecialNote>()
         editing.AllowDeleting(true);
         editing.AllowUpdating(true);
     })
+    .OnCellPrepared("onCommandColumnEvent")
+    .OnRowUpdating("onRowUpdating")
     .OnEditorPreparing("onEditorPreparing")
     .OnSelectionChanged("onSelectionChanged")
 
-    .OnContentReady(@<text>
+    .OnContentReady(
+@<text>
         function(e) {
             ResizeTabPanel(1);
         }
@@ -89,12 +92,13 @@ Html.DevExtreme().DataGrid<SpecialNote>()
             );
 
         columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment")
-        .ValidationRules(vr =>
+        @*.ValidationRules(vr =>
         {
             vr.AddStringLength()
                 .Message("Max Comment is 50 charaters.")
                 .Max(50);
-        });
+        })*@
+        ;
 
         columns.AddFor(m => m.Fund).Width(100).CssClass("middle-center").Caption("Fund")
         .Lookup(lookup => lookup
@@ -152,7 +156,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
             .Collision(PositionResolveCollision.Fit, PositionResolveCollision.Fit)
         )
         .ContentTemplate(@<text>
-            <partial name="~/Views/Home/_Grid-History.cshtml" />
+            <partial name="~/Views/Home/_HistoryGRID.cshtml" />
         </text>)
     )
 
@@ -172,7 +176,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
             .Collision(PositionResolveCollision.Fit, PositionResolveCollision.Fit)
         )
         .ContentTemplate(@<text>
-            <partial name="~/Views/Home/_List-Attachment.cshtml" />
+            <partial name="~/Views/Home/_AttachmentLIST.cshtml" />
         </text>)
     )
 
