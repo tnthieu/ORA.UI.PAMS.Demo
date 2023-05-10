@@ -42,27 +42,17 @@
 )
 
 <script>
-    function onEditorPreparing(e) {
-        if (e.dataField === "Comment") {
-            e.editorName = "dxTextArea";
-        }
-
-        if (e.command === "select") {
-            if (e.parentType === "dataRow" && e.row) {
-                e.editorOptions.disabled = !e.row.data.IsActive;
-            }
-        }
+    function onTabChanged(e) {
+        var tab = e.component.option("selectedIndex") + 1;
+        ResizeTabPanel(tab);
     }
-    function onSelectionChanged(e) {
-        var deselectRowKeys = [];
-        e.selectedRowsData.forEach((item) => {
-            if (!item.IsActive)
-                deselectRowKeys.push(e.component.keyOf(item));
-        });
 
-        if (deselectRowKeys.length) {
-            e.component.deselectRows(deselectRowKeys);
-        }
+    function ResizeTabPanel(tab) {
+        var width = $("#grid-container" + tab + " .dx-datagrid-table").width();
+        if (width < $(window).width())
+            width = $(window).width();
+
+        $("#tabpanel-container").width(width);
     }
 
     function LoadGrid() {
@@ -80,58 +70,116 @@
                 alert('Postback failed.');
             })
     }
-    function ResizeTabPanel(tab) {
-        var width = $("#grid-container" + tab + " .dx-datagrid-table").width();
-        if (width < $(window).width())
-            width = $(window).width();
+</script>
 
-        $("#tabpanel-container").width(width);
-    }
-    function onTabChanged(e) {
-        var tab = e.component.option("selectedIndex") + 1;
-        ResizeTabPanel(tab);
+<script>
+    var selectAllCheckBox;
+    var checkBoxUpdating = false;
+
+    function isSelectable(item) {
+        return item.IsActive;
     }
 
+    function isSelectAll(dataGrid) {
+        var items = [];
 
-    //handle event when click save or cancel on gridview
-    function onCommandColumnEvent(e) {
-        if (e.rowType == "data" && e.column.command == "edit") {
-            var cellElement = e.cellElement;
+        dataGrid.getDataSource().store().load().done(function (data) {
+            items = data;
+        });
 
-            var btnCancel = cellElement.find(".dx-link-cancel");
-            btnCancel.off("click");
-            btnCancel.on("click", (arg) => {
-                const deferred = $.Deferred();
-                const confirmBox = DevExpress.ui.dialog.confirm("Are you sure you want to cancel?", "Confirm Cancellation");
-                confirmBox.done((confirmResult) => {
-                    if (confirmResult) {
-                        e.component.cancelEditData();
+        var selectableItems = items.filter(isSelectable);
+        var selectedRowKeys = dataGrid.option("selectedRowKeys");
+
+        if (!selectedRowKeys.length) {
+            return false;
+        }
+        return selectedRowKeys.length >= selectableItems.length ? true : undefined;
+    }
+
+    function onEditorPreparing(e) {
+        var dataGrid = e.component;
+
+        if (e.dataField === "Comment") {
+            e.editorName = "dxTextArea";
+        }
+
+        if (e.command === "select") {
+            if (e.parentType === "dataRow" && e.row) {
+                if (!isSelectable(e.row.data))
+                    e.editorOptions.disabled = true;
+            } else if (e.parentType === "headerRow") {
+                e.editorOptions.onInitialized = function (e) {
+                    selectAllCheckBox = e.component;
+                }
+                e.editorOptions.value = isSelectAll(dataGrid);
+                e.editorOptions.onValueChanged = function (e) {
+                    if (!e.event) {
+                        if (e.previousValue && !checkBoxUpdating) {
+                            e.component.option("value", e.previousValue);
+                        }
+                        return;
                     }
-                });
-            });
+                    if (isSelectAll(dataGrid) === e.value) {
+                        return;
+                    }
 
-            //var btnSave = cellElement.find(".dx-link-save");
-            //btnSave.off("click");
-            //btnSave.on("click", (arg) => {
-            //    const deferred = $.Deferred();
-            //    const confirmBox = DevExpress.ui.dialog.confirm("Are you sure you want to save changes?", "Confirm Saving");
-            //    confirmBox.done((confirmResult) => {
-            //        if (confirmResult) {
-            //            e.component.saveEditData();
-            //        }
-            //    });
-            //});
+                    e.value ? dataGrid.selectAll() : dataGrid.deselectAll();
+
+                    e.event.preventDefault();
+                }
+            }
         }
     }
 
-    function onRowUpdating(e) {
-        e.cancel = new Promise(resolve => {
-            const confirmBox = DevExpress.ui.dialog.confirm("Are you sure you want to save changes?", "Confirm Saving");
-            confirmBox.done(function (dialogResult) {
-                var shouldCancelUpdate = !dialogResult;
-                resolve(shouldCancelUpdate);
-            })
+    function onSelectionChanged(e) {
+        var deselectRowKeys = [];
+        e.selectedRowsData.forEach((item) => {
+            if (!isSelectable(item))
+                deselectRowKeys.push(e.component.keyOf(item));
         });
+        if (deselectRowKeys.length) {
+            e.component.deselectRows(deselectRowKeys);
+        }
+        checkBoxUpdating = true;
+        selectAllCheckBox.option("value", isSelectAll(e.component));
+        checkBoxUpdating = false;
+    }
+</script>
+
+<script>
+    function isEditVisible(e) {
+        return !e.row.isEditing;
+    }
+    function onEditClick(e) {
+        e.component.editRow(e.row.rowIndex);
+        e.event.preventDefault();
+    }
+
+    function isSaveVisible(e) {
+        return e.row.isEditing;
+    }
+    function onSaveClick(e) {
+        const confirmBox = DevExpress.ui.dialog.confirm("Are you sure you want to save changes?", "Confirm Saving");
+        confirmBox.done((confirmResult) => {
+            if (confirmResult) {
+                e.component.saveEditData();
+                e.component.refresh(true);
+            }
+        });
+        e.event.preventDefault();
+    }
+
+    function isCancelVisible(e) {
+        return e.row.isEditing;
+    }
+    function onCancelClick(e) {
+        const confirmBox = DevExpress.ui.dialog.confirm("Are you sure you want to cancel?", "Confirm Cancellation");
+        confirmBox.done((confirmResult) => {
+            if (confirmResult) {
+                e.component.cancelEditData();
+            }
+        });
+        e.event.preventDefault();
     }
 </script>
 

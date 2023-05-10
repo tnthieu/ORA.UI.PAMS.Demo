@@ -27,6 +27,7 @@ namespace ORA_UI_PAMS_Demo.Controllers
             if (Notes.Count == 0)
             {
                 var filePath = @"C:\ORISWebApps\ORA.UI.PAMS.Demo\ORA.UI.PAMS.Demo\ORA.UI.PAMS.Demo\XLSX\Attachments.xlsx";
+                
                 FileInfo fileInfo = new FileInfo(filePath);
 
                 ExcelPackage.LicenseContext = LicenseContext.Commercial;
@@ -34,12 +35,14 @@ namespace ORA_UI_PAMS_Demo.Controllers
                 {
                     ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
 
+                    var id = 0;
                     for (var i = 1; i <= 10; i++)
                         for (int row = 8; row <= 15; row++)
                         {
+                            id++;
                             var data = new SpecialNote
                             {
-                                Id = i * row,
+                                Id = id,
                                 IsActive = new Random().Next(0, 9) % 2 == 0,
                                 IsImportant = row % 2 == 0,
 
@@ -98,6 +101,16 @@ namespace ORA_UI_PAMS_Demo.Controllers
                 return BadRequest(ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList());
 
             return Ok();
+        }
+
+        [Route("SpecialNote/ValidateComment")]
+        public IActionResult ValidateComment(string Comment = null)
+        {
+            if (string.IsNullOrWhiteSpace(Comment) || Comment.Length < 5 || Comment.Length > 30)
+            {
+                return Json("Comment must have min length of 5 and max Length of 30");
+            }
+            return Json(true);
         }
     }
 }
