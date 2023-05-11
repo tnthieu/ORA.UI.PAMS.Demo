@@ -12,6 +12,7 @@ using System.Security.Cryptography.Xml;
 using Newtonsoft.Json;
 using System.Xml.Linq;
 using OfficeOpenXml;
+using System.Reflection;
 
 namespace ORA_UI_PAMS_Demo.Controllers
 {
@@ -27,7 +28,7 @@ namespace ORA_UI_PAMS_Demo.Controllers
             if (Notes.Count == 0)
             {
                 var filePath = @"C:\ORISWebApps\ORA.UI.PAMS.Demo\ORA.UI.PAMS.Demo\ORA.UI.PAMS.Demo\XLSX\Attachments.xlsx";
-                
+
                 FileInfo fileInfo = new FileInfo(filePath);
 
                 ExcelPackage.LicenseContext = LicenseContext.Commercial;
@@ -91,14 +92,48 @@ namespace ORA_UI_PAMS_Demo.Controllers
             Notes.RemoveAll(o => o.Id == key);
         }
 
-        [HttpPut]
-        public IActionResult Update(int key, string values)
-        {
-            var employee = Notes.FirstOrDefault(a => a.Id == key);
-            JsonConvert.PopulateObject(values, employee);
+        //[HttpPut]
+        //public IActionResult Update_AutoValidate(int key, string values)
+        //{
+        //    var note = Notes.FirstOrDefault(a => a.Id == key);
+        //    JsonConvert.PopulateObject(values, note);
 
-            if (!TryValidateModel(employee))
-                return BadRequest(ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList());
+        //    if (!TryValidateModel(note))
+        //    {
+        //        return BadRequest(ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList());
+        //    }
+        //    return Ok();
+        //}
+
+        [HttpPut]
+        public IActionResult Update_ManualValidate(int key, string values)
+        {
+            //map values (json) from UI to model
+            var model = new SpecialNote();
+            JsonConvert.PopulateObject(values, model);
+
+            //get note by id/key (from real data)
+            var note = Notes.FirstOrDefault(a => a.Id == key);
+            if (note == null)
+            {
+                //invalid id/key
+                return Forbid();
+            }
+
+            //manual validate
+            if (note.CreatedDate.Year < 2021 && !string.IsNullOrWhiteSpace(model.Fund))
+            {
+                ModelState.AddModelError("Fund", "if CreatedDate < 2021, Fund must be null.");
+                return BadRequest("if CreatedDate < 2021, Fund must be null. yyy");
+                ///return BadRequest(ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList());
+            }
+
+            //if passed validate
+
+            //update note by model
+            note.Category = model.Category;
+            note.Comment = model.Comment;
+            note.Fund = model.Fund;
 
             return Ok();
         }
