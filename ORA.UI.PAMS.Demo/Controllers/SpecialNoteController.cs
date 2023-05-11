@@ -106,9 +106,9 @@ namespace ORA_UI_PAMS_Demo.Controllers
         [Route("SpecialNote/ValidateComment")]
         public IActionResult ValidateComment(string Comment = null)
         {
-            if (string.IsNullOrWhiteSpace(Comment) || Comment.Length < 5 || Comment.Length > 30)
+            if (string.IsNullOrWhiteSpace(Comment) || Comment.Length < 10)
             {
-                return Json("Comment must have min length of 5 and max Length of 30");
+                return Json("Comment must have min length of 10");
             }
             return Json(true);
         }

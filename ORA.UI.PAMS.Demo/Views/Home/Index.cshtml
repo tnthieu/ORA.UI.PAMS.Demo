@@ -3,7 +3,7 @@
 <center>
     <h2>PAMS</h2>
 </center>
-
+<div id="buttonContainer"></div>
 @(Html.DevExtreme().TabPanel()
                 .ID("tabpanel-container")
                 .Height("100%")
@@ -20,13 +20,21 @@
                     <div class="tabpanel-item">
                         <% if(Value == '1') { %>
                         <center>
-                            <div id="grid-container1">
-                                <partial name="~/Views/Home/_SpecialNoteGRID.cshtml" />
-                            </div>
-                        </center>
-                        <% } else { %>
-                        <center>
+                            <div>
                                     @(Html.DevExtreme().Button()
+                                .Icon("check")
+                                .Text("ShowSelectedData")
+                                .Type(ButtonType.Success)
+                                .OnClick("DisplayAllSelectedData")
+                                )
+                                </div>
+                                <div id="grid-container1">
+                                    <partial name="~/Views/Home/_SpecialNoteGRID.cshtml" />
+                                </div>
+                            </center>
+                            <% } else { %>
+                            <center>
+                                        @(Html.DevExtreme().Button()
                                 .Icon("check")
                                 .Text("Load Grid from Ajax")
                                 .Type(ButtonType.Success)
@@ -40,6 +48,27 @@
                     </text>)
                     .OnSelectionChanged("onTabChanged")
 )
+
+<!-- ConfirmPopup -->
+<div class="modal fade" id="ConfirmPopup" tabindex="-1" role="dialog" aria-labelledby="ConfirmTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ConfirmTitle">Confirm Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ConfirmCancel();">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="ConfirmContent">
+                Confirm Content
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="ConfirmCancel();">Cancel</button>
+                <button type="button" class="btn btn-primary" id="ConfirmOK">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     function onTabChanged(e) {
@@ -69,6 +98,16 @@
             .fail(function () {
                 alert('Postback failed.');
             })
+    }
+
+    function DisplayAllSelectedData() {
+        const gridView = DevExpress.ui.dxDataGrid.getInstance(document.getElementById('grid1'));
+        var selectedRows = gridView.getSelectedRowsData();
+        var dialogContent = "";
+        selectedRows.forEach(function (row) {
+            dialogContent += row.Id + "- " + row.UserName + "<br/>";
+        });
+        DevExpress.ui.dialog.alert(dialogContent, "");
     }
 </script>
 
@@ -159,12 +198,9 @@
         return e.row.isEditing;
     }
     function onSaveClick(e) {
-        const confirmBox = DevExpress.ui.dialog.confirm("Are you sure you want to save changes?", "Confirm Saving");
-        confirmBox.done((confirmResult) => {
-            if (confirmResult) {
-                e.component.saveEditData();
-                e.component.refresh(true);
-            }
+        ShowConfirmPopup("Confirm Saving", "Are you sure you want to save changes?", () => {
+            e.component.saveEditData();
+            e.component.refresh(true);
         });
         e.event.preventDefault();
     }
@@ -172,14 +208,27 @@
     function isCancelVisible(e) {
         return e.row.isEditing;
     }
-    function onCancelClick(e) {
-        const confirmBox = DevExpress.ui.dialog.confirm("Are you sure you want to cancel?", "Confirm Cancellation");
-        confirmBox.done((confirmResult) => {
-            if (confirmResult) {
-                e.component.cancelEditData();
-            }
+    function onCancelClick(e) {        
+        ShowConfirmPopup("Confirm Cancellation", "Are you sure you want to cancel?", () => {
+            e.component.cancelEditData();
         });
         e.event.preventDefault();
+    }
+</script>
+
+<script>
+    function ConfirmCancel() {
+        $('#ConfirmPopup').modal('hide');
+    }
+    function ShowConfirmPopup(title, content, callback) {
+        $("#ConfirmTitle").text(title);
+        $("#ConfirmContent").text(content);
+        $('#ConfirmPopup').modal('show');
+
+        $("#ConfirmOK").click(() => {
+            callback();
+            $('#ConfirmPopup').modal('hide');
+        });
     }
 </script>
 

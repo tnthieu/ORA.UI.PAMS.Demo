@@ -23,7 +23,7 @@ namespace ORA_UI_PAMS_Demo.Models
         public string AttachmentName { get; set; }
         public string FullAttachmentName { get; set; }
         public string Category { get; set; }
-        [Remote("ValidateComment", "SpecialNote")]
+        //[Remote("ValidateComment", "SpecialNote")]
         public string Comment { get; set; }
         public string EditComment { get; set; }
         public bool InitialCreate { get; set; } = false;
