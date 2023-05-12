@@ -147,5 +147,16 @@ namespace ORA_UI_PAMS_Demo.Controllers
             }
             return Json(true);
         }
+
+
+        [Route("SpecialNote/ValidateFund")]
+        public IActionResult ValidateFund(string Fund = null)
+        {
+            if (string.IsNullOrWhiteSpace(Fund) || Fund.Length < 10)
+            {
+                return Json("Fund must have min length of 10");
+            }
+            return Json(true);
+        }
     }
 }
