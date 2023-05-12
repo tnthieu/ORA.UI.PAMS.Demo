@@ -87,7 +87,6 @@ Html.DevExtreme().DataGrid<SpecialNote>()
         {
             rules.AddAsync().Message("Comment is invalid").ValidationCallback("validateComment").Reevaluate(true);
         });
-        ;
 
         columns.AddFor(m => m.Fund).Width(100).CssClass("middle-center").Caption("Fund")
         .Lookup(lookup => lookup

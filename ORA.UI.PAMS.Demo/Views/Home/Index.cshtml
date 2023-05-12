@@ -278,13 +278,30 @@
     function validateComment(e) {
         if (!isSaveClick) return new Promise(r => r(true));
 
-        return $.ajax({
+        //return $.ajax({
+        //    url: '@Url.Action("ValidateComment", "SpecialNote")',
+        //    type: "GET",
+        //    dataType: "json",
+        //    contentType: "application/json",
+        //    data: { Comment: e.data.Comment }
+        //});
+        const request = $.ajax({
             url: '@Url.Action("ValidateComment", "SpecialNote")',
             type: "GET",
             dataType: "json",
             contentType: "application/json",
             data: { Comment: e.data.Comment }
         });
+
+        request.done((json) => {
+            console.log(json);
+            e.isValid = false;
+            e.errorText = "Comment error...";
+        });
+
+        e.promise = request;
+
+        return new Promise(r => r(false));
     }
 </script>
 

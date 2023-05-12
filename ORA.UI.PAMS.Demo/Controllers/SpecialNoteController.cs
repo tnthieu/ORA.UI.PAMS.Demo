@@ -156,7 +156,8 @@ namespace ORA_UI_PAMS_Demo.Controllers
             {
                 return Json("Fund must have min length of 10");
             }
-            return Json(true);
+            //return Json(true);
+            return Json(false);
         }
     }
 }
