@@ -49,6 +49,21 @@
                     .OnSelectionChanged("onTabChanged")
 )
 
+@*@using(Html.DevExtreme().NamedTemplate("HTMLEditorTemplate")) {
+    @(Html.DevExtreme().HtmlEditor()
+    .ID("html-editor")
+    .Toolbar(toolbar => toolbar.Items(
+        items => {
+            items.Add().Name(HtmlEditorToolbarItem.Bold);
+            items.Add().Name(HtmlEditorToolbarItem.Italic);
+            items.Add().Name(HtmlEditorToolbarItem.Strike);
+        })
+    )
+    .MediaResizing(m => m.Enabled(true))
+)
+}*@
+
+
 <!-- ConfirmPopup -->
 <div class="modal fade" id="ConfirmPopup" tabindex="-1" role="dialog" aria-labelledby="ConfirmTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -138,8 +153,25 @@
     function onEditorPreparing(e) {
         var dataGrid = e.component;
 
-        if (e.dataField === "Comment") {
-            e.editorName = "dxTextArea";//"dxTextArea";
+        //if (e.dataField === "Comment") {
+        //    e.editorName = "dxTextArea";//"dxTextArea";
+        //}
+
+        if (e.parentType === "dataRow") {
+
+            if (e.dataField === "Comment") {
+                e.editorName = "dxHtmlEditor";
+                e.editorOptions.toolbar = {
+                    items: [
+                        
+                        "bold",
+                        "italic",
+                        "strike",
+                        "underline",
+
+                    ]
+                };
+            }
         }
 
         if (e.command === "select") {
