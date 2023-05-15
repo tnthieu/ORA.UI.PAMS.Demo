@@ -241,26 +241,47 @@
 
 <script>
     function rowValidating(e) {
-        const isFundChanged = e.newData.hasOwnProperty('Fund');
-        console.log("rowValidating", isFundChanged)
+        //const isFundChanged = e.newData.hasOwnProperty('Fund');
+        //console.log("rowValidating", isFundChanged)
 
-        if (isFundChanged) {
-            const request = $.ajax({
-                url: '@Url.Action("ValidateFund", "SpecialNote")',
-                type: "GET",
-                dataType: "json",
-                contentType: "application/json",
-                data: { Fund: e.newData.Fund }
-            });
+        
+        debugger;
+        const request = $.ajax({
+            url: '@Url.Action("ValidateRow", "SpecialNote")',
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json",
+            data: {...e.oldData,...e.newData}
+        });
 
-            request.done((json) => {
-                console.log(json);
+        request.done((json) => {
+            console.log(json);
+            debugger;
+            if (json.isValid === false){
                 e.isValid = false;
-                e.errorText = "Fund error...";
-            });
+                e.errorText = `Error...${json.data}`;
+            }
+                
+        });
 
-            e.promise = request;
-        }
+        e.promise = request;
+        //if (isFundChanged) {
+        //    const request = $.ajax({
+        //        url: '@Url.Action("ValidateFund", "SpecialNote")',
+        //        type: "GET",
+        //        dataType: "json",
+        //        contentType: "application/json",
+        //        data: { Fund: e.newData.Fund }
+        //    });
+
+        //    request.done((json) => {
+        //        console.log(json);
+        //        e.isValid = false;
+        //        e.errorText = "Fund error...";
+        //    });
+
+        //    e.promise = request;
+        //}
     }
 
     function validateFund(e) {
@@ -303,6 +324,8 @@
 
         return new Promise(r => r(false));
     }
+
+
 </script>
 
 <style>

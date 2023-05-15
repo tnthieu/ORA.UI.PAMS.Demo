@@ -150,14 +150,23 @@ namespace ORA_UI_PAMS_Demo.Controllers
 
 
         [Route("SpecialNote/ValidateFund")]
-        public IActionResult ValidateFund(string Fund = null)
+        public IActionResult ValidateFund(SpecialNote note)
         {
-            if (string.IsNullOrWhiteSpace(Fund) || Fund.Length < 10)
-            {
-                return Json("Fund must have min length of 10");
-            }
+            //if (string.IsNullOrWhiteSpace(Fund) || Fund.Length < 10)
+            //{
+            //    return Json("Fund must have min length of 10");
+            //}
             //return Json(true);
             return Json(false);
+        }
+
+        [Route("SpecialNote/ValidateRow")]
+        public IActionResult ValidateRow(SpecialNote note)
+        {
+            if (note == null || note.CreatedDate.Year < 2021 || note.Comment.Trim().Length<0 || string.IsNullOrWhiteSpace(note.Fund))
+                return Json(new { isValid = false, data = "CreatedDate or Comment or Fund is not valid" });
+
+            return Json(new { isValid = true });
         }
     }
 }
