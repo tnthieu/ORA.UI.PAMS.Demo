@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System.Xml.Linq;
 using OfficeOpenXml;
 using System.Reflection;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace ORA_UI_PAMS_Demo.Controllers
 {
@@ -22,12 +23,18 @@ namespace ORA_UI_PAMS_Demo.Controllers
     {
         static List<SpecialNote> Notes = new List<SpecialNote>();
 
+        private IHostingEnvironment Environment;
+        public SpecialNoteController(IHostingEnvironment _environment)
+        {
+            Environment = _environment;
+        }
+
         [HttpGet]
         public object Get(DataSourceLoadOptions loadOptions)
         {
             if (Notes.Count == 0)
             {
-                var filePath = @"C:\ORISWebApps\ORA.UI.PAMS.Demo\ORA.UI.PAMS.Demo\ORA.UI.PAMS.Demo\XLSX\Attachments.xlsx";
+                var filePath = Environment.ContentRootPath + @"\XLSX\Attachments.xlsx";
 
                 FileInfo fileInfo = new FileInfo(filePath);
 
