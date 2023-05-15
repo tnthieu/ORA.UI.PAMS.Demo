@@ -1,5 +1,4 @@
 @using ORA.UI.PAMS.Demo.Models;
-@using ORA_UI_PAMS_Demo.Models
 @using System.Dynamic;
 
 @(
@@ -22,7 +21,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     .DataSource(d => d.Mvc()
         .Controller("SpecialNote")
         .LoadAction("Get")
-        .UpdateAction("Update_ManualValidate")
+        .UpdateAction("Update")
         .InsertAction("Insert")
         .DeleteAction("Delete")
         .Key("Id")
@@ -47,7 +46,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
 
     .OnContentReady(@<text>
         function(e) {
-        ResizeTabPanel(1);
+            ResizeTabPanel(1);
         }
     </text>)
     .Scrolling(x => x.ShowScrollbar(ShowScrollbarMode.Never))
@@ -65,24 +64,18 @@ Html.DevExtreme().DataGrid<SpecialNote>()
         </text>);
 
         columns.AddFor(m => m.CreatedDate).Width(130).CssClass("middle").AllowEditing(false).Caption("Created Date").Format("MM/dd/yy hh:mm");
-        @*.ValidationRules(rules =>
-        {
-            rules.AddAsync();
-        });*@
         columns.AddFor(m => m.ModifiedDate).Width(145).CssClass("middle").AllowEditing(true).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
 
         columns.AddFor(m => m.UserName).Width(130).CssClass("middle").AllowEditing(false).Caption("User Name");
 
         columns.AddFor(m => m.Category).Width(130).CssClass("middle").Caption("Category")
-    .Lookup(lookup => lookup
-.DataSource(d => d.Mvc().Controller("Category").LoadAction("Get").Key("Id"))
-.DisplayExpr("Name")
-.ValueExpr("Name")
-    );
+            .Lookup(lookup => lookup
+            .DataSource(d => d.Mvc().Controller("Category").LoadAction("Get").Key("Id"))
+            .DisplayExpr("Name")
+            .ValueExpr("Name")
+        );
 
         columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment");
-
-
         @*.ValidationRules(vr =>
         {
             vr.AddStringLength()
@@ -95,15 +88,11 @@ Html.DevExtreme().DataGrid<SpecialNote>()
         });*@
 
         columns.AddFor(m => m.Fund).Width(100).CssClass("middle-center").Caption("Fund")
-    .Lookup(lookup => lookup
-    .DataSource(d => d.Mvc().Controller("Fund").LoadAction("Get").Key("Id"))
-    .DisplayExpr("Name")
-    .ValueExpr("Name")
-    );
-        @*.ValidationRules(rules =>
-        {
-            rules.AddAsync().Message("Fund is invalid").ValidationCallback("validateFund").Reevaluate(true);
-        });*@
+            .Lookup(lookup => lookup
+            .DataSource(d => d.Mvc().Controller("Fund").LoadAction("Get").Key("Id"))
+            .DisplayExpr("Name")
+            .ValueExpr("Name")
+        );
 
         columns.AddFor(m => m.AttachmentCount).Width(150).Visible(false);
         columns.AddFor(m => m.AttachmentName).CssClass("middle-center").Width(120).Caption("Attachments")
@@ -115,15 +104,12 @@ Html.DevExtreme().DataGrid<SpecialNote>()
             <br />
             <a href="https://www.google.com" target="_blank" title="Total Attachments: <%- data.AttachmentCount %>">Link</a>
         </text>
-);
+        );
 
-        columns.AddFor(m => m.EditComment).Width(80).CssClass("middle-center").AllowEditing(false).Caption("History");
-        @*.CellTemplate(@<text>
+        columns.AddFor(m => m.EditComment).Width(80).CssClass("middle-center").AllowEditing(false).Caption("History")
+        .CellTemplate(@<text>
             <img onclick="showPopupHistory(); return false;" src="~/img/CommentGrid.gif" style="cursor: pointer;">
-        </text>);*@
-        //.CellTemplate(new JS("commentTemplate"));
-        //.EditCellTemplate(new JS("commentTemplate"));
-        //.EditCellTemplate(new TemplateName("HTMLEditorTemplate"));
+        </text>);
 
         columns.Add()
             .Type(GridCommandColumnType.Buttons)
@@ -168,8 +154,6 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     )
 )
 
-
-
 @(Html.DevExtreme().Popup()
         .ID("popup-history")
         .Width(900)
@@ -211,97 +195,13 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     )
 
 <script>
-
-    
-
     function showPopupHistory() {
-        var popup = $("#popup-history").dxPopup("instance");
+        let popup = $("#popup-history").dxPopup("instance");
         popup.show();
     }
 
     function showPopupAttachment() {
-        var popup = $("#popup-attachment").dxPopup("instance");
+        let popup = $("#popup-attachment").dxPopup("instance");
         popup.show();
     }
-
-
-    function commentTemplate(container, options) {
-    $("<div>").dxHtmlEditor({
-        value: options.data.Comment,
-        height: 200,
-        toolbar: {
-            items: [
-                "undo", "redo", "separator",
-                {
-                    formatName: "size",
-                    formatValues: ["8pt", "10pt", "12pt", "14pt", "18pt", "24pt", "36pt"]
-                },
-                "separator",
-                "bold", "italic", "strike", "underline", "separator",
-                "alignLeft", "alignCenter", "alignRight", "alignJustify", "separator",
-                "orderedList", "bulletList", "separator",
-                "color", "background"
-            ]
-        }
-    })};
-
 </script>
-
-<style>
-    .dx-widget {
-        font-size: 9pt;
-    }
-
-    /* Customize position of DevExtreme paging icon */
-    .dx-pager .dx-page-sizes {
-        float: right;
-    }
-
-    .dx-pager .dx-pages {
-        float: left;
-    }
-
-    .col.px-4.py-3.hub-content {
-        width: 80% !important;
-    }
-
-    .dx-datagrid-content .dx-datagrid-table .dx-row > td, .dx-datagrid-content .dx-datagrid-table .dx-row > tr > td {
-        background: white;
-    }
-
-    .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > tr > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > tr > td {
-        background-color: rgb(255, 255, 153);
-    }
-
-    .container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm {
-        padding-right: 0px !important;
-        padding-left: 0px !important;
-    }
-
-    tbody .middle {
-        vertical-align: middle !important;
-    }
-
-    tbody .middle-center {
-        text-align: center !important;
-        vertical-align: middle !important;
-    }
-
-    .dx-datagrid.dx-datagrid-borders > .dx-datagrid-pager {
-        order: -1;
-        border-top: 0px;
-    }
-
-    textarea[aria-label="Filter cell"] {
-        resize: none !important;
-    }
-
-    textarea:not([aria-label="Filter cell"]) {
-        resize: vertical !important;
-        /*border: 1px solid gray !important;*/
-    }
-
-    /*.dx-texteditor-input-container input[type="text"]:not([aria-label="Filter cell"]) {
-                                        border: 1px solid gray !important;
-                                    }*/
-</style>

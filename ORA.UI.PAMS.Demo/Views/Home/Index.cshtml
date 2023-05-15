@@ -3,7 +3,7 @@
 <center>
     <h2>PAMS</h2>
 </center>
-<div id="buttonContainer"></div>
+
 @(Html.DevExtreme().TabPanel()
                 .ID("tabpanel-container")
                 .Height("100%")
@@ -49,21 +49,6 @@
                     .OnSelectionChanged("onTabChanged")
 )
 
-@*@using(Html.DevExtreme().NamedTemplate("HTMLEditorTemplate")) {
-    @(Html.DevExtreme().HtmlEditor()
-    .ID("html-editor")
-    .Toolbar(toolbar => toolbar.Items(
-        items => {
-            items.Add().Name(HtmlEditorToolbarItem.Bold);
-            items.Add().Name(HtmlEditorToolbarItem.Italic);
-            items.Add().Name(HtmlEditorToolbarItem.Strike);
-        })
-    )
-    .MediaResizing(m => m.Enabled(true))
-)
-}*@
-
-
 <!-- ConfirmPopup -->
 <div class="modal fade" id="ConfirmPopup" tabindex="-1" role="dialog" aria-labelledby="ConfirmTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -79,7 +64,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="ConfirmOK" style="width: 100px;">OK</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"  style="width: 100px;" onclick="ConfirmCancel();">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width: 100px;" onclick="ConfirmCancel();">Cancel</button>
             </div>
         </div>
     </div>
@@ -87,12 +72,12 @@
 
 <script>
     function onTabChanged(e) {
-        var tab = e.component.option("selectedIndex") + 1;
+        let tab = e.component.option("selectedIndex") + 1;
         ResizeTabPanel(tab);
     }
 
     function ResizeTabPanel(tab) {
-        var width = $("#grid-container" + tab + " .dx-datagrid-table").width();
+        let width = $("#grid-container" + tab + " .dx-datagrid-table").width();
         if (width < $(window).width())
             width = $(window).width();
 
@@ -114,56 +99,23 @@
                 alert('Postback failed.');
             })
     }
-
-    function DisplayAllSelectedData() {
-        const gridView = DevExpress.ui.dxDataGrid.getInstance(document.getElementById('grid1'));
-        var selectedRows = gridView.getSelectedRowsData();
-        var dialogContent = "";
-        selectedRows.forEach(function (row) {
-            dialogContent += row.Id + "- " + row.UserName + "<br/>";
-        });
-        DevExpress.ui.dialog.alert(dialogContent, "");
-    }
 </script>
 
 <script>
-    var selectAllCheckBox;
-    var checkBoxUpdating = false;
-
-    function isSelectable(item) {
-        return item.IsActive;
-    }
-
-    function isSelectAll(dataGrid) {
-        var items = [];
-
-        dataGrid.getDataSource().store().load().done(function (data) {
-            items = data;
-        });
-
-        var selectableItems = items.filter(isSelectable);
-        var selectedRowKeys = dataGrid.option("selectedRowKeys");
-
-        if (!selectedRowKeys.length) {
-            return false;
-        }
-        return selectedRowKeys.length >= selectableItems.length ? true : undefined;
-    }
-
     function onEditorPreparing(e) {
-        var dataGrid = e.component;
+        onEditorPreparing_Comment(e);
+        onEditorPreparing_Selection(e);
+    }
 
-        //if (e.dataField === "Comment") {
-        //    e.editorName = "dxTextArea";//"dxTextArea";
-        //}
-
+    function onEditorPreparing_Comment(e) {
+        let dataGrid = e.component;
         if (e.parentType === "dataRow") {
 
             if (e.dataField === "Comment") {
-                e.editorName = "dxHtmlEditor";
+                e.editorName = "dxHtmlEditor"; //"dxTextArea";
                 e.editorOptions.toolbar = {
                     items: [
-                        
+
                         "bold",
                         "italic",
                         "strike",
@@ -173,7 +125,15 @@
                 };
             }
         }
+    }
+</script>
 
+<script>
+    let selectAllCheckBox;
+    let checkBoxUpdating = false;
+
+    function onEditorPreparing_Selection(e) {
+        let dataGrid = e.component;
         if (e.command === "select") {
             if (e.parentType === "dataRow" && e.row) {
                 if (!isSelectable(e.row.data))
@@ -202,18 +162,53 @@
         }
     }
 
+    function isSelectable(item) {
+        return item.IsActive;
+    }
+
+    function isSelectAll(dataGrid) {
+        let items = [];
+
+        dataGrid.getDataSource().store().load().done(function (data) {
+            items = data;
+        });
+
+        let selectableItems = items.filter(isSelectable);
+        let selectedRowKeys = dataGrid.option("selectedRowKeys");
+
+        if (!selectedRowKeys.length) {
+            return false;
+        }
+        return selectedRowKeys.length >= selectableItems.length ? true : undefined;
+    }
+
     function onSelectionChanged(e) {
-        var deselectRowKeys = [];
+        let deselectRowKeys = [];
+
         e.selectedRowsData.forEach((item) => {
             if (!isSelectable(item))
                 deselectRowKeys.push(e.component.keyOf(item));
         });
+
         if (deselectRowKeys.length) {
             e.component.deselectRows(deselectRowKeys);
         }
+
         checkBoxUpdating = true;
         selectAllCheckBox.option("value", isSelectAll(e.component));
         checkBoxUpdating = false;
+    }
+</script>
+
+<script>
+    function DisplayAllSelectedData() {
+        const gridView = DevExpress.ui.dxDataGrid.getInstance(document.getElementById('grid1'));
+        let selectedRows = gridView.getSelectedRowsData();
+        let dialogContent = "";
+        selectedRows.forEach(function (row) {
+            dialogContent += row.Id + "- " + row.UserName + "<br/>";
+        });
+        DevExpress.ui.dialog.alert(dialogContent, "");
     }
 </script>
 
@@ -237,8 +232,6 @@
             e.component.saveEditData().then(() => {
                 isSaveClick = false;
             });
-            //e.component.saveEditData();
-            //e.component.refresh(true);
         });
         e.event.preventDefault();
     }
@@ -246,7 +239,7 @@
     function isCancelVisible(e) {
         return e.row.isEditing;
     }
-    function onCancelClick(e) {        
+    function onCancelClick(e) {
         ShowConfirmPopup("Confirm Cancellation", "Are you sure you want to cancel?", () => {
             e.component.cancelEditData();
         });
@@ -273,94 +266,45 @@
 
 <script>
     function rowValidating(e) {
-        //const isFundChanged = e.newData.hasOwnProperty('Fund');
-        //console.log("rowValidating", isFundChanged)
-
-        
-        debugger;
         const request = $.ajax({
             url: '@Url.Action("ValidateRow", "SpecialNote")',
             type: "GET",
             dataType: "json",
             contentType: "application/json",
-            data: {...e.oldData,...e.newData}
+            data: { ...e.oldData, ...e.newData }
         });
 
         request.done((json) => {
-            console.log(json);
-            debugger;
-            if (json.isValid === false){
+            if (json.isValid === false) {
                 e.isValid = false;
-                e.errorText = `Error...${json.data}`;
+                e.errorText = `Error: ${json.data}`;
             }
-                
         });
 
         e.promise = request;
-        //if (isFundChanged) {
-        //    const request = $.ajax({
-        //        url: '@Url.Action("ValidateFund", "SpecialNote")',
-        //        type: "GET",
-        //        dataType: "json",
-        //        contentType: "application/json",
-        //        data: { Fund: e.newData.Fund }
-        //    });
-
-        //    request.done((json) => {
-        //        console.log(json);
-        //        e.isValid = false;
-        //        e.errorText = "Fund error...";
-        //    });
-
-        //    e.promise = request;
-        //}
     }
 
-    function validateFund(e) {
-        if (!isSaveClick) return new Promise(r => r(true));
+    //function validateComment(e) {
+    //    if (!isSaveClick) return new Promise(r => r(true));
 
-        return $.ajax({
-            url: '@Url.Action("ValidateFund", "SpecialNote")',
-            type: "GET",
-            dataType: "json",
-            contentType: "application/json",
-            data: { Fund: e.data.Fund }
-        });
-    }
-
-    function validateComment(e) {
-        if (!isSaveClick) return new Promise(r => r(true));
-
-        //return $.ajax({
-        //    url: '@Url.Action("ValidateComment", "SpecialNote")',
-        //    type: "GET",
-        //    dataType: "json",
-        //    contentType: "application/json",
-        //    data: { Comment: e.data.Comment }
-        //});
-        const request = $.ajax({
-            url: '@Url.Action("ValidateComment", "SpecialNote")',
-            type: "GET",
-            dataType: "json",
-            contentType: "application/json",
-            data: { Comment: e.data.Comment }
-        });
-
-        request.done((json) => {
-            console.log(json);
-            e.isValid = false;
-            e.errorText = "Comment error...";
-        });
-
-        e.promise = request;
-
-        return new Promise(r => r(false));
-    }
-
-
+    //    return $.ajax({
+    //        url: '@Url.Action("ValidateComment", "SpecialNote")',
+    //        type: "GET",
+    //        dataType: "json",
+    //        contentType: "application/json",
+    //        data: { Comment: e.data.Comment }
+    //    });
+    //}
 </script>
 
 <style>
+    /*body padding*/
+    .container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm {
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    /*body max-width*/
     @@media (min-width: 576px) {
         .container-sm, .container {
             max-width: 1920px !important;
@@ -383,5 +327,59 @@
         .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
             max-width: 1920px !important;
         }
+    }    
+</style>
+
+<style>
+    /*grid font-size*/
+    .dx-widget {
+        font-size: 9pt;
+    }
+
+    /*pager position*/
+    .dx-datagrid.dx-datagrid-borders > .dx-datagrid-pager {
+        order: -1;
+        border-top: 0px;
+    }
+
+    /* paging icon position */
+    .dx-pager .dx-page-sizes {
+        float: right;
+    }
+
+    .dx-pager .dx-pages {
+        float: left;
+    }
+
+    .col.px-4.py-3.hub-content {
+        width: 80% !important;
+    }
+
+    /*row middle / center*/
+    tbody .middle {
+        vertical-align: middle !important;
+    }
+
+    tbody .middle-center {
+        text-align: center !important;
+        vertical-align: middle !important;
+    }
+
+    /*selected row*/
+    .dx-datagrid-content .dx-datagrid-table .dx-row > td, .dx-datagrid-content .dx-datagrid-table .dx-row > tr > td {
+        background: white;
+    }
+
+    .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > tr > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > tr > td {
+        background-color: rgb(255, 255, 153);
+    }
+
+    /*textarea: resizeable*/
+    textarea[aria-label="Filter cell"] {
+        resize: none !important;
+    }
+
+    textarea:not([aria-label="Filter cell"]) {
+        resize: vertical !important;
     }
 </style>

@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ORA_UI_PAMS_Demo.Models {
+namespace ORA.UI.PAMS.Demo.Models
+{
     public class History
     {
         public int Id { get; set; }

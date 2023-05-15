@@ -1,29 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using ORA_UI_PAMS_Demo.Models;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
-using ORA.UI.PAMS.Demo.Models;
-using System.Security.Cryptography.Xml;
 using Newtonsoft.Json;
-using System.Xml.Linq;
 using OfficeOpenXml;
-using System.Reflection;
+using ORA.UI.PAMS.Demo.Models;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace ORA_UI_PAMS_Demo.Controllers
 {
-
     [Route("api/[controller]")]
     public partial class SpecialNoteController : Controller
     {
         static List<SpecialNote> Notes = new List<SpecialNote>();
-
         private IHostingEnvironment Environment;
+
         public SpecialNoteController(IHostingEnvironment _environment)
         {
             Environment = _environment;
@@ -35,7 +25,6 @@ namespace ORA_UI_PAMS_Demo.Controllers
             if (Notes.Count == 0)
             {
                 var filePath = Environment.ContentRootPath + @"\XLSX\Attachments.xlsx";
-
                 FileInfo fileInfo = new FileInfo(filePath);
 
                 ExcelPackage.LicenseContext = LicenseContext.Commercial;
@@ -99,8 +88,9 @@ namespace ORA_UI_PAMS_Demo.Controllers
             Notes.RemoveAll(o => o.Id == key);
         }
 
+        //auto validate
         //[HttpPut]
-        //public IActionResult Update_AutoValidate(int key, string values)
+        //public IActionResult Update(int key, string values)
         //{
         //    var note = Notes.FirstOrDefault(a => a.Id == key);
         //    JsonConvert.PopulateObject(values, note);
@@ -112,8 +102,9 @@ namespace ORA_UI_PAMS_Demo.Controllers
         //    return Ok();
         //}
 
+        //manual validate
         [HttpPut]
-        public IActionResult Update_ManualValidate(int key, string values)
+        public IActionResult Update(int key, string values)
         {
             //map values (json) from UI to model
             var model = new SpecialNote();
@@ -128,12 +119,10 @@ namespace ORA_UI_PAMS_Demo.Controllers
             }
 
             //manual validate
-            //if (note.CreatedDate.Year < 2021 && !string.IsNullOrWhiteSpace(model.Fund))
-            //{
-            //    ModelState.AddModelError("Fund", "if CreatedDate < 2021, Fund must be null.");
-            //    return BadRequest("if CreatedDate < 2021, Fund must be null. yyy");
-            //    ///return BadRequest(ModelState.Select(x => x.Value.Errors).Where(y => y.Count > 0).ToList());
-            //}
+            if (note.CreatedDate.Year < 2021 && string.IsNullOrWhiteSpace(model.Fund))
+            {
+                return BadRequest("Fund is required when created year is less than 2021");
+            }
 
             //if passed validate
 
@@ -145,35 +134,24 @@ namespace ORA_UI_PAMS_Demo.Controllers
             return Ok();
         }
 
-        [Route("SpecialNote/ValidateComment")]
-        public IActionResult ValidateComment(string Comment = null)
-        {
-            if (string.IsNullOrWhiteSpace(Comment) || Comment.Length < 10)
-            {
-                return Json("Comment must have min length of 10");
-            }
-            return Json(true);
-        }
-
-
-        [Route("SpecialNote/ValidateFund")]
-        public IActionResult ValidateFund(SpecialNote note)
-        {
-            //if (string.IsNullOrWhiteSpace(Fund) || Fund.Length < 10)
-            //{
-            //    return Json("Fund must have min length of 10");
-            //}
-            //return Json(true);
-            return Json(false);
-        }
-
         [Route("SpecialNote/ValidateRow")]
         public IActionResult ValidateRow(SpecialNote note)
         {
-            if (note == null || note.CreatedDate.Year < 2021 || note.Comment.Trim().Length<0 || string.IsNullOrWhiteSpace(note.Fund))
-                return Json(new { isValid = false, data = "CreatedDate or Comment or Fund is not valid" });
-
+            if (note.CreatedDate.Year < 2021 && string.IsNullOrWhiteSpace(note.Fund))
+            {
+                return Json(new { isValid = false, data = "Fund is required when created year is less than 2021" });
+            }
             return Json(new { isValid = true });
         }
+
+        //[Route("SpecialNote/ValidateComment")]
+        //public IActionResult ValidateComment(string Comment = null)
+        //{
+        //    if (string.IsNullOrWhiteSpace(Comment) || Comment.Length < 10)
+        //    {
+        //        return Json("Comment must have min length of 10");
+        //    }
+        //    return Json(true);
+        //}        
     }
 }

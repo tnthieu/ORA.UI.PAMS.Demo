@@ -1,4 +1,4 @@
-@using ORA_UI_PAMS_Demo.Models
+@using ORA.UI.PAMS.Demo.Models
 
 @(
 Html.DevExtreme().DataGrid<History>()
@@ -51,64 +51,3 @@ Html.DevExtreme().DataGrid<History>()
         })
     )
 )
-<script>
-</script>
-
-<style>
-    .dx-widget {
-        font-size: 9pt;
-    }
-
-    /* Customize position of DevExtreme paging icon */
-    .dx-pager .dx-page-sizes {
-        float: right;
-    }
-
-    .dx-pager .dx-pages {
-        float: left;
-    }
-
-    .col.px-4.py-3.hub-content {
-        width: 80% !important;
-    }
-
-    .dx-datagrid-content .dx-datagrid-table .dx-row > td, .dx-datagrid-content .dx-datagrid-table .dx-row > tr > td {
-        background: white;
-    }
-
-    .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > tr > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > tr > td {
-        background-color: rgb(255, 255, 153);
-    }
-
-    .container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm {
-        padding-right: 0px !important;
-        padding-left: 0px !important;
-    }
-
-    tbody .middle {
-        vertical-align: middle !important;
-    }
-
-    tbody .middle-center {
-        text-align: center !important;
-        vertical-align: middle !important;
-    }
-
-    .dx-datagrid.dx-datagrid-borders > .dx-datagrid-pager {
-        order: -1;
-        border-top: 0px;
-    }
-
-    textarea[aria-label="Filter cell"] {
-        resize: none !important;
-    }
-
-    textarea:not([aria-label="Filter cell"]) {
-        resize: vertical !important;
-        /*border: 1px solid gray !important;*/
-    }
-
-    /*.dx-texteditor-input-container input[type="text"]:not([aria-label="Filter cell"]) {
-                border: 1px solid gray !important;
-            }*/
-</style>
