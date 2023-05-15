@@ -71,8 +71,14 @@
 </div>
 
 <script>
+    window.addEventListener("resize", onTabChanged);
+
     function onTabChanged(e) {
-        let tab = e.component.option("selectedIndex") + 1;
+        let tab = 1;
+
+        if (e != null && e.component != null)
+            tab = e.component.option("selectedIndex") + 1;
+
         ResizeTabPanel(tab);
     }
 
@@ -284,17 +290,17 @@
         e.promise = request;
     }
 
-    //function validateComment(e) {
-    //    if (!isSaveClick) return new Promise(r => r(true));
+        //function validateComment(e) {
+        //    if (!isSaveClick) return new Promise(r => r(true));
 
-    //    return $.ajax({
-    //        url: '@Url.Action("ValidateComment", "SpecialNote")',
-    //        type: "GET",
-    //        dataType: "json",
-    //        contentType: "application/json",
-    //        data: { Comment: e.data.Comment }
-    //    });
-    //}
+        //    return $.ajax({
+        //        url: '@Url.Action("ValidateComment", "SpecialNote")',
+        //        type: "GET",
+        //        dataType: "json",
+        //        contentType: "application/json",
+        //        data: { Comment: e.data.Comment }
+        //    });
+        //}
 </script>
 
 <style>
@@ -327,7 +333,7 @@
         .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
             max-width: 1920px !important;
         }
-    }    
+    }
 </style>
 
 <style>
