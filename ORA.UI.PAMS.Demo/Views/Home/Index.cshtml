@@ -109,11 +109,11 @@
 
 <script>
     function onEditorPreparing(e) {
-        onEditorPreparing_Comment(e);
-        onEditorPreparing_Selection(e);
+        onEditorPreparingComment(e);
+        onEditorPreparingSelection(e);
     }
 
-    function onEditorPreparing_Comment(e) {
+    function onEditorPreparingComment(e) {
         let dataGrid = e.component;
         if (e.parentType === "dataRow") {
 
@@ -138,7 +138,7 @@
     let selectAllCheckBox;
     let checkBoxUpdating = false;
 
-    function onEditorPreparing_Selection(e) {
+    function onEditorPreparingSelection(e) {
         let dataGrid = e.component;
         if (e.command === "select") {
             if (e.parentType === "dataRow" && e.row) {
