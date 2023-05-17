@@ -46,7 +46,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
 
     .OnContentReady(@<text>
         function(e) {
-            ResizeTabPanel(1);
+        ResizeTabPanel(1);
         }
     </text>)
     .Scrolling(x => x.ShowScrollbar(ShowScrollbarMode.Never))
@@ -88,11 +88,20 @@ Html.DevExtreme().DataGrid<SpecialNote>()
         });*@
 
         columns.AddFor(m => m.Fund).Width(100).CssClass("middle-center").Caption("Fund")
-            .Lookup(lookup => lookup
-            .DataSource(d => d.Mvc().Controller("Fund").LoadAction("Get").Key("Id"))
-            .DisplayExpr("Name")
-            .ValueExpr("Name")
-        );
+        .Lookup(lookup => lookup
+        .DataSource(d => d.Mvc().Controller("Fund").LoadAction("Get").Key("Id"))
+        .DisplayExpr("Name")
+        .ValueExpr("Name")
+    );
+
+        columns.AddFor(m => m.Number).Width(120).CssClass("middle-center").AllowEditing(true).DataType(GridColumnDataType.Number)
+        .EditCellTemplate(@<text>
+            @(Html.DevExtreme().NumberBox()
+        .Value(new JS("value"))
+        .OnValueChanged("function(e) { setValue(e.value); }")
+        .ShowSpinButtons(true)
+        )
+        </text>);
 
         columns.AddFor(m => m.AttachmentCount).Width(150).Visible(false);
         columns.AddFor(m => m.AttachmentName).CssClass("middle-center").Width(120).Caption("Attachments")

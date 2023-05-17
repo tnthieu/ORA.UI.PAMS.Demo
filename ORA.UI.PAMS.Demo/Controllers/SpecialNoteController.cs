@@ -52,6 +52,8 @@ namespace ORA_UI_PAMS_Demo.Controllers
                                 EditComment = "Test",
                                 AttachmentCount = new Random().Next(0, 9).ToString(),
 
+                                Number = new Random().Next(0, 99),
+
                                 Extra1 = "Extra1",
                                 Extra2 = "Extra2",
                                 Extra3 = "Extra3",
@@ -130,6 +132,7 @@ namespace ORA_UI_PAMS_Demo.Controllers
             note.Category = model.Category;
             note.Comment = model.Comment;
             note.Fund = model.Fund;
+            note.Number = model.Number;
 
             return Ok();
         }

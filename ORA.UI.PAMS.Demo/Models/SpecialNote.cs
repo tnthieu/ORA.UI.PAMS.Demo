@@ -23,6 +23,7 @@ namespace ORA.UI.PAMS.Demo.Models
         public string AttachmentCount { get; set; } = "0";
         public string Fund { get; set; } = string.Empty;
         public string FundId { get; set; } = string.Empty;
+        public int Number { get; set; }
 
         public string Extra1 { get; set; }
         public string Extra2 { get; set; }
