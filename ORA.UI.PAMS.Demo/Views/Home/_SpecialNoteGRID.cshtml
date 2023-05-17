@@ -54,6 +54,15 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     @*Columns*@
     .Columns(columns =>
     {
+        columns.AddFor(m => m.Number).Width(120).CssClass("middle-center").AllowEditing(true)
+        .EditCellTemplate(@<text>
+            @(Html.DevExtreme().NumberBox()
+                .Value(new JS("value"))
+                .OnValueChanged("function(e) { setValue(e.value); }")
+                .ShowSpinButtons(true)
+                )
+            </text>);
+
         columns.AddFor(m => m.IsImportant).Width(30).CssClass("middle").Caption("").AllowFiltering(false)
         .CellTemplate(@<text>
             <% if(data.IsImportant) { %>
@@ -93,15 +102,6 @@ Html.DevExtreme().DataGrid<SpecialNote>()
         .DisplayExpr("Name")
         .ValueExpr("Name")
     );
-
-        columns.AddFor(m => m.Number).Width(120).CssClass("middle-center").AllowEditing(true).DataType(GridColumnDataType.Number)
-        .EditCellTemplate(@<text>
-            @(Html.DevExtreme().NumberBox()
-        .Value(new JS("value"))
-        .OnValueChanged("function(e) { setValue(e.value); }")
-        .ShowSpinButtons(true)
-        )
-        </text>);
 
         columns.AddFor(m => m.AttachmentCount).Width(150).Visible(false);
         columns.AddFor(m => m.AttachmentName).CssClass("middle-center").Width(120).Caption("Attachments")
