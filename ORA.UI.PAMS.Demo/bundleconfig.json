@@ -1,10 +1,32 @@
 [
   {
+    "outputFileName": "wwwroot/css/devextreme/devextreme.min.css",
+    "inputFiles": [
+      "wwwroot/css/devextreme/bootstrap.css",
+      "wwwroot/css/devextreme/dx.light.css"
+    ]
+  },
+  {
     "outputFileName": "wwwroot/css/main.min.css",
     "inputFiles": [
       "wwwroot/css/Layout.css",
       "wwwroot/css/Grid.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/devextreme/devextreme.min.js",
+    "inputFiles": [
+      "wwwroot/js/devextreme/jquery.js",
+      "wwwroot/js/devextreme/bootstrap.js",
+      "wwwroot/js/devextreme/dx.all.js",
+      "wwwroot/js/devextreme/aspnet/dx.aspnet.mvc.js",
+      "wwwroot/js/devextreme/aspnet/dx.aspnet.data.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
   },
   {
     "outputFileName": "wwwroot/js/main.min.js",
@@ -15,13 +37,7 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    }
-  },
-  {
-    "outputFileName": "wwwroot/js/bundle.js",
-    "inputFiles": [
-      "wwwroot/js/Grid.js",
-      "wwwroot/js/Home.js"
-    ]
+    },
+    "sourceMap": false
   }
 ]

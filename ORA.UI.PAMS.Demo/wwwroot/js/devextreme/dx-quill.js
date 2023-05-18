@@ -8024,8 +8024,8 @@ function getKeyNameWithCustomPrefix(tagName, keyName, keyType) {
 
   return tagInfo.keyNamesSet.has(keyName) ? "".concat(keyType).concat(tagInfo.name, "_").concat(keyName) : keyName;
 }
-function removeCustomPrefixFromKeyName(keyNameWithPrefix) {
-  return keyNameWithPrefix.replace(/([^]*_)/, '');
+function removeCustomPrefixFromKeyName(keyNameWithPrefix) {		
+	return keyNameWithPrefix.replace(/([^]*_)/, '');
 }
 
 /***/ }),
