@@ -23,15 +23,16 @@
     <script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js"></script>
     <script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>*@
 
+    <link rel="stylesheet" href="~/css/devextreme/devextreme.min.css" asp-append-version="true" />
+    <script src="~/js/devextreme/devextreme.min.js" asp-append-version="true"></script>
+
     <environment include="Development">
         <link rel="stylesheet" href="~/css/Layout.css" />
         <link rel="stylesheet" href="~/css/Grid.css" />
         <script src="~/js/Home.js"></script>
         <script src="~/js/Grid.js"></script>
     </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="~/css/devextreme/devextreme.min.css" asp-append-version="true" />
-        <script src="~/js/devextreme/devextreme.min.js" asp-append-version="true"></script>
+    <environment exclude="Development">        
         <link rel="stylesheet" href="~/css/main.min.css" asp-append-version="true" />
         <script src="~/js/main.min.js" asp-append-version="true"></script>
     </environment>
