@@ -1,14 +1,14 @@
 [
   {
     "outputFileName": "wwwroot/css/main.min.css",
-    "inputFiles": [
+    "inputFiles": [      
       "wwwroot/css/Layout.css",
       "wwwroot/css/Grid.css"
     ]
   },
   {
     "outputFileName": "wwwroot/js/main.min.js",
-    "inputFiles": [
+    "inputFiles": [      
       "wwwroot/js/Home.js",
       "wwwroot/js/Grid.js"
     ],

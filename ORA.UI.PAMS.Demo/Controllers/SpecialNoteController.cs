@@ -9,7 +9,7 @@ using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace ORA_UI_PAMS_Demo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public partial class SpecialNoteController : Controller
     {
         static List<SpecialNote> Notes = new List<SpecialNote>();
@@ -137,14 +137,9 @@ namespace ORA_UI_PAMS_Demo.Controllers
 
             return Ok();
         }
-    }
 
-    [Route("api/[controller]")]
-    public partial class SpecialNoteValidateController : Controller
-    {
-        [Route("Row")]
         [HttpPost]
-        public object Row([FromBody] SpecialNote note)
+        public object ValidateRow([FromBody] SpecialNote note)
         {
             if (note.CreatedDate.Year < 2021 && string.IsNullOrWhiteSpace(note.Fund))
             {
@@ -153,15 +148,14 @@ namespace ORA_UI_PAMS_Demo.Controllers
             return Json(new { isValid = true });
         }
 
-        //[Route("Comment")]
         //[HttpGet]
-        //public IActionResult Comment(string Comment)
+        //public IActionResult ValidateComment(string Comment)
         //{
         //    if (string.IsNullOrWhiteSpace(Comment) || Comment.Length < 10)
         //    {
         //        return Json("Comment must have min length of 10");
         //    }
         //    return Json(true);
-        //}        
+        //}  
     }
 }

@@ -180,7 +180,7 @@ function rowValidating(e) {
     //console.log("changeData", changeData);
 
     const request = $.ajax({
-        url: '/api/SpecialNoteValidate/Row',
+        url: '/api/SpecialNote/ValidateRow',
         type: "POST",
         dataType: "json",
         contentType: "application/json",
@@ -201,7 +201,7 @@ function rowValidating(e) {
 //    if (!isSaveClick) return new Promise(r => r(true));
 
 //    return $.ajax({
-//        url: '/api/SpecialNoteValidate/Comment',
+//        url: '/api/SpecialNote/ValidateComment',
 //        type: "GET",
 //        dataType: "json",
 //        contentType: "application/json",
