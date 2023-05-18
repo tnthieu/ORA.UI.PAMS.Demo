@@ -15,7 +15,13 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "sourceMap": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/bundle.js",
+    "inputFiles": [
+      "wwwroot/js/Grid.js",
+      "wwwroot/js/Home.js"
+    ]
   }
 ]
