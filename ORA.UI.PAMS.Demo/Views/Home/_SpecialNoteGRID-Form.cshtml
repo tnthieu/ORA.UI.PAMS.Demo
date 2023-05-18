@@ -1,0 +1,238 @@
+@using ORA.UI.PAMS.Demo.Models;
+@using System.Dynamic;
+
+@(
+Html.DevExtreme().DataGrid<SpecialNote>()
+    .ID("grid3")
+    .Paging(paging => paging.PageSize(10))
+    .Pager(pager =>
+    {
+        pager.ShowPageSizeSelector(true);
+        pager.AllowedPageSizes(new[] { 5, 10, 15, 20 });
+        pager.ShowInfo(true);
+    })
+
+    .ShowBorders(true)
+    .ShowColumnLines(true)
+    .ShowRowLines(true)
+
+    .WordWrapEnabled(true)
+
+    .DataSource(d => d.Mvc()
+        .Controller("SpecialNote")
+        .LoadAction("Get")
+        .UpdateAction("Update")
+        .InsertAction("Insert")
+        .DeleteAction("Delete")
+        .Key("Id")
+    )
+
+    .Sorting(sorting => sorting.Mode(GridSortingMode.Multiple))
+    .Selection(s => { s.Mode(SelectionMode.Multiple); s.SelectAllMode(SelectAllMode.AllPages); })
+
+    .FilterRow(f => f.Visible(true))
+    .HeaderFilter(f => f.Visible(true))
+
+    .Editing(e => e.Mode(GridEditMode.Popup)
+            .AllowUpdating(true)
+            .AllowDeleting(true)
+            .UseIcons(true)
+            .Popup(p => p
+                .Title("Special Note")
+                .ShowTitle(true)
+                .Width(700)
+                .Height(525)
+            )
+            .Form(f => f.Items(items =>
+            {
+                items.AddGroup()
+                    .ColCount(2)
+                    .ColSpan(2)
+                    .Items(groupItems =>
+                    {
+                        groupItems.AddSimpleFor(m => m.Number);
+                        groupItems.AddSimpleFor(m => m.Category);
+
+                        groupItems.AddSimpleFor(m => m.IsImportant);
+                        groupItems.AddSimpleFor(m => m.Fund);
+
+                        groupItems.AddSimpleFor(m => m.Comment)
+                            .ColSpan(2)
+                            .Editor(editor => editor.TextArea().Height(300));
+                    });
+            }))
+        )
+    .OnEditorPreparing("onEditorPreparing")
+    .OnSelectionChanged("onSelectionChanged")
+    .OnRowValidating("rowValidating")
+
+    .OnContentReady(@<text>
+        function(e) {
+        ResizeTabPanel(1);
+        }
+    </text>)
+    .Scrolling(x => x.ShowScrollbar(ShowScrollbarMode.Never))
+
+    @*Columns*@
+    .Columns(columns =>
+    {
+        columns.AddFor(m => m.Number).Width(120).CssClass("middle-center").AllowEditing(true)
+        .EditCellTemplate(@<text>
+            @(Html.DevExtreme().NumberBox()
+                .Value(new JS("value"))
+                .OnValueChanged("function(e) { setValue(e.value); }")
+                .ShowSpinButtons(true)
+                )
+            </text>);
+
+        columns.AddFor(m => m.IsImportant).Width(30).CssClass("middle").Caption("").AllowFiltering(false)
+        .CellTemplate(@<text>
+            <% if(data.IsImportant) { %>
+            <span style="color:#FFD700; font-size: 14pt">&star;</span>
+            <% } else { %>
+            <span></span>
+            <% } %>
+        </text>);
+
+        columns.AddFor(m => m.CreatedDate).Width(130).CssClass("middle").AllowEditing(false).Caption("Created Date").Format("MM/dd/yy hh:mm");
+        columns.AddFor(m => m.ModifiedDate).Width(145).CssClass("middle").AllowEditing(true).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
+
+        columns.AddFor(m => m.UserName).Width(130).CssClass("middle").AllowEditing(false).Caption("User Name");
+
+        columns.AddFor(m => m.Category).Width(130).CssClass("middle").Caption("Category")
+            .Lookup(lookup => lookup
+            .DataSource(d => d.Mvc().Controller("Category").LoadAction("Get").Key("Id"))
+            .DisplayExpr("Name")
+            .ValueExpr("Name")
+        );
+
+        columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment");
+        @*.ValidationRules(vr =>
+        {
+            vr.AddStringLength()
+                .Message("Max Comment is 30 charaters.")
+                .Max(30);
+        })*@
+        @*.ValidationRules(rules =>
+        {
+            rules.AddAsync().Message("Comment is invalid").ValidationCallback("validateComment").Reevaluate(true);
+        });*@
+
+        columns.AddFor(m => m.Fund).Width(100).CssClass("middle-center").Caption("Fund")
+        .Lookup(lookup => lookup
+        .DataSource(d => d.Mvc().Controller("Fund").LoadAction("Get").Key("Id"))
+        .DisplayExpr("Name")
+        .ValueExpr("Name")
+    );
+
+        columns.AddFor(m => m.AttachmentCount).Width(150).Visible(false);
+        columns.AddFor(m => m.AttachmentName).CssClass("middle-center").Width(120).Caption("Attachments")
+        .CellTemplate(@<text>
+            <a href="#" onclick="showPopupAttachment(); return false;" style="cursor: pointer;">Attachments: <%- data.AttachmentCount %></a>
+        </text>)
+        .EditCellTemplate(@<text>
+            <img src="~/img/AwardSynopsis.gif" title="Attachments count: <%- data.AttachmentCount %>">
+            <br />
+            <a href="https://www.google.com" target="_blank" title="Total Attachments: <%- data.AttachmentCount %>">Link</a>
+        </text>
+        );
+
+        columns.AddFor(m => m.EditComment).Width(80).CssClass("middle-center").AllowEditing(false).Caption("History")
+        .CellTemplate(@<text>
+            <img onclick="showPopupHistory(); return false;" src="~/img/CommentGrid.gif" style="cursor: pointer;">
+        </text>);
+
+        columns.Add()
+            .Type(GridCommandColumnType.Buttons)
+            .Width(110)
+            .Buttons(b =>
+            {
+                b.Add()
+                .Hint("Edit")
+                .Icon("edit")
+                .Visible(new JS("isEditVisible"))
+                .OnClick("onEditClick");
+
+                b.Add()
+                   .Hint("Save")
+                   .Icon("save")
+                   .Visible(new JS("isSaveVisible"))
+                   .OnClick("onSaveClick");
+
+                b.Add()
+                .Hint("Cancel")
+                .Icon("revert")
+                .Visible(new JS("isCancelVisible"))
+                .OnClick("onCancelClick");
+
+                b.Add().Name(GridColumnButtonName.Delete);
+            });
+    })
+
+    @*default*@
+    .GroupPanel(p => p.Visible(true))
+    .Grouping(g => g.AutoExpandAll(false))
+    .RemoteOperations(false)
+    .Summary(s => s
+        .TotalItems(totalItems =>
+        {
+            totalItems.AddFor(m => m.Id).SummaryType(SummaryType.Count);
+        })
+        .GroupItems(groupItems =>
+        {
+            groupItems.Add().SummaryType(SummaryType.Count);
+        })
+    )
+)
+
+@(Html.DevExtreme().Popup()
+        .ID("popup-history")
+        .Width(900)
+        .Height("60%")
+        .Container("body")
+        .ShowTitle(true)
+        .Title("History")
+        .DragEnabled(false)
+        .HideOnOutsideClick(false)
+        .ShowCloseButton(true)
+        .Position(positionConfig => positionConfig
+            .At(HorizontalAlignment.Center, VerticalAlignment.Center)
+            .My(HorizontalAlignment.Center, VerticalAlignment.Center)
+            .Collision(PositionResolveCollision.Fit, PositionResolveCollision.Fit)
+        )
+        .ContentTemplate(@<text>
+            <partial name="~/Views/Home/_HistoryGRID.cshtml" />
+        </text>)
+    )
+
+@(Html.DevExtreme().Popup()
+        .ID("popup-attachment")
+        .Width(900)
+        .Height("60%")
+        .Container("body")
+        .ShowTitle(true)
+        .Title("Attachment")
+        .DragEnabled(false)
+        .HideOnOutsideClick(false)
+        .ShowCloseButton(true)
+        .Position(positionConfig => positionConfig
+            .At(HorizontalAlignment.Center, VerticalAlignment.Center)
+            .My(HorizontalAlignment.Center, VerticalAlignment.Center)
+            .Collision(PositionResolveCollision.Fit, PositionResolveCollision.Fit)
+        )
+        .ContentTemplate(@<text>
+            <partial name="~/Views/Home/_AttachmentLIST.cshtml" />
+        </text>)
+    )
+
+<script>
+    function showPopupHistory() {
+        let popup = $("#popup-history").dxPopup("instance");
+        popup.show();
+    }
+
+    function showPopupAttachment() {
+        let popup = $("#popup-attachment").dxPopup("instance");
+        popup.show();
+    }
+</script>

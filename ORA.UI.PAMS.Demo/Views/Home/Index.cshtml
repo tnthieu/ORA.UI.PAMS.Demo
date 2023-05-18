@@ -8,7 +8,7 @@
                 .ID("tabpanel-container")
                 .Height("100%")
                 .Width("100%")
-                .DataSource(new NameValue[2] { new NameValue("Tab1: Partial View", "1"), new NameValue("Tab2: Ajax load", "2") })
+                .DataSource(new NameValue[3] { new NameValue("Tab1: Partial View", "1"), new NameValue("Tab2: Ajax load", "2"), new NameValue("Tab3: Edit in Form", "3") })
                 .SelectedIndex(0)
                 .Loop(false)
                 .AnimationEnabled(true)
@@ -32,7 +32,7 @@
                                     <partial name="~/Views/Home/_SpecialNoteGRID.cshtml" />
                                 </div>
                             </center>
-                            <% } else { %>
+                            <% } else if(Value == '2') { %>
                             <center>
                                         @(Html.DevExtreme().Button()
                                 .Icon("check")
@@ -41,6 +41,12 @@
                                 .OnClick("LoadGrid")
                                 )
                                 <div id="grid-container2">
+                                </div>
+                            </center>
+                            <% } else if(Value == '3') { %>
+                            <center>
+                                <div id="grid-container3">
+                                    <partial name="~/Views/Home/_SpecialNoteGRID-Form.cshtml" />
                                 </div>
                             </center>
                             <% } %>
@@ -290,17 +296,17 @@
         e.promise = request;
     }
 
-        //function validateComment(e) {
-        //    if (!isSaveClick) return new Promise(r => r(true));
+            //function validateComment(e) {
+            //    if (!isSaveClick) return new Promise(r => r(true));
 
-        //    return $.ajax({
-        //        url: '@Url.Action("ValidateComment", "SpecialNote")',
-        //        type: "GET",
-        //        dataType: "json",
-        //        contentType: "application/json",
-        //        data: { Comment: e.data.Comment }
-        //    });
-        //}
+            //    return $.ajax({
+            //        url: '@Url.Action("ValidateComment", "SpecialNote")',
+            //        type: "GET",
+            //        dataType: "json",
+            //        contentType: "application/json",
+            //        data: { Comment: e.data.Comment }
+            //    });
+            //}
 </script>
 
 <style>

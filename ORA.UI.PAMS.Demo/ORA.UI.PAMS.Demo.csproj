@@ -11,6 +11,13 @@
     <PackageReference Include="EPPlus" Version="6.2.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Update="Views\Home\_SpecialNoteGRID-Form.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
+
     <ProjectExtensions><VisualStudio><UserProperties TemplateFeatures="NETCORE" /></VisualStudio></ProjectExtensions>
 
 </Project>
