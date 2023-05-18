@@ -11,17 +11,17 @@
     <title>PAMS</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-    <link href="~/css/devextreme/bootstrap.css" rel="stylesheet" />
-    <link href="~/css/devextreme/dx.light.css" rel="stylesheet" />
+    @*<link href="~/css/devextreme/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/devextreme/dx.light.css" rel="stylesheet" />*@
 
-    <script src="~/js/devextreme/jquery.js"></script>
+    @*<script src="~/js/devextreme/jquery.js"></script>
     <script src="~/js/devextreme/bootstrap.js"></script>
 
     <script src="~/js/devextreme/dx-quill.js"></script>
     <script src="~/js/devextreme/dx.all.js"></script>
 
     <script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js"></script>
-    <script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>
+    <script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>*@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/css/Layout.css" />
@@ -30,6 +30,8 @@
         <script src="~/js/Grid.js"></script>
     </environment>
     <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/devextreme/devextreme.min.css" asp-append-version="true" />
+        <script src="~/js/devextreme/devextreme.min.js" asp-append-version="true"></script>
         <link rel="stylesheet" href="~/css/main.min.css" asp-append-version="true" />
         <script src="~/js/main.min.js" asp-append-version="true"></script>
     </environment>
