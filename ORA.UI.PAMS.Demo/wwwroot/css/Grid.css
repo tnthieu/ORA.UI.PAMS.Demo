@@ -1,0 +1,51 @@
+/*grid font-size*/
+.dx-widget {
+    font-size: 9pt;
+}
+
+/*pager position*/
+.dx-datagrid.dx-datagrid-borders > .dx-datagrid-pager {
+    order: -1;
+    border-top: 0px;
+}
+
+/* paging icon position */
+.dx-pager .dx-page-sizes {
+    float: right;
+}
+
+.dx-pager .dx-pages {
+    float: left;
+}
+
+.col.px-4.py-3.hub-content {
+    width: 80% !important;
+}
+
+/*row middle / center*/
+tbody .middle {
+    vertical-align: middle !important;
+}
+
+tbody .middle-center {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+/*selected row*/
+.dx-datagrid-content .dx-datagrid-table .dx-row > td, .dx-datagrid-content .dx-datagrid-table .dx-row > tr > td {
+    background: white;
+}
+
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > tr > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > tr > td {
+    background-color: rgb(255, 255, 153);
+}
+
+/*textarea: resizeable*/
+textarea[aria-label="Filter cell"] {
+    resize: none !important;
+}
+
+textarea:not([aria-label="Filter cell"]) {
+    resize: vertical !important;
+}

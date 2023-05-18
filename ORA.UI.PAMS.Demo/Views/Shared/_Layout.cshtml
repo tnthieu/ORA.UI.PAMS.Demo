@@ -35,7 +35,7 @@
 
     <script src="~/js/devextreme/jquery.js"></script>
     <script src="~/js/devextreme/bootstrap.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/underscore@1.13.6/underscore-umd-min.js"></script>   
+    <script src="https://cdn.jsdelivr.net/npm/underscore@1.13.6/underscore-umd-min.js"></script>
 
     @* Uncomment to use Globalize for localization *@
     @* Docs: https://docs.devexpress.com/AspNetCore/400577#globalize *@
@@ -52,7 +52,7 @@
     @* Uncomment to enable client-side export *@
     @*<script src="~/js/devextreme/jszip.js"></script>*@
     <script src="~/js/devextreme/dx-quill.js"></script>
-    <script src="~/js/devextreme/dx.all.js"></script>    
+    <script src="~/js/devextreme/dx.all.js"></script>
 
     @* Uncomment to provide geo-data for the VectorMap control *@
     @* Docs: https://js.devexpress.com/DevExtreme/Guide/Widgets/VectorMap/Providing_Data/#Data_for_Areas *@
@@ -65,6 +65,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/Layout.css" />
+        <link rel="stylesheet" href="~/css/Grid.css" />
+        <script src="~/js/Home.js"></script>
+        <script src="~/js/Grid.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/Main.min.css" asp-append-version="true" />
+        <script src="~/js/Main.min.js" asp-append-version="true"></script>
+    </environment>
 </head>
 
 <body style="padding-top: 5rem;">

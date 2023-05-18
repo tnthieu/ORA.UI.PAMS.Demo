@@ -137,7 +137,7 @@ namespace ORA_UI_PAMS_Demo.Controllers
             return Ok();
         }
 
-        [Route("SpecialNote/ValidateRow")]
+        [Route("api/SpecialNote/ValidateRow")]
         public IActionResult ValidateRow(SpecialNote note)
         {
             if (note.CreatedDate.Year < 2021 && string.IsNullOrWhiteSpace(note.Fund))

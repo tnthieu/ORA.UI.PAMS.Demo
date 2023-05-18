@@ -1,0 +1,30 @@
+/*body padding*/
+.container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+
+/*body max-width*/
+@media (min-width: 576px) {
+    .container-sm, .container {
+        max-width: 1920px !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .container-md, .container-sm, .container {
+        max-width: 1920px !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .container-lg, .container-md, .container-sm, .container {
+        max-width: 1920px !important;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+        max-width: 1920px !important;
+    }
+}
