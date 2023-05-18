@@ -41,7 +41,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
                 .Title("Special Note")
                 .ShowTitle(true)
                 .Width(700)
-                .Height(525)
+                .Height(600)
             )
             .Form(f => f.Items(items =>
             {
@@ -50,16 +50,37 @@ Html.DevExtreme().DataGrid<SpecialNote>()
                     .ColSpan(2)
                     .Items(groupItems =>
                     {
-                        groupItems.AddSimpleFor(m => m.Number);
-                        groupItems.AddSimpleFor(m => m.Category);
-
-                        groupItems.AddSimpleFor(m => m.IsImportant);
-                        groupItems.AddSimpleFor(m => m.Fund);
-
-                        groupItems.AddSimpleFor(m => m.Comment)
-                            .ColSpan(2)
-                            .Editor(editor => editor.TextArea().Height(300));
+                        groupItems.AddGroup()
+                            .ColCount(1)
+                            .ColSpan(1)
+                            .Items(subGroupItems =>
+                            {
+                                subGroupItems.AddSimpleFor(m => m.Number);
+                                subGroupItems.AddSimpleFor(m => m.IsImportant);
+                                subGroupItems.AddSimpleFor(m => m.CreatedDate);
+                                subGroupItems.AddSimpleFor(m => m.ModifiedDate);
+                            });
+                        
+                        groupItems.AddGroup()
+                            .ColCount(1)
+                            .ColSpan(1)
+                            .Items(subGroupItems =>
+                            {
+                                subGroupItems.AddSimpleFor(m => m.UserName);
+                                subGroupItems.AddSimpleFor(m => m.Category);
+                                subGroupItems.AddSimpleFor(m => m.Fund);
+                            });
                     });
+
+                items.AddGroup()
+                       .ColCount(2)
+                       .ColSpan(2)
+                       .Items(subGroupItems =>
+                       {
+                           subGroupItems.AddSimpleFor(m => m.Comment)
+                                .ColSpan(2)
+                                .Editor(editor => editor.TextArea().Height(250));
+                       });
             }))
         )
     .OnEditorPreparing("onEditorPreparing")
