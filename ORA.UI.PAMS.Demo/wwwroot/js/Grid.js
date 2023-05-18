@@ -173,12 +173,18 @@ function ShowConfirmPopup(title, content, callback) {
 
 //rowValidating
 function rowValidating(e) {
+    let changeData = Object.assign(e.oldData, e.newData);
+
+    //console.log("oldData", e.oldData);
+    //console.log("newData", e.newData);
+    //console.log("changeData", changeData);
+
     const request = $.ajax({
-        url: '/api/SpecialNote/ValidateRow',
+        url: '/api/SpecialNoteValidate/Row',
         type: "POST",
         dataType: "json",
         contentType: "application/json",
-        data: e.newData
+        data: JSON.stringify(changeData),
     });
 
     request.done((json) => {
@@ -195,7 +201,7 @@ function rowValidating(e) {
 //    if (!isSaveClick) return new Promise(r => r(true));
 
 //    return $.ajax({
-//        url: '@Url.Action("ValidateComment", "SpecialNote")',
+//        url: '/api/SpecialNoteValidate/Comment',
 //        type: "GET",
 //        dataType: "json",
 //        contentType: "application/json",

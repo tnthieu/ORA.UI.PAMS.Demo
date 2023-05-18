@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OfficeOpenXml;
 using ORA.UI.PAMS.Demo.Models;
+using System.Xml.Linq;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace ORA_UI_PAMS_Demo.Controllers
@@ -136,9 +137,14 @@ namespace ORA_UI_PAMS_Demo.Controllers
 
             return Ok();
         }
+    }
 
-        [Route("api/SpecialNote/ValidateRow")]
-        public IActionResult ValidateRow(SpecialNote note)
+    [Route("api/[controller]")]
+    public partial class SpecialNoteValidateController : Controller
+    {
+        [Route("Row")]
+        [HttpPost]
+        public object Row([FromBody] SpecialNote note)
         {
             if (note.CreatedDate.Year < 2021 && string.IsNullOrWhiteSpace(note.Fund))
             {
@@ -147,8 +153,9 @@ namespace ORA_UI_PAMS_Demo.Controllers
             return Json(new { isValid = true });
         }
 
-        //[Route("SpecialNote/ValidateComment")]
-        //public IActionResult ValidateComment(string Comment = null)
+        //[Route("Comment")]
+        //[HttpGet]
+        //public IActionResult Comment(string Comment)
         //{
         //    if (string.IsNullOrWhiteSpace(Comment) || Comment.Length < 10)
         //    {
