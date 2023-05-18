@@ -147,6 +147,18 @@
 </script>
 
 <script>
+    function FormatHtml() {
+        $(".Comment").each(function (index) {
+            let html = $(this).html();
+            if (html != null && (html.includes("&lt;") || html.includes("&gt;")))
+            {
+                $(this).html(_.unescape(html));
+            }
+        });
+    }
+</script>
+
+<script>
     let selectAllCheckBox;
     let checkBoxUpdating = false;
 
@@ -302,17 +314,17 @@
         e.promise = request;
     }
 
-                    //function validateComment(e) {
-                    //    if (!isSaveClick) return new Promise(r => r(true));
+//function validateComment(e) {
+//    if (!isSaveClick) return new Promise(r => r(true));
 
-                    //    return $.ajax({
-                    //        url: '@Url.Action("ValidateComment", "SpecialNote")',
-                    //        type: "GET",
-                    //        dataType: "json",
-                    //        contentType: "application/json",
-                    //        data: { Comment: e.data.Comment }
-                    //    });
-                    //}
+//    return $.ajax({
+//        url: '@Url.Action("ValidateComment", "SpecialNote")',
+//        type: "GET",
+//        dataType: "json",
+//        contentType: "application/json",
+//        data: { Comment: e.data.Comment }
+//    });
+//}
 </script>
 
 <style>

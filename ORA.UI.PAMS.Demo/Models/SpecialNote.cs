@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace ORA.UI.PAMS.Demo.Models
 {
     public class SpecialNote
