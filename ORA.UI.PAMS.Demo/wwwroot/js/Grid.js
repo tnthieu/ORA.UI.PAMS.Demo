@@ -199,8 +199,6 @@ function rowValidating(e) {
 
         e.promise = request;
     }
-    //else
-    //    e.promise = new Promise(r => r(true));
 }
 
 //function validateComment(e) {

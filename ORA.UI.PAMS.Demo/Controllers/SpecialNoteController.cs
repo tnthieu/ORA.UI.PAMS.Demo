@@ -109,10 +109,6 @@ namespace ORA_UI_PAMS_Demo.Controllers
         [HttpPut]
         public IActionResult Update(int key, string values)
         {
-            //map values (json) from UI to model
-            var model = new SpecialNote();
-            JsonConvert.PopulateObject(values, model);
-
             //get note by id/key (from real data)
             var note = Notes.FirstOrDefault(a => a.Id == key);
             if (note == null)
@@ -121,7 +117,9 @@ namespace ORA_UI_PAMS_Demo.Controllers
                 return Forbid();
             }
 
-            //manual validate
+            var model = JsonConvert.DeserializeObject<SpecialNote>(JsonConvert.SerializeObject(note));
+            JsonConvert.PopulateObject(values, model);
+
             if (note.CreatedDate.Year < 2021 && string.IsNullOrWhiteSpace(model.Fund))
             {
                 return BadRequest("Fund is required when created year is less than 2021");
