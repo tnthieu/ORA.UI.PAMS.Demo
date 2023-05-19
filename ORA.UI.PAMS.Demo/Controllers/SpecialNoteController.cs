@@ -126,13 +126,7 @@ namespace ORA_UI_PAMS_Demo.Controllers
             }
 
             //if passed validate
-
-            //update note by model
-            note.Category = model.Category;
-            note.Comment = model.Comment;
-            note.Fund = model.Fund;
-            note.Number = model.Number;
-
+            JsonConvert.PopulateObject(values, note);
             return Ok();
         }
 
