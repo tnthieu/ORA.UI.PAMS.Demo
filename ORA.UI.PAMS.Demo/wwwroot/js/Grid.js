@@ -135,7 +135,8 @@ function isSaveVisible(e) {
     return e.row.isEditing;
 }
 function onSaveClick(e) {
-    ShowConfirmPopup("Confirm Saving", "Are you sure you want to save changes?", () => {
+    isSaveClick = false;
+    ShowConfirmPopup("Confirm Saving", "Are you sure you want to save changes?", "Save", () => {
         isSaveClick = true;
         e.component.saveEditData().then(() => {
             isSaveClick = false;
@@ -148,8 +149,8 @@ function isCancelVisible(e) {
     return e.row.isEditing;
 }
 function onCancelClick(e) {
-    ShowConfirmPopup("Confirm Cancellation", "Are you sure you want to cancel?", () => {
-        isSaveClick = false;
+    isSaveClick = false;
+    ShowConfirmPopup("Confirm Cancellation", "Are you sure you want to cancel?", "Cancel", () => {  
         e.component.cancelEditData();
     });
     e.event.preventDefault();
@@ -157,15 +158,18 @@ function onCancelClick(e) {
 
 //ConfirmPopup
 function ConfirmCancel() {
-    $('#ConfirmPopup').modal('hide');
     isSaveClick = false;
+    $('#ConfirmPopup').modal('hide');    
 }
-function ShowConfirmPopup(title, content, callback) {
+function ShowConfirmPopup(title, content, type, callback) {
     $("#ConfirmTitle").text(title);
     $("#ConfirmContent").text(content);
     $('#ConfirmPopup').modal('show');
 
-    $("#ConfirmOK").click(() => {
+    $(".ConfirmOK").hide();
+    $("#ConfirmOK-" + type).show();
+
+    $("#ConfirmOK-" + type).click(() => {
         callback();
         $('#ConfirmPopup').modal('hide');
     });
@@ -173,28 +177,30 @@ function ShowConfirmPopup(title, content, callback) {
 
 //rowValidating
 function rowValidating(e) {
-    let changeData = Object.assign(e.oldData, e.newData);
+    console.log(isSaveClick);
 
-    //console.log("oldData", e.oldData);
-    //console.log("newData", e.newData);
-    //console.log("changeData", changeData);
+    if (isSaveClick) {
+        let changeData = Object.assign(e.oldData, e.newData);
 
-    const request = $.ajax({
-        url: '/api/SpecialNote/ValidateRow',
-        type: "POST",
-        dataType: "json",
-        contentType: "application/json",
-        data: JSON.stringify(changeData),
-    });
+        const request = $.ajax({
+            url: '/api/SpecialNote/ValidateRow',
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(changeData),
+        });
 
-    request.done((json) => {
-        if (json.isValid === false) {
-            e.isValid = false;
-            e.errorText = `Error: ${json.data}`;
-        }
-    });
+        request.done((json) => {
+            if (json.isValid === false) {
+                e.isValid = false;
+                e.errorText = `Error: ${json.data}`;
+            }
+        });
 
-    e.promise = request;
+        e.promise = request;
+    }
+    //else
+    //    e.promise = new Promise(r => r(true));
 }
 
 //function validateComment(e) {
