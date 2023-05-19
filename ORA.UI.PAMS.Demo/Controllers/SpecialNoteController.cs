@@ -120,9 +120,10 @@ namespace ORA_UI_PAMS_Demo.Controllers
             var model = JsonConvert.DeserializeObject<SpecialNote>(JsonConvert.SerializeObject(note));
             JsonConvert.PopulateObject(values, model);
 
-            if (note.CreatedDate.Year < 2021 && string.IsNullOrWhiteSpace(model.Fund))
+            var validate = _Validate(model);
+            if (validate.notValid)
             {
-                return BadRequest("Fund is required when created year is less than 2021");
+                return BadRequest(validate.data);
             }
 
             //if passed validate
@@ -133,11 +134,27 @@ namespace ORA_UI_PAMS_Demo.Controllers
         [HttpPost]
         public object ValidateRow([FromBody] SpecialNote note)
         {
+            var validate = _Validate(note);
+            return Json(validate);
+        }
+
+        Validate _Validate(SpecialNote note)
+        {
+            var result = new Validate();
+
             if (note.CreatedDate.Year < 2021 && string.IsNullOrWhiteSpace(note.Fund))
             {
-                return Json(new { isValid = false, data = "Fund is required when created year is less than 2021" });
+                result.isValid = false;
+                result.data += "Fund is required when created year is less than 2021";
             }
-            return Json(new { isValid = true });
+
+            if (note.CreatedDate.Year < 2022 && string.IsNullOrWhiteSpace(note.Fund))
+            {
+                result.isValid = false;
+                result.data += "Fund is required when created year is less than 2022";
+            }
+
+            return result;
         }
 
         //[HttpGet]
