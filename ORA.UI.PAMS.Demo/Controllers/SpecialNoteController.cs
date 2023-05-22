@@ -120,8 +120,8 @@ namespace ORA_UI_PAMS_Demo.Controllers
             var model = JsonConvert.DeserializeObject<SpecialNote>(JsonConvert.SerializeObject(note));
             JsonConvert.PopulateObject(values, model);
 
-            var validate = _Validate(model);
-            if (validate.notValid)
+            var validate = ValidateNote(model);
+            if (!validate.isValid)
             {
                 return BadRequest(validate.data);
             }
@@ -134,11 +134,11 @@ namespace ORA_UI_PAMS_Demo.Controllers
         [HttpPost]
         public object ValidateRow([FromBody] SpecialNote note)
         {
-            var validate = _Validate(note);
+            var validate = ValidateNote(note);
             return Json(validate);
         }
 
-        Validate _Validate(SpecialNote note)
+        Validate ValidateNote(SpecialNote note)
         {
             var result = new Validate();
 
