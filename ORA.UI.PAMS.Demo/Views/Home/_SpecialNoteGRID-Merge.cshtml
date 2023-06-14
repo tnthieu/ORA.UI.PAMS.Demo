@@ -1,6 +1,6 @@
 @using ORA.UI.PAMS.Demo.Models;
 
-<h1>Merge</h1>
+<h1>Merge rows</h1>
 
 @(
 Html.DevExtreme().DataGrid<SpecialNote>()
@@ -28,17 +28,10 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     )
 
     .Sorting(sorting => sorting.Mode(GridSortingMode.Multiple))
-    .Selection(x => { x.Mode(SelectionMode.Multiple); x.ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.None); })
 
     .FilterRow(f => f.Visible(true))
     .HeaderFilter(f => f.Visible(true))
 
-    .Editing(editing =>
-    {
-        editing.Mode(GridEditMode.Row);
-        editing.AllowDeleting(true);
-        editing.AllowUpdating(true);
-    })
     .OnEditorPreparing("onEditorPreparing")
     .OnCellPrepared("OnCellPrepared")
     .OnContentReady(@<text>
@@ -88,7 +81,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
         columns.AddFor(m => m.AttachmentCount).Width(150).Visible(false);
         columns.AddFor(m => m.AttachmentName).CssClass("middle-center").Width(120).Caption("Attachments")
         .CellTemplate(@<text>
-            <a href="#" onclick="showPopupAttachment(); return false;" style="cursor: pointer;">Attachments: <%- data.AttachmentCount %></a>
+            <a href="#" onclick="return false;" style="cursor: pointer;">Attachments: <%- data.AttachmentCount %></a>
         </text>)
         .EditCellTemplate(@<text>
             <img src="~/img/AwardSynopsis.gif">
@@ -96,7 +89,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
 
         columns.AddFor(m => m.EditComment).Width(80).CssClass("middle-center").AllowEditing(false).Caption("History")
         .CellTemplate(@<text>
-            <img onclick="showPopupHistory(); return false;" src="~/img/CommentGrid.gif" style="cursor: pointer;">
+            <img onclick="return false;" src="~/img/CommentGrid.gif" style="cursor: pointer;">
         </text>);
     })
 
@@ -115,55 +108,3 @@ Html.DevExtreme().DataGrid<SpecialNote>()
         })
     )
 )
-
-@(Html.DevExtreme().Popup()
-        .ID("popup-history")
-        .Width(900)
-        .Height("60%")
-        .Container("body")
-        .ShowTitle(true)
-        .Title("History")
-        .DragEnabled(false)
-        .HideOnOutsideClick(false)
-        .ShowCloseButton(true)
-        .Position(positionConfig => positionConfig
-            .At(HorizontalAlignment.Center, VerticalAlignment.Center)
-            .My(HorizontalAlignment.Center, VerticalAlignment.Center)
-            .Collision(PositionResolveCollision.Fit, PositionResolveCollision.Fit)
-        )
-        .ContentTemplate(@<text>
-            <partial name="~/Views/Home/_HistoryGRID.cshtml" />
-        </text>)
-    )
-
-@(Html.DevExtreme().Popup()
-        .ID("popup-attachment")
-        .Width(900)
-        .Height("60%")
-        .Container("body")
-        .ShowTitle(true)
-        .Title("Attachment")
-        .DragEnabled(false)
-        .HideOnOutsideClick(false)
-        .ShowCloseButton(true)
-        .Position(positionConfig => positionConfig
-            .At(HorizontalAlignment.Center, VerticalAlignment.Center)
-            .My(HorizontalAlignment.Center, VerticalAlignment.Center)
-            .Collision(PositionResolveCollision.Fit, PositionResolveCollision.Fit)
-        )
-        .ContentTemplate(@<text>
-            <partial name="~/Views/Home/_AttachmentLIST.cshtml" />
-        </text>)
-    )
-
-<script>
-    function showPopupHistory() {
-        var popup = $("#popup-history").dxPopup("instance");
-        popup.show();
-    }
-
-    function showPopupAttachment() {
-        var popup = $("#popup-attachment").dxPopup("instance");
-        popup.show();
-    }
-</script>

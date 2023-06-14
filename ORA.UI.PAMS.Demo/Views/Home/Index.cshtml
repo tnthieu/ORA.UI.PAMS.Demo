@@ -102,14 +102,7 @@
     function OnCellPrepared(e) {
 
         if (e.rowType == "data") {
-            e.cellElement.addClass("mergecells");
-
-            e.cellElement.click(function () {
-                $(".mergecellselected").removeClass("mergecellselected")
-                $(this).addClass("mergecellselected");
-            });
-
-            if (e.rowIndex > 0 && e.column.command != "edit") {
+            if (e.rowIndex > 0) {
 
                 if (e.component.cellValue(e.rowIndex - 1, e.column.dataField) == e.value) {
                     if (e.component.cellValue(e.rowIndex - 1, e.column.dataField)) {
@@ -146,20 +139,3 @@
         }
     }
 </script>
-
-<style>
-    .mergecells {
-        display: table-cell;
-        vertical-align: middle !important;
-        border-color: rgba(61, 70, 109, 0.5) !important;
-        border-style: solid !important;
-        border-width: 0.2px 0.2px 0.2px 0.2px !important;
-        background: white !important;
-        color: black !important;
-    }
-
-    .mergecellselected {
-        background: rgba(175, 21, 30, 0.8) !important;
-        color: white !important;
-    }
-</style>
