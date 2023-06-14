@@ -3,6 +3,7 @@ using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OfficeOpenXml;
+using ORA.UI.PAMS.Demo.Library;
 using ORA.UI.PAMS.Demo.Models;
 using System.Xml.Linq;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
@@ -79,6 +80,29 @@ namespace ORA_UI_PAMS_Demo.Controllers
 
                             data.ModifiedDate = data.CreatedDate.AddDays(new Random().Next(1, 365));
                             data.ModifiedDate = data.ModifiedDate.AddHours(new Random().Next(1, 23)).AddMinutes(new Random().Next(1, 59));
+
+                            //SubmissionMethod
+                            data.SubmissionMethod += "Email%";
+                            if (Library.RandomBool())
+                                data.SubmissionMethod += "Portal%";
+                            if (Library.RandomBool())
+                                data.SubmissionMethod += "Postal Mail%";
+                            data.SubmissionMethod = Library.RemoveLast(data.SubmissionMethod, "%");
+
+                            //SitePrupose
+                            data.SitePrupose += "Billing%";
+                            if (Library.RandomBool())
+                                data.SitePrupose += "Dunning%";
+                            data.SitePrupose = Library.RemoveLast(data.SitePrupose, "%");
+
+                            //Contacts
+                            if (Library.RandomBool())
+                                data.Contacts += "Email: " + new Random().Next(100, 999) + "@gmail.com<br/>Name: mr. " + new Random().Next(1000000, 9999999) + "<br/>Phone: " + new Random().Next(1000000, 9999999) + "<br/>%";
+                            if (Library.RandomBool())
+                                data.Contacts += "Email: " + new Random().Next(100, 999) + "@gmail.com<br/>Name: mr. " + new Random().Next(1000000, 9999999) + "<br/>Phone: " + new Random().Next(1000000, 9999999) + "<br/>%";
+                            if (Library.RandomBool())
+                                data.Contacts += "Email: " + new Random().Next(100, 999) + "@gmail.com<br/>Name: mr. " + new Random().Next(1000000, 9999999) + "<br/>Phone: " + new Random().Next(1000000, 9999999) + "<br/>%";
+                            data.Contacts = Library.RemoveLast(data.Contacts, "%");
                         }
                 }
             }

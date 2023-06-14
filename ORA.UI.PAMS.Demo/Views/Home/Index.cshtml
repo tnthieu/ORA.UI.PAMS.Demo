@@ -8,7 +8,7 @@
                 .ID("tabpanel-container")
                 .Height("100%")
                 .Width("100%")
-                .DataSource(new NameValue[4] { new NameValue("Tab1: Partial View", "1"), new NameValue("Tab2: Ajax load", "2"), new NameValue("Tab3: Edit in Form", "3"), new NameValue("Tab4: Merge rows", "4") })
+                .DataSource(new NameValue[5] { new NameValue("Tab1: Partial View", "1"), new NameValue("Tab2: Ajax load", "2"), new NameValue("Tab3: Edit in Form", "3"), new NameValue("Tab4: Merge rows by rowspans", "4"), new NameValue("Tab5: Split by <hr> tag", "5") })
                 .SelectedIndex(0)
                 .Loop(false)
                 .AnimationEnabled(true)
@@ -51,8 +51,14 @@
                             </center>
                             <% } else if(Value == '4') { %>
                             <center>
-                                <div id="grid-container3">
+                                <div id="grid-container4">
                                     <partial name="~/Views/Home/_SpecialNoteGRID-Merge.cshtml" />
+                                </div>
+                            </center>
+                            <% } else if(Value == '5') { %>
+                            <center>
+                                <div id="grid-container5">
+                                    <partial name="~/Views/Home/_SpecialNoteGRID-hr.cshtml" />
                                 </div>
                             </center>
                             <% } %>
@@ -84,19 +90,19 @@
 </div>
 
 <script>
-    function OnCellPreparedOld(e) {
-        if (e.rowType === 'data') {
-            if (e.column.dataField === 'UserName') {
-                if (e.rowIndex === 0) {
-                    $(e.cellElement).attr('rowspan', 2);
-                }
+    //function OnCellPreparedOld(e) {
+    //    if (e.rowType === 'data') {
+    //        if (e.column.dataField === 'UserName') {
+    //            if (e.rowIndex === 0) {
+    //                $(e.cellElement).attr('rowspan', 2);
+    //            }
 
-                if (e.rowIndex === 1) {
-                    $(e.cellElement).hide();
-                }
-            }
-        }
-    }
+    //            if (e.rowIndex === 1) {
+    //                $(e.cellElement).hide();
+    //            }
+    //        }
+    //    }
+    //}
 
     let mergelements = {};
     function OnCellPrepared(e) {
@@ -138,4 +144,28 @@
             }
         }
     }
+
+    function SplitByHrTag() {
+        $(".SplitByHr").each(function () {
+            let html = $(this).html();
+            if (html != null) {
+                html = html.replace("%", "<hr class='billingHistory'>");
+                html = html.replace("%", "<hr class='billingHistory'>");
+                html = html.replace("%", "<hr class='billingHistory'>");
+                $(this).html(_.unescape(html));
+            }
+        });
+    }
 </script>
+
+<style>
+    hr.billingHistory {
+        display: block;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: auto;
+        margin-right: auto;
+        border-top: 1px solid gray !important;
+        border-style: inset;
+    }
+</style>

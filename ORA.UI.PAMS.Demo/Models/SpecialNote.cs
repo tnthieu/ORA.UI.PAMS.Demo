@@ -27,6 +27,10 @@ namespace ORA.UI.PAMS.Demo.Models
         public string FundId { get; set; } = string.Empty;
         public int Number { get; set; }
 
+        public string SubmissionMethod { get; set; } = "";
+        public string SitePrupose { get; set; } = "";
+        public string Contacts { get; set; } = "";
+
         public string Extra1 { get; set; }
         public string Extra2 { get; set; }
         public string Extra3 { get; set; }

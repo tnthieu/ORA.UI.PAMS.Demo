@@ -1,0 +1,120 @@
+@using ORA.UI.PAMS.Demo.Models;
+
+<h1>Merge rows</h1>
+
+@(
+Html.DevExtreme().DataGrid<SpecialNote>()
+    .Paging(paging => paging.PageSize(10))
+    .Pager(pager =>
+    {
+        pager.ShowPageSizeSelector(true);
+        pager.AllowedPageSizes(new[] { 5, 10, 15, 20 });
+        pager.ShowInfo(true);
+    })
+
+    .ShowBorders(true)
+    .ShowColumnLines(true)
+    .ShowRowLines(true)
+
+    .WordWrapEnabled(true)
+
+    .DataSource(d => d.Mvc()
+        .Controller("SpecialNote")
+        .LoadAction("Get")
+        .UpdateAction("Update")
+        .InsertAction("Insert")
+        .DeleteAction("Delete")
+        .Key("Id")
+    )
+
+    .Sorting(sorting => sorting.Mode(GridSortingMode.Multiple))
+
+    .FilterRow(f => f.Visible(true))
+    .HeaderFilter(f => f.Visible(true))
+
+    .OnEditorPreparing("onEditorPreparing")
+    .OnContentReady(@<text>
+        function(e) {
+            ResizeTabPanel(5);
+            FormatHtml();
+            SplitByHrTag();
+        }
+    </text>)
+    .Scrolling(x => x.ShowScrollbar(ShowScrollbarMode.Never))
+
+    @*Columns*@
+    .Columns(columns =>
+    {
+        columns.AddFor(m => m.IsImportant).Width(30).CssClass("middle").Caption("").AllowFiltering(false)
+        .CellTemplate(@<text>
+            <% if(data.IsImportant) { %>
+            <span style="color:#FFD700; font-size: 14pt">&star;</span>
+            <% } else { %>
+            <span></span>
+            <% } %>
+        </text>);
+
+        columns.AddFor(m => m.SubmissionMethod).Width(150).CssClass("middle").Caption("Submission Method")
+        .CellTemplate(@<text>
+            <div class="SplitByHr"><%- data.SubmissionMethod %></div>
+        </text>);
+
+        columns.AddFor(m => m.SitePrupose).Width(150).CssClass("middle").Caption("Site Prupose")
+        .CellTemplate(@<text>
+            <div class="SplitByHr"><%- data.SitePrupose %></div>
+        </text>);
+
+        columns.AddFor(m => m.Contacts).Width(150).CssClass("middle").Caption("Contacts")
+        .CellTemplate(@<text>
+            <div class="SplitByHr"><%- data.Contacts %></div>
+        </text>);
+
+        columns.AddFor(m => m.CreatedDate).Width(130).CssClass("middle").AllowEditing(false).Caption("Created Date").Format("MM/dd/yy hh:mm");
+        columns.AddFor(m => m.ModifiedDate).Width(145).CssClass("middle").AllowEditing(true).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
+
+        columns.AddFor(m => m.UserName).Width(130).CssClass("middle").AllowEditing(false).Caption("User Name");
+
+        columns.AddFor(m => m.Category).Width(130).CssClass("middle").Caption("Category")
+        .Lookup(lookup => lookup
+            .DataSource(d => d.Mvc().Controller("Category").LoadAction("Get").Key("Id"))
+            .DisplayExpr("Name")
+            .ValueExpr("Name")
+        );
+
+        columns.AddFor(m => m.Comment).Width(150).CssClass("middle").Caption("Comment")
+        .CellTemplate(@<text>
+            <div class="Comment"><%- data.Comment %></div>
+        </text>);
+
+        columns.AddFor(m => m.Fund).Width(100).CssClass("middle-center").Caption("Fund")
+        .Lookup(lookup => lookup
+        .DataSource(d => d.Mvc().Controller("Fund").LoadAction("Get").Key("Id"))
+        .DisplayExpr("Name")
+        .ValueExpr("Name")
+        );
+
+        columns.AddFor(m => m.AttachmentCount).Width(150).Visible(false);
+        columns.AddFor(m => m.AttachmentName).CssClass("middle-center").Width(120).Caption("Attachments")
+        .CellTemplate(@<text>
+            <a href="#" onclick="return false;" style="cursor: pointer;">Attachments: <%- data.AttachmentCount %></a>
+        </text>)
+        .EditCellTemplate(@<text>
+            <img src="~/img/AwardSynopsis.gif">
+        </text>);
+    })
+
+    @*default*@
+    .GroupPanel(p => p.Visible(true))
+    .Grouping(g => g.AutoExpandAll(false))
+    .RemoteOperations(true)
+    .Summary(s => s
+        .TotalItems(totalItems =>
+        {
+            totalItems.AddFor(m => m.Id).SummaryType(SummaryType.Count);
+        })
+        .GroupItems(groupItems =>
+        {
+            groupItems.Add().SummaryType(SummaryType.Count);
+        })
+    )
+)
