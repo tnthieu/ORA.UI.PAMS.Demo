@@ -8,7 +8,7 @@
                 .ID("tabpanel-container")
                 .Height("100%")
                 .Width("100%")
-                .DataSource(new NameValue[3] { new NameValue("Tab1: Partial View", "1"), new NameValue("Tab2: Ajax load", "2"), new NameValue("Tab3: Edit in Form", "3") })
+                .DataSource(new NameValue[4] { new NameValue("Tab1: Partial View", "1"), new NameValue("Tab2: Ajax load", "2"), new NameValue("Tab3: Edit in Form", "3"), new NameValue("Tab4: Merge rows", "4") })
                 .SelectedIndex(0)
                 .Loop(false)
                 .AnimationEnabled(true)
@@ -49,6 +49,12 @@
                                     <partial name="~/Views/Home/_SpecialNoteGRID-Form.cshtml" />
                                 </div>
                             </center>
+                            <% } else if(Value == '4') { %>
+                            <center>
+                                <div id="grid-container3">
+                                    <partial name="~/Views/Home/_SpecialNoteGRID-Merge.cshtml" />
+                                </div>
+                            </center>
                             <% } %>
                         </div>
                     </text>)
@@ -76,3 +82,84 @@
         </div>
     </div>
 </div>
+
+<script>
+    function OnCellPreparedOld(e) {
+        if (e.rowType === 'data') {
+            if (e.column.dataField === 'UserName') {
+                if (e.rowIndex === 0) {
+                    $(e.cellElement).attr('rowspan', 2);
+                }
+
+                if (e.rowIndex === 1) {
+                    $(e.cellElement).hide();
+                }
+            }
+        }
+    }
+
+    let mergelements = {};
+    function OnCellPrepared(e) {
+
+        if (e.rowType == "data") {
+            e.cellElement.addClass("mergecells");
+
+            e.cellElement.click(function () {
+                $(".mergecellselected").removeClass("mergecellselected")
+                $(this).addClass("mergecellselected");
+            });
+
+            if (e.rowIndex > 0 && e.column.command != "edit") {
+
+                if (e.component.cellValue(e.rowIndex - 1, e.column.dataField) == e.value) {
+                    if (e.component.cellValue(e.rowIndex - 1, e.column.dataField)) {
+
+                        var prev = mergelements[e.rowIndex - 1][e.column.dataField]
+
+                        if (!mergelements[e.rowIndex]) mergelements[e.rowIndex] = {};
+                        mergelements[e.rowIndex][e.column.dataField] = prev;
+
+                        if (prev) {
+                            e.cellElement.css("display", "none");
+
+                            var span = prev.attr('rowspan');
+                            if (span)
+                                prev.attr('rowspan', Number(span) + 1);
+                            else
+                                prev.attr('rowspan', 2);
+                        }
+                    }
+                    else {
+                        if (!mergelements[e.rowIndex]) mergelements[e.rowIndex] = {};
+                        mergelements[e.rowIndex][e.column.dataField] = e.cellElement;
+                    }
+                }
+                else {
+                    if (!mergelements[e.rowIndex]) mergelements[e.rowIndex] = {};
+                    mergelements[e.rowIndex][e.column.dataField] = e.cellElement;
+                }
+            }
+            else {
+                if (!mergelements[e.rowIndex]) mergelements[e.rowIndex] = {};
+                mergelements[e.rowIndex][e.column.dataField] = e.cellElement;
+            }
+        }
+    }
+</script>
+
+<style>
+    .mergecells {
+        display: table-cell;
+        vertical-align: middle !important;
+        border-color: rgba(61, 70, 109, 0.5) !important;
+        border-style: solid !important;
+        border-width: 0.2px 0.2px 0.2px 0.2px !important;
+        background: white !important;
+        color: black !important;
+    }
+
+    .mergecellselected {
+        background: rgba(175, 21, 30, 0.8) !important;
+        color: white !important;
+    }
+</style>
