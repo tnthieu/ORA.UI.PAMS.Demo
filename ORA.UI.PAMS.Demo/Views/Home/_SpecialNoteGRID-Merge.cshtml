@@ -86,11 +86,6 @@ Html.DevExtreme().DataGrid<SpecialNote>()
         .EditCellTemplate(@<text>
             <img src="~/img/AwardSynopsis.gif">
         </text>);
-
-        columns.AddFor(m => m.EditComment).Width(80).CssClass("middle-center").AllowEditing(false).Caption("History")
-        .CellTemplate(@<text>
-            <img onclick="return false;" src="~/img/CommentGrid.gif" style="cursor: pointer;">
-        </text>);
     })
 
     @*default*@
