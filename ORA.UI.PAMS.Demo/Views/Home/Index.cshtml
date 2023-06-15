@@ -1,7 +1,9 @@
 @using ORA.UI.PAMS.Demo.Models;
+@using ORA.UI.PAMS.Demo.Library
 
 <center>
     <h2>PAMS</h2>
+    @Html.ImageActionLink("","Index","Home", null, null, "~/img/star.jpg")
 </center>
 
 @(Html.DevExtreme().TabPanel()
@@ -115,7 +117,9 @@
 
                         var prev = mergelements[e.rowIndex - 1][e.column.dataField]
 
-                        if (!mergelements[e.rowIndex]) mergelements[e.rowIndex] = {};
+                        if (!mergelements[e.rowIndex])
+                            mergelements[e.rowIndex] = {};
+
                         mergelements[e.rowIndex][e.column.dataField] = prev;
 
                         if (prev) {
@@ -129,17 +133,23 @@
                         }
                     }
                     else {
-                        if (!mergelements[e.rowIndex]) mergelements[e.rowIndex] = {};
+                        if (!mergelements[e.rowIndex]) 
+                            mergelements[e.rowIndex] = {};
+
                         mergelements[e.rowIndex][e.column.dataField] = e.cellElement;
                     }
                 }
                 else {
-                    if (!mergelements[e.rowIndex]) mergelements[e.rowIndex] = {};
+                    if (!mergelements[e.rowIndex]) 
+                        mergelements[e.rowIndex] = {};
+
                     mergelements[e.rowIndex][e.column.dataField] = e.cellElement;
                 }
             }
             else {
-                if (!mergelements[e.rowIndex]) mergelements[e.rowIndex] = {};
+                if (!mergelements[e.rowIndex]) 
+                    mergelements[e.rowIndex] = {};
+
                 mergelements[e.rowIndex][e.column.dataField] = e.cellElement;
             }
         }

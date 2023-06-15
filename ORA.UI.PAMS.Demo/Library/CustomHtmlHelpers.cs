@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -7,24 +8,23 @@ namespace ORA.UI.PAMS.Demo.Library
 {
     public static class CustomHtmlHelpers
     {
-        public static IHtmlString ImageActionLink(this HtmlHelper htmlHelper,
+        public static IHtmlContent ImageActionLink(this IHtmlHelper htmlHelper,
             string linkText, string action, string controller,
             object routeValues, object htmlAttributes, string imageSrc)
         {
-            var urlHelper = new UrlHelper(htmlHelper.ViewContext.RequestContext);
+            if (imageSrc.StartsWith("~"))
+                imageSrc = imageSrc.Remove(0, 1);
 
-            var img = new TagBuilder("img");
-            img.Attributes.Add("src", VirtualPathUtility.ToAbsolute(imageSrc));
-
-            var anchor = new TagBuilder("a")
+            using (var writer = new StringWriter())
             {
-                InnerHtml = img.ToString(TagRenderMode.SelfClosing) 
-            };
+                htmlHelper.ActionLink("@Image@", action, controller, routeValues, htmlAttributes)
+                    .WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);
 
-            anchor.Attributes["href"] = urlHelper.Action(action, controller, routeValues);
-            anchor.MergeAttributes(new RouteValueDictionary(htmlAttributes));
+                var actionLinkHtml = writer.ToString();
+                actionLinkHtml = actionLinkHtml.Replace("@Image@", "<img src='" + imageSrc + "'>");
 
-            return MvcHtmlString.Create(anchor.ToString());
+                return htmlHelper.Raw(actionLinkHtml);
+            }
         }
     }
 }
