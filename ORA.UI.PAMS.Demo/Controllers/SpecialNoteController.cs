@@ -89,11 +89,11 @@ namespace ORA_UI_PAMS_Demo.Controllers
                                 data.SubmissionMethod += "Postal Mail%";
                             data.SubmissionMethod = Library.RemoveLast(data.SubmissionMethod, "%");
 
-                            //SitePrupose
-                            data.SitePrupose += "Billing%";
+                            //SitePurpose
+                            data.SitePurpose += "Billing%";
                             if (Library.RandomBool())
-                                data.SitePrupose += "Dunning%";
-                            data.SitePrupose = Library.RemoveLast(data.SitePrupose, "%");
+                                data.SitePurpose += "Dunning%";
+                            data.SitePurpose = Library.RemoveLast(data.SitePurpose, "%");
 
                             //Contacts
                             if (Library.RandomBool())

@@ -59,9 +59,9 @@ Html.DevExtreme().DataGrid<SpecialNote>()
             <div class="SplitByHr"><%- data.SubmissionMethod %></div>
         </text>);
 
-        columns.AddFor(m => m.SitePrupose).Width(150).CssClass("middle").Caption("Site Prupose")
+        columns.AddFor(m => m.SitePurpose).Width(150).CssClass("middle").Caption("Site Purpose")
         .CellTemplate(@<text>
-            <div class="SplitByHr"><%- data.SitePrupose %></div>
+            <div class="SplitByHr"><%- data.SitePurpose %></div>
         </text>);
 
         columns.AddFor(m => m.Contacts).Width(150).CssClass("middle").Caption("Contacts")

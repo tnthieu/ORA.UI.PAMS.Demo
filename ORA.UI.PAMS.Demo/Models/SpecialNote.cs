@@ -28,7 +28,7 @@ namespace ORA.UI.PAMS.Demo.Models
         public int Number { get; set; }
 
         public string SubmissionMethod { get; set; } = "";
-        public string SitePrupose { get; set; } = "";
+        public string SitePurpose { get; set; } = "";
         public string Contacts { get; set; } = "";
 
         public string Extra1 { get; set; }

@@ -92,20 +92,6 @@
 </div>
 
 <script>
-    //function OnCellPreparedOld(e) {
-    //    if (e.rowType === 'data') {
-    //        if (e.column.dataField === 'UserName') {
-    //            if (e.rowIndex === 0) {
-    //                $(e.cellElement).attr('rowspan', 2);
-    //            }
-
-    //            if (e.rowIndex === 1) {
-    //                $(e.cellElement).hide();
-    //            }
-    //        }
-    //    }
-    //}
-
     let mergelements = {};
     function OnCellPrepared(e) {
 
@@ -159,9 +145,7 @@
         $(".SplitByHr").each(function () {
             let html = $(this).html();
             if (html != null) {
-                html = html.replace("%", "<hr class='billingHistory'>");
-                html = html.replace("%", "<hr class='billingHistory'>");
-                html = html.replace("%", "<hr class='billingHistory'>");
+                html = html.replaceAll("%", "<hr class='billingHistory'>");
                 $(this).html(_.unescape(html));
             }
         });
