@@ -5,8 +5,8 @@ using ORA.UI.PAMS.Demo.Models;
 
 namespace ORA_UI_PAMS_Demo.Controllers
 {
-    [Route("api/[controller]")]
-    public partial class HistoryController : Controller
+    [Route("api/[controller]/[action]")]
+    public partial class HistoryController : ControllerBase
     {
         static List<History> Histories = new List<History>();
 

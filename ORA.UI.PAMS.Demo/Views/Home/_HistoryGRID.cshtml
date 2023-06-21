@@ -17,7 +17,7 @@ Html.DevExtreme().DataGrid<History>()
     .WordWrapEnabled(true)
 
     .DataSource(d => d.Mvc()
-        .Controller("History")
+        .Area("api").Controller("History")
         .LoadAction("Get")
         .Key("Id")
     )

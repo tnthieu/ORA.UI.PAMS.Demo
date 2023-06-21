@@ -5,8 +5,8 @@ using ORA.UI.PAMS.Demo.Models;
 
 namespace ORA_UI_PAMS_Demo.Controllers
 {
-    [Route("api/[controller]")]
-    public partial class CategoryController : Controller
+    [Route("api/[controller]/[action]")]
+    public partial class CategoryController : ControllerBase
     {
         [HttpGet]
         public object Get(DataSourceLoadOptions loadOptions)

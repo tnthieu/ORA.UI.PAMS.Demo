@@ -4,7 +4,7 @@
             .ID("Attachment-List")
             .Height(400)
             .DataSource(d => d.Mvc()
-                .Controller("Attachment")
+                .Area("api").Controller("Attachment")
                 .LoadAction("Get")
                 .Key("Id")
             )

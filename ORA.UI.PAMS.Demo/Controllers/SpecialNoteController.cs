@@ -5,13 +5,14 @@ using Newtonsoft.Json;
 using OfficeOpenXml;
 using ORA.UI.PAMS.Demo.Library;
 using ORA.UI.PAMS.Demo.Models;
+using System.Text.Json;
 using System.Xml.Linq;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace ORA_UI_PAMS_Demo.Controllers
 {
     [Route("api/[controller]/[action]")]
-    public partial class SpecialNoteController : Controller
+    public partial class SpecialNoteController : ControllerBase
     {
         static List<SpecialNote> Notes = new List<SpecialNote>();
         private IHostingEnvironment Environment;
@@ -156,10 +157,11 @@ namespace ORA_UI_PAMS_Demo.Controllers
         }
 
         [HttpPost]
-        public object ValidateRow([FromBody] SpecialNote note)
+        public JsonResult ValidateRow([FromBody] SpecialNote note)
         {
             var validate = ValidateNote(note);
-            return Json(validate);
+            var json = JsonConvert.SerializeObject(validate);
+            return new JsonResult(json);
         }
 
         Validate ValidateNote(SpecialNote note)
