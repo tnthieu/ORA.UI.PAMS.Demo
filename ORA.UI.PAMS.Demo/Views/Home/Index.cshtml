@@ -92,6 +92,19 @@
 </div>
 
 <script>
+    $.getJSON('http://www.geoplugin.net/json.gp', function (clientInfo) {
+        console.log(JSON.stringify(clientInfo, null, 2));
+        //console.log(clientInfo.ipAddress);
+
+        $.ajax({
+            url: '/api/Log/LogClientInfo',
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(clientInfo)
+        });
+    });
+
     let mergelements = {};
     function OnCellPrepared(e) {
 
@@ -119,21 +132,21 @@
                         }
                     }
                     else {
-                        if (!mergelements[e.rowIndex]) 
+                        if (!mergelements[e.rowIndex])
                             mergelements[e.rowIndex] = {};
 
                         mergelements[e.rowIndex][e.column.dataField] = e.cellElement;
                     }
                 }
                 else {
-                    if (!mergelements[e.rowIndex]) 
+                    if (!mergelements[e.rowIndex])
                         mergelements[e.rowIndex] = {};
 
                     mergelements[e.rowIndex][e.column.dataField] = e.cellElement;
                 }
             }
             else {
-                if (!mergelements[e.rowIndex]) 
+                if (!mergelements[e.rowIndex])
                     mergelements[e.rowIndex] = {};
 
                 mergelements[e.rowIndex][e.column.dataField] = e.cellElement;
