@@ -19,7 +19,8 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     .WordWrapEnabled(true)
 
     .DataSource(d => d.Mvc()
-        .Area("api").Controller("SpecialNote")
+        .Area("api")
+        .Controller("SpecialNote")
         .LoadAction("Get")
         .UpdateAction("Update")
         .InsertAction("Insert")
@@ -43,11 +44,10 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     .OnEditorPreparing("onEditorPreparing")
     .OnSelectionChanged("onSelectionChanged")
     .OnRowValidating("rowValidating")
-
     .OnContentReady(@<text>
         function(e) {
-        ResizeTabPanel(1);
-        FormatHtml();
+            ResizeTabPanel(1);
+            FormatHtml();
         }
     </text>)
     .Scrolling(x => x.ShowScrollbar(ShowScrollbarMode.Never))
@@ -55,7 +55,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
     @*Columns*@
     .Columns(columns =>
     {
-        columns.AddFor(m => m.Number).Width(120).CssClass("middle-center").AllowEditing(true)
+        columns.AddFor(m => m.Number).Width(90).CssClass("middle-center").AllowEditing(true)
         .EditCellTemplate(@<text>
             @(Html.DevExtreme().NumberBox()
         .Value(new JS("value"))
@@ -73,12 +73,12 @@ Html.DevExtreme().DataGrid<SpecialNote>()
             <% } %>
         </text>);
 
-        columns.AddFor(m => m.CreatedDate).Width(130).CssClass("middle").AllowEditing(false).Caption("Created Date").Format("MM/dd/yy hh:mm");
+        columns.AddFor(m => m.CreatedDate).Width(120).CssClass("middle").AllowEditing(false).Caption("Created Date").Format("MM/dd/yy hh:mm");
         columns.AddFor(m => m.ModifiedDate).Width(145).CssClass("middle").AllowEditing(true).Caption("Latest Updated Date").Format("MM/dd/yy hh:mm");
 
         columns.AddFor(m => m.UserName).Width(130).CssClass("middle").AllowEditing(false).Caption("User Name");
 
-        columns.AddFor(m => m.Category).Width(130).CssClass("middle").Caption("Category")
+        columns.AddFor(m => m.Category).Width(110).CssClass("middle").Caption("Category")
             .Lookup(lookup => lookup
             .DataSource(d => d.Mvc().Area("api").Controller("Category").LoadAction("Get").Key("Id"))
             .DisplayExpr("Name")
@@ -90,7 +90,7 @@ Html.DevExtreme().DataGrid<SpecialNote>()
             <div class="Comment"><%- data.Comment %></div>
         </text>);
 
-        columns.AddFor(m => m.Fund).Width(100).CssClass("middle-center").Caption("Fund")
+        columns.AddFor(m => m.Fund).Width(80).CssClass("middle-center").Caption("Fund")
         .Lookup(lookup => lookup
         .DataSource(d => d.Mvc().Area("api").Controller("Fund").LoadAction("Get").Key("Id"))
         .DisplayExpr("Name")
@@ -109,14 +109,16 @@ Html.DevExtreme().DataGrid<SpecialNote>()
         </text>
         );
 
-        columns.AddFor(m => m.EditComment).Width(80).CssClass("middle-center").AllowEditing(false).Caption("History")
+        columns.AddFor(m => m.EditComment).Width(60).CssClass("middle-center")
+        .AllowFiltering(false).AllowHeaderFiltering(false).AllowSorting(false)
+        .AllowEditing(false).Caption("History")
         .CellTemplate(@<text>
             <img onclick="showPopupHistory(); return false;" src="~/img/CommentGrid.gif" style="cursor: pointer;">
         </text>);
 
         columns.Add()
             .Type(GridCommandColumnType.Buttons)
-            .Width(110)
+            .Width(60)
             .Buttons(b =>
             {
                 b.Add()
