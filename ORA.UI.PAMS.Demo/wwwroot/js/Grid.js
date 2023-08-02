@@ -166,10 +166,8 @@ function ShowConfirmPopup(title, content, type, callback) {
     $("#ConfirmContent").text(content);
     $('#ConfirmPopup').modal('show');
 
-    $(".ConfirmOK").hide();
-    $("#ConfirmOK-" + type).show();
-
-    $("#ConfirmOK-" + type).click(() => {
+    $("#ConfirmOK").unbind("click");
+    $("#ConfirmOK").click(() => {
         callback();
         $('#ConfirmPopup').modal('hide');
     });
