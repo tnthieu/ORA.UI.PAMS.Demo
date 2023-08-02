@@ -136,7 +136,7 @@ function isSaveVisible(e) {
 }
 function onSaveClick(e) {
     isSaveClick = false;
-    ShowConfirmPopup("Confirm Saving", "Are you sure you want to save changes?", "Save", () => {
+    ShowConfirmPopup("Confirm Saving", "Are you sure you want to save changes?", () => {
         isSaveClick = true;
         e.component.saveEditData().then(() => {
             isSaveClick = false;
@@ -150,7 +150,7 @@ function isCancelVisible(e) {
 }
 function onCancelClick(e) {
     isSaveClick = false;
-    ShowConfirmPopup("Confirm Cancellation", "Are you sure you want to cancel?", "Cancel", () => {  
+    ShowConfirmPopup("Confirm Cancellation", "Are you sure you want to cancel?", () => {  
         e.component.cancelEditData();
     });
     e.event.preventDefault();
@@ -161,13 +161,12 @@ function ConfirmCancel() {
     isSaveClick = false;
     $('#ConfirmPopup').modal('hide');    
 }
-function ShowConfirmPopup(title, content, type, callback) {
+function ShowConfirmPopup(title, content, callback) {
     $("#ConfirmTitle").text(title);
     $("#ConfirmContent").text(content);
     $('#ConfirmPopup').modal('show');
 
-    $("#ConfirmOK").unbind("click");
-    $("#ConfirmOK").click(() => {
+    $("#ConfirmOK").unbind("click").click(() => {
         callback();
         $('#ConfirmPopup').modal('hide');
     });
