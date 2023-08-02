@@ -175,12 +175,6 @@ namespace ORA_UI_PAMS_Demo.Controllers
         {
             var result = new Validate();
 
-            if (note.CreatedDate.Year < 2021 && string.IsNullOrWhiteSpace(note.Fund))
-            {
-                result.isValid = false;
-                result.data += "Fund is required when created year is less than 2021";
-            }
-
             if (note.CreatedDate.Year < 2022 && string.IsNullOrWhiteSpace(note.Fund))
             {
                 result.isValid = false;
