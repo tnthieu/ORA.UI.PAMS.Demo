@@ -142,17 +142,24 @@ namespace ORA_UI_PAMS_Demo.Controllers
                 return Forbid();
             }
 
-            var model = JsonConvert.DeserializeObject<SpecialNote>(JsonConvert.SerializeObject(note));
-            JsonConvert.PopulateObject(values, model);
+            //clone tempNote from note 
+            var tempNote = JsonConvert.DeserializeObject<SpecialNote>(JsonConvert.SerializeObject(note));
 
-            var validate = ValidateNote(model);
+            //apply change from client (values param) to tempNote
+            JsonConvert.PopulateObject(values, tempNote);
+
+            //only validate on tempNote
+            var validate = ValidateNote(tempNote);
             if (!validate.isValid)
             {
                 return BadRequest(validate.data);
             }
 
             //if passed validate
+            //apply change from client (values param) to note 
             JsonConvert.PopulateObject(values, note);
+
+            //response to client
             return Ok();
         }
 
